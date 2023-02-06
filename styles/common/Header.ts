@@ -15,6 +15,13 @@ const styles = StyleSheet.create({
         fontFamily: 'bold',
         fontSize: 18,
     },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    extraMargin: {
+        marginLeft: 14,
+    },
 });
 
 export default styles;
