@@ -18,6 +18,7 @@ module.exports = function (api) {
             '@api': "./api",
             '@store': "./store",
             '@svg': "./svg",
+            '@fonts': './fonts'
           },
         },
       ],

@@ -14,7 +14,8 @@
             "@components/*": ["components/pages/*"],
             "@api/*": ["api/*"],
             "@store/*": ["store/*"],
-            "@svg/*": ["svg/*"]
+            "@svg/*": ["svg/*"],
+            "@fonts/*": ["fonts/*"]
         }
     }
 }
