@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     txt: {
         fontFamily: 'regular',
         fontSize: 12,
+        color: COLORS.black,
     },
     borderText: {
         textDecorationLine: 'underline',

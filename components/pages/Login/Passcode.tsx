@@ -1,6 +1,8 @@
 import GlowButton from '@common/GlowButton';
 import Modal from '@common/Modal';
 import PasscodeInput from '@components/Login/PasscodeInput';
+import { NavigationProp, SCREENS } from '@models/screens';
+import { useNavigation } from '@react-navigation/native';
 import styles from '@styles/pages/Login';
 import React, { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -8,10 +10,17 @@ import { Pressable, Text, View } from 'react-native';
 const Passcode = (props: { toggleHandler: () => void }) => {
     const [data, setData] = useState(['', '', '', '']);
 
+    const { navigate } = useNavigation<NavigationProp>();
+
     const changeHandler = (index: number, text: string) => {
         const clonedData = [...data];
         clonedData[index] = text;
         setData(clonedData);
+    };
+
+    const navigateHandler = () => {
+        props.toggleHandler();
+        navigate(SCREENS.FORGOT_PASSCODE);
     };
 
     return (
@@ -27,7 +36,7 @@ const Passcode = (props: { toggleHandler: () => void }) => {
                         />
                     ))}
                 </View>
-                <Text style={styles.forgotPass}>
+                <Text style={styles.forgotPass} onPress={navigateHandler}>
                     Forgot passcode - <Text style={styles.reset}>reset</Text>
                 </Text>
                 <View style={styles.row}>

@@ -5,11 +5,17 @@ type StackScreens = {
     [SCREENS.WELCOME]: undefined;
     [SCREENS.LOGIN]: undefined;
     [SCREENS.REGISTER]: undefined;
+    [SCREENS.FORGOT_PASSCODE]: undefined;
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<
     StackScreens,
     SCREENS.WELCOME
+>;
+
+export type ForgotPasscodeScreenProps = NativeStackScreenProps<
+    StackScreens,
+    SCREENS.FORGOT_PASSCODE
 >;
 
 export { StackScreens };
