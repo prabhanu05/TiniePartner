@@ -17,11 +17,11 @@ export default function App() {
             SplashScreen.preventAutoHideAsync();
 
             await Font.loadAsync({
-                LIGHT: FONTS.LIGHT,
-                REGULAR: FONTS.REGULAR,
-                MEDIUM: FONTS.MEDIUM,
-                SEMIBOLD: FONTS.SEMIBOLD,
-                BOLD: FONTS.BOLD,
+                light: FONTS.LIGHT,
+                regular: FONTS.REGULAR,
+                medium: FONTS.MEDIUM,
+                semibold: FONTS.SEMIBOLD,
+                bold: FONTS.BOLD,
             });
 
             setLoaded(true);
