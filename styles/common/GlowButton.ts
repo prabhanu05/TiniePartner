@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.primary,
         alignItems: 'center',
         width: '100%',
-        paddingVertical: 9,
+        padding: 9,
         opacity: 1,
         shadowColor: COLORS.primary,
         shadowOffset: {

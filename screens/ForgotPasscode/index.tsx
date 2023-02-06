@@ -2,6 +2,7 @@ import Button from '@common/Button';
 import Header from '@common/Header';
 import TextBox from '@common/TextBox';
 import { ForgotData } from '@models/data/ForgotPasscode/ForgotData';
+import { SCREENS } from '@models/screens';
 import { ForgotPasscodeScreenProps } from '@models/screens/StackScreens';
 import styles from '@styles/pages/ForgotPasscode';
 import React, { useState } from 'react';
@@ -27,12 +28,14 @@ const ForgotPasscode = ({ navigation }: ForgotPasscodeScreenProps) => {
         navigation.goBack();
     };
 
-    const continueHandler = () => {};
+    const continueHandler = () => {
+        navigation.navigate(SCREENS.RESET_PASSCODE);
+    };
 
     return (
         <SafeAreaView style={styles.container}>
             <Header text='Forgot passcode' />
-            <ScrollView style={styles.subcontainer}>
+            <ScrollView contentContainerStyle={styles.subcontainer}>
                 <TextBox
                     value={data.phone}
                     onChangeText={changeHandler.bind(this, 'phone')}

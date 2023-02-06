@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ForgotPasscode from '@screens/ForgotPasscode';
 import Login from '@screens/Login';
 import Register from '@screens/Register';
+import ResetPasscode from '@screens/ResetPasscode';
 import Welcome from '@screens/Welcome';
 
 const Stack = createNativeStackNavigator<StackScreens>();
@@ -20,6 +21,10 @@ function OpenRoutes() {
             <Stack.Screen
                 name={SCREENS.FORGOT_PASSCODE}
                 component={ForgotPasscode}
+            />
+            <Stack.Screen
+                name={SCREENS.RESET_PASSCODE}
+                component={ResetPasscode}
             />
         </Stack.Navigator>
     );

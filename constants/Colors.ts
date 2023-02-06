@@ -6,4 +6,5 @@ export const COLORS = {
     placeholder: '#343434',
     backdrop: 'rgba(0, 0, 0, 0.5)',
     passcode: '#353535',
+    primaryBorder: '#0F8989',
 };
