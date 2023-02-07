@@ -2,6 +2,7 @@ import { SCREENS } from '@models/screens';
 import { StackScreens } from '@models/screens/StackScreens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ForgotPasscode from '@screens/ForgotPasscode';
+import FurtherAssistance from '@screens/FurtherAssistance';
 import Login from '@screens/Login';
 import Register from '@screens/Register';
 import ResetPasscode from '@screens/ResetPasscode';
@@ -25,6 +26,10 @@ function OpenRoutes() {
             <Stack.Screen
                 name={SCREENS.RESET_PASSCODE}
                 component={ResetPasscode}
+            />
+            <Stack.Screen
+                name={SCREENS.FURTHER_ASSISTANCE}
+                component={FurtherAssistance}
             />
         </Stack.Navigator>
     );

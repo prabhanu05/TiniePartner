@@ -9,4 +9,6 @@ export const COLORS = {
     primaryBorder: '#0F8989',
     picker: '#5A849B',
     secondaryButton: '#857070',
+    selected: '#065987',
+    lightGrey: '#D4D4D4',
 };

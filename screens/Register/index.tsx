@@ -3,6 +3,7 @@ import ProgressBar from '@common/ProgressBar';
 import BasicInfo from '@components/Register/BasicInfo';
 import BusinessAddress from '@components/Register/BusinessAddress';
 import BusinessInfo from '@components/Register/BusinessInfo';
+import { SCREENS } from '@models/screens';
 import { RegisterScreenProps } from '@models/screens/StackScreens';
 import styles from '@styles/pages/Register';
 import Info from '@svg/Info';
@@ -36,6 +37,11 @@ const Register = ({ navigation }: RegisterScreenProps) => {
         }
         if (index === 1) {
             setActiveStep(2);
+            return;
+        }
+
+        if (index === 2) {
+            navigation.navigate(SCREENS.FURTHER_ASSISTANCE);
             return;
         }
     };
