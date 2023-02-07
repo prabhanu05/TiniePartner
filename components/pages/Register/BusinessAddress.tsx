@@ -1,8 +1,11 @@
 import FullButton from '@common/FullButton';
 import LabelTextbox from '@common/LabelTextbox';
 import styles from '@styles/pages/Register';
+import CustomMarker from '@svg/CustomMarker';
 import React from 'react';
 import { Text, View } from 'react-native';
+import MapView from 'react-native-maps';
+import { PROVIDER_GOOGLE } from 'react-native-maps/lib/ProviderConstants';
 
 const BusinessAddress = (props: {
     nextHandler: () => void;
@@ -15,6 +18,7 @@ const BusinessAddress = (props: {
                 label='Address'
                 placeholder='Address line 1'
                 value=''
+                notEditable
             />
             <LabelTextbox
                 label='Address'
@@ -30,7 +34,28 @@ const BusinessAddress = (props: {
             <LabelTextbox label='City' placeholder='City*' value='' />
             <LabelTextbox label='State' placeholder='State*' value='' />
 
-            <View style={styles.row}>
+            <Text style={[styles.subHeading, styles.mt12]}>
+                Pin your Location
+            </Text>
+
+            <View style={styles.mapHolder}>
+                <MapView
+                    provider={PROVIDER_GOOGLE}
+                    initialRegion={{
+                        latitude: 12.88,
+                        longitude: 77.71,
+                        latitudeDelta: 0.005,
+                        longitudeDelta: 0.005,
+                    }}
+                    style={styles.map}
+                    onRegionChangeComplete={() => null}
+                />
+                <View style={styles.markerFixed}>
+                    <CustomMarker />
+                </View>
+            </View>
+
+            <View style={[styles.row, styles.mt12]}>
                 <View style={styles.col}>
                     <FullButton
                         variant='secondary'

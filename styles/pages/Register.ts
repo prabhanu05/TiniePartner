@@ -35,6 +35,27 @@ const styles = StyleSheet.create({
     col: {
         width: '45%',
     },
+    mapHolder: {
+        width: '100%',
+        height: 192,
+        marginTop: 8,
+        marginBottom: 26,
+    },
+    map: {
+        height: '100%',
+        width: '100%',
+        position: 'relative',
+    },
+    markerFixed: {
+        left: '50%',
+        marginLeft: -24,
+        marginTop: -24,
+        position: 'absolute',
+        top: '50%',
+    },
+    mt12: {
+        marginTop: 12,
+    },
 });
 
 export default styles;
