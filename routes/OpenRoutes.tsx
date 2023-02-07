@@ -6,6 +6,7 @@ import FurtherAssistance from '@screens/FurtherAssistance';
 import Login from '@screens/Login';
 import Register from '@screens/Register';
 import ResetPasscode from '@screens/ResetPasscode';
+import SetPasscode from '@screens/SetPasscode';
 import Welcome from '@screens/Welcome';
 
 const Stack = createNativeStackNavigator<StackScreens>();
@@ -31,6 +32,7 @@ function OpenRoutes() {
                 name={SCREENS.FURTHER_ASSISTANCE}
                 component={FurtherAssistance}
             />
+            <Stack.Screen name={SCREENS.SET_PASSCODE} component={SetPasscode} />
         </Stack.Navigator>
     );
 }

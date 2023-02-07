@@ -1,6 +1,7 @@
 import Checkbox from '@common/Checkbox';
 import FullButton from '@common/FullButton';
 import Header from '@common/Header';
+import { SCREENS } from '@models/screens';
 import { FurtherAssistanceScreenProps } from '@models/screens/StackScreens';
 import styles from '@styles/pages/FurtherAssistance';
 import Info from '@svg/Info';
@@ -9,7 +10,9 @@ import { ScrollView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const FurtherAssistance = ({ navigation }: FurtherAssistanceScreenProps) => {
-    const submitHandler = () => {};
+    const submitHandler = () => {
+        navigation.navigate(SCREENS.SET_PASSCODE);
+    };
 
     return (
         <SafeAreaView style={styles.container}>

@@ -8,6 +8,7 @@ type StackScreens = {
     [SCREENS.FORGOT_PASSCODE]: undefined;
     [SCREENS.RESET_PASSCODE]: undefined;
     [SCREENS.FURTHER_ASSISTANCE]: undefined;
+    [SCREENS.SET_PASSCODE]: undefined;
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<
@@ -38,6 +39,11 @@ export type RegisterScreenProps = NativeStackScreenProps<
 export type FurtherAssistanceScreenProps = NativeStackScreenProps<
     StackScreens,
     SCREENS.FURTHER_ASSISTANCE
+>;
+
+export type SetPasscodeScreenProps = NativeStackScreenProps<
+    StackScreens,
+    SCREENS.SET_PASSCODE
 >;
 
 export { StackScreens };

@@ -5,6 +5,7 @@ export enum SCREENS {
     FORGOT_PASSCODE = 'ForgotCode',
     RESET_PASSCODE = 'ResetPasscode',
     FURTHER_ASSISTANCE = 'FurtherAssistance',
+    SET_PASSCODE = 'SetPasscode',
 }
 
 export type NavigationProp = {

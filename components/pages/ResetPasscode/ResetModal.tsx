@@ -3,13 +3,11 @@ import Modal from '@common/Modal';
 import styles from '@styles/pages/ResetPasscode';
 import { Text, View } from 'react-native';
 
-const ResetModal = (props: { onSave: () => void }) => {
+const ResetModal = (props: { onSave: () => void; msg: string }) => {
     return (
         <Modal>
             <View style={styles.modalHolder}>
-                <Text style={styles.modalTxt}>
-                    passcode reset successfully!
-                </Text>
+                <Text style={styles.modalTxt}>{props.msg}</Text>
                 <GlowButton text='DONE' onPress={props.onSave} />
             </View>
         </Modal>
