@@ -24,4 +24,14 @@ export type ResetPasscodeScreenProps = NativeStackScreenProps<
     SCREENS.RESET_PASSCODE
 >;
 
+export type LoginScreenProps = NativeStackScreenProps<
+    StackScreens,
+    SCREENS.LOGIN
+>;
+
+export type RegisterScreenProps = NativeStackScreenProps<
+    StackScreens,
+    SCREENS.REGISTER
+>;
+
 export { StackScreens };

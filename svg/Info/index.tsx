@@ -12,4 +12,4 @@ const Info = (props: SvgProps) => (
     </Svg>
 );
 
-export default Info;
+export default React.memo(Info);

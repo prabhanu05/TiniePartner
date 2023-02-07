@@ -3,12 +3,13 @@ import Header from '@common/Header';
 import TextBox from '@common/TextBox';
 import Passcode from '@components/Login/Passcode';
 import { LoginModel } from '@models/data/Login/LoginScreen';
+import { LoginScreenProps } from '@models/screens/StackScreens';
 import styles from '@styles/pages/Login';
 import React, { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const Login = () => {
+const Login = ({ navigation }: LoginScreenProps) => {
     const [data, setData] = useState<LoginModel>({
         mobile: '',
         otp: '',
@@ -31,6 +32,10 @@ const Login = () => {
         showModal(true);
     };
 
+    const cancelHandler = () => {
+        navigation.goBack();
+    };
+
     return (
         <>
             {modal ? <Passcode toggleHandler={toggleHandler} /> : null}
@@ -51,7 +56,9 @@ const Login = () => {
                             numeric
                         />
                         <View style={styles.row}>
-                            <Text style={styles.txt}>CANCEL</Text>
+                            <Text onPress={cancelHandler} style={styles.txt}>
+                                CANCEL
+                            </Text>
                             <Pressable>
                                 <Text style={styles.txt}>
                                     <Text style={styles.borderText}>

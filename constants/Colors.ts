@@ -7,4 +7,6 @@ export const COLORS = {
     backdrop: 'rgba(0, 0, 0, 0.5)',
     passcode: '#353535',
     primaryBorder: '#0F8989',
+    picker: '#5A849B',
+    secondaryButton: '#857070',
 };
