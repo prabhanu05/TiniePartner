@@ -7,11 +7,18 @@ const Button = (props: {
     text: string;
     onPress: () => void;
     isLoading?: boolean;
+    rounded?: boolean;
 }) => {
     return (
         <Pressable
             style={({ pressed }) =>
-                pressed ? [styles.container, styles.active] : styles.container
+                pressed
+                    ? !!props.rounded
+                        ? [styles.container, styles.active, styles.rounded]
+                        : [styles.container, styles.active]
+                    : !!props.rounded
+                    ? [styles.container, styles.rounded]
+                    : styles.container
             }
             onPress={!!props.isLoading ? null : props.onPress}
         >

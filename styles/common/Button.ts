@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
     active: {
         opacity: 0.7,
     },
+    rounded: {
+        borderRadius: 50,
+    },
 });
 
 export default styles;

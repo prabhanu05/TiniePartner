@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ForgotPasscode from '@screens/ForgotPasscode';
 import FurtherAssistance from '@screens/FurtherAssistance';
 import Login from '@screens/Login';
+import PrivacyPolicy from '@screens/PrivacyPolicy';
 import Register from '@screens/Register';
 import ResetPasscode from '@screens/ResetPasscode';
 import SetPasscode from '@screens/SetPasscode';
@@ -33,6 +34,10 @@ function OpenRoutes() {
                 component={FurtherAssistance}
             />
             <Stack.Screen name={SCREENS.SET_PASSCODE} component={SetPasscode} />
+            <Stack.Screen
+                name={SCREENS.PRIVACY_POLICY}
+                component={PrivacyPolicy}
+            />
         </Stack.Navigator>
     );
 }

@@ -23,7 +23,7 @@ const SetPasscode = ({ navigation }: SetPasscodeScreenProps) => {
 
     const doneHandler = () => {
         toggleHandler();
-        navigation.navigate(SCREENS.LOGIN);
+        navigation.navigate(SCREENS.PRIVACY_POLICY);
     };
 
     const changeHandler = (uid: keyof ResetData, text: string) => {
