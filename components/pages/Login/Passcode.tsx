@@ -1,21 +1,54 @@
 import GlowButton from '@common/GlowButton';
 import Modal from '@common/Modal';
 import PasscodeInput from '@components/Login/PasscodeInput';
+import { isNumeric } from '@constants/Helpers';
 import { NavigationProp, SCREENS } from '@models/screens';
 import { useNavigation } from '@react-navigation/native';
 import styles from '@styles/pages/Login';
-import React, { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Pressable, Text, TextInput, View } from 'react-native';
 
 const Passcode = (props: { toggleHandler: () => void }) => {
     const [data, setData] = useState(['', '', '', '']);
 
     const { navigate } = useNavigation<NavigationProp>();
 
+    const firstTextInputRef = useRef<TextInput>(null);
+    const secondTextInputRef = useRef<TextInput>(null);
+    const thirdTextInputRef = useRef<TextInput>(null);
+    const fourthTextInputRef = useRef<TextInput>(null);
+
+    const refArray = [
+        firstTextInputRef,
+        secondTextInputRef,
+        thirdTextInputRef,
+        fourthTextInputRef,
+    ];
+
     const changeHandler = (index: number, text: string) => {
+        if (text !== '' && isNumeric(text) === false) return;
+
         const clonedData = [...data];
         clonedData[index] = text;
         setData(clonedData);
+
+        if (text === '') {
+            if (index === 3) {
+                thirdTextInputRef.current?.focus();
+            } else if (index === 2) {
+                secondTextInputRef.current?.focus();
+            } else if (index === 1) {
+                firstTextInputRef.current?.focus();
+            }
+        } else {
+            if (index === 0) {
+                secondTextInputRef.current?.focus();
+            } else if (index === 1) {
+                thirdTextInputRef.current?.focus();
+            } else if (index === 2) {
+                fourthTextInputRef.current?.focus();
+            }
+        }
     };
 
     const navigateHandler = () => {
@@ -33,6 +66,7 @@ const Passcode = (props: { toggleHandler: () => void }) => {
                             key={`passcode_${index}`}
                             value={val}
                             onChangeText={changeHandler.bind(this, index)}
+                            reference={refArray[index]}
                         />
                     ))}
                 </View>

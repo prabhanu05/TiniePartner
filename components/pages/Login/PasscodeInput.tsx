@@ -5,6 +5,7 @@ import { TextInput } from 'react-native';
 const PasscodeInput = (props: {
     value: string;
     onChangeText: (text: string) => void;
+    reference: React.RefObject<TextInput>;
 }) => {
     return (
         <TextInput
@@ -13,6 +14,7 @@ const PasscodeInput = (props: {
             keyboardType='decimal-pad'
             value={props.value}
             onChangeText={props.onChangeText}
+            ref={props.reference}
         />
     );
 };
