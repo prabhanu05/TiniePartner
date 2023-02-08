@@ -8,6 +8,7 @@ export enum SCREENS {
     SET_PASSCODE = 'SetPasscode',
     PRIVACY_POLICY = 'PrivacyPolicy',
     TnC = 'TnC',
+    HOST_BUSINESS = 'HostBusiness',
 }
 
 export type NavigationProp = {

@@ -32,6 +32,17 @@ const styles = StyleSheet.create({
     pv30: {
         paddingVertical: 30,
     },
+    checkboxRow: {
+        paddingVertical: 25,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    term: {
+        color: COLORS.black,
+        fontSize: 14,
+        fontFamily: 'regular',
+        paddingHorizontal: 8,
+    },
 });
 
 export default styles;

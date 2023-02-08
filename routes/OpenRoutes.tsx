@@ -3,6 +3,7 @@ import { StackScreens } from '@models/screens/StackScreens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ForgotPasscode from '@screens/ForgotPasscode';
 import FurtherAssistance from '@screens/FurtherAssistance';
+import HostBusiness from '@screens/HostBusiness';
 import Login from '@screens/Login';
 import PrivacyPolicy from '@screens/PrivacyPolicy';
 import Register from '@screens/Register';
@@ -40,6 +41,10 @@ function OpenRoutes() {
                 component={PrivacyPolicy}
             />
             <Stack.Screen name={SCREENS.TnC} component={TermsAndConditions} />
+            <Stack.Screen
+                name={SCREENS.HOST_BUSINESS}
+                component={HostBusiness}
+            />
         </Stack.Navigator>
     );
 }
