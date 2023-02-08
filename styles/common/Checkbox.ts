@@ -6,10 +6,14 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
         borderColor: COLORS.grey,
-        borderWidth: 1,
+        borderWidth: 0.5,
     },
     active: {
         backgroundColor: COLORS.selected,
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 
