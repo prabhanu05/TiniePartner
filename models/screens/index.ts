@@ -7,6 +7,7 @@ export enum SCREENS {
     FURTHER_ASSISTANCE = 'FurtherAssistance',
     SET_PASSCODE = 'SetPasscode',
     PRIVACY_POLICY = 'PrivacyPolicy',
+    TnC = 'TnC',
 }
 
 export type NavigationProp = {

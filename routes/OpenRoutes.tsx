@@ -8,6 +8,7 @@ import PrivacyPolicy from '@screens/PrivacyPolicy';
 import Register from '@screens/Register';
 import ResetPasscode from '@screens/ResetPasscode';
 import SetPasscode from '@screens/SetPasscode';
+import TermsAndConditions from '@screens/TermsAndConditions';
 import Welcome from '@screens/Welcome';
 
 const Stack = createNativeStackNavigator<StackScreens>();
@@ -38,6 +39,7 @@ function OpenRoutes() {
                 name={SCREENS.PRIVACY_POLICY}
                 component={PrivacyPolicy}
             />
+            <Stack.Screen name={SCREENS.TnC} component={TermsAndConditions} />
         </Stack.Navigator>
     );
 }

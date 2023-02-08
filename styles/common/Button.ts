@@ -24,6 +24,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: COLORS.black,
     },
+    roundedTxt: {
+        color: COLORS.black,
+        fontFamily: 'regular',
+        fontSize: 16,
+    },
     active: {
         opacity: 0.7,
     },

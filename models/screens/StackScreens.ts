@@ -10,6 +10,7 @@ type StackScreens = {
     [SCREENS.FURTHER_ASSISTANCE]: undefined;
     [SCREENS.SET_PASSCODE]: undefined;
     [SCREENS.PRIVACY_POLICY]: undefined;
+    [SCREENS.TnC]: undefined;
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<
@@ -51,5 +52,7 @@ export type PrivacyPolicyScreenProps = NativeStackScreenProps<
     StackScreens,
     SCREENS.PRIVACY_POLICY
 >;
+
+export type TnCScreenProps = NativeStackScreenProps<StackScreens, SCREENS.TnC>;
 
 export { StackScreens };

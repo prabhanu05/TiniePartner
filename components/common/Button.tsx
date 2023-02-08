@@ -25,7 +25,9 @@ const Button = (props: {
             {!!props.isLoading ? (
                 <ActivityIndicator color={COLORS.white} />
             ) : (
-                <Text style={styles.txt}>{props.text}</Text>
+                <Text style={!!props.rounded ? styles.roundedTxt : styles.txt}>
+                    {props.text}
+                </Text>
             )}
         </Pressable>
     );
