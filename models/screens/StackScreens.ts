@@ -56,4 +56,9 @@ export type PrivacyPolicyScreenProps = NativeStackScreenProps<
 
 export type TnCScreenProps = NativeStackScreenProps<StackScreens, SCREENS.TnC>;
 
+export type HostBusinessScreenProps = NativeStackScreenProps<
+    StackScreens,
+    SCREENS.HOST_BUSINESS
+>;
+
 export { StackScreens };
