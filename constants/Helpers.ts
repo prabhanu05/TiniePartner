@@ -1,4 +1,4 @@
 export const isNumeric = (val: string) => {
-    const regex = /[0-9]/g;
+    const regex = /^\d+$/g;
     return regex.test(val);
 };

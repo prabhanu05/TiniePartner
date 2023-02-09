@@ -1,7 +1,7 @@
 {
     "expo": {
-        "name": "tinie",
-        "slug": "tinie",
+        "name": "tiniePartner",
+        "slug": "tinie-partner",
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/icon.png",

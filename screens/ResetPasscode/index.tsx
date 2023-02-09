@@ -1,8 +1,13 @@
 import Button from '@common/Button';
+import ErrorModal from '@common/ErrorModal';
 import Header from '@common/Header';
 import TextBox from '@common/TextBox';
 import ResetModal from '@components/ResetPasscode/ResetModal';
-import { ResetData } from '@models/data/ResetPasscode/ResetData';
+import { isNumeric } from '@constants/Helpers';
+import {
+    ResetData,
+    ResetModalData,
+} from '@models/data/ResetPasscode/ResetData';
 import { SCREENS } from '@models/screens';
 import { ResetPasscodeScreenProps } from '@models/screens/StackScreens';
 import styles from '@styles/pages/ResetPasscode';
@@ -16,7 +21,16 @@ const ResetPasscode = ({ navigation }: ResetPasscodeScreenProps) => {
         resetPasscode: '',
     });
 
-    const [modal, setModal] = useState(false);
+    const [modal, setModal] = useState<ResetModalData>({
+        errorModal: {
+            isVisible: false,
+            message: '',
+        },
+        successModal: {
+            isVisible: false,
+            message: '',
+        },
+    });
 
     const changeHandler = (uid: keyof ResetData, text: string) => {
         setData((oldState) => ({
@@ -25,29 +39,88 @@ const ResetPasscode = ({ navigation }: ResetPasscodeScreenProps) => {
         }));
     };
 
-    const toggleHandler = () => {
-        setModal((oldState) => !oldState);
-    };
-
     const cancelHandler = () => {
         navigation.goBack();
     };
 
     const saveHandler = () => {
-        toggleHandler();
+        if (data.passcode !== data.resetPasscode) {
+            setModal((oldState) => ({
+                ...oldState,
+                errorModal: {
+                    isVisible: true,
+                    message:
+                        'Passcode and Confirm Passcode should match each other',
+                },
+            }));
+            return;
+        }
+
+        if (data.passcode.length !== 4) {
+            setModal((oldState) => ({
+                ...oldState,
+                errorModal: {
+                    isVisible: true,
+                    message: 'Passcode must be of 4 digits',
+                },
+            }));
+            return;
+        }
+
+        if (isNumeric(data.passcode) === false) {
+            setModal((oldState) => ({
+                ...oldState,
+                errorModal: {
+                    isVisible: true,
+                    message: 'Passcode must be numeric',
+                },
+            }));
+            return;
+        }
+
+        setModal((oldState) => ({
+            ...oldState,
+            successModal: {
+                isVisible: true,
+                message: 'passcode reset successfully!',
+            },
+        }));
+    };
+
+    const closeErrorHandler = () => {
+        setModal((oldState) => ({
+            ...oldState,
+            errorModal: {
+                isVisible: false,
+                message: '',
+            },
+        }));
     };
 
     const doneHandler = () => {
-        toggleHandler();
+        setModal((oldState) => ({
+            ...oldState,
+            successModal: {
+                isVisible: false,
+                message: '',
+            },
+        }));
+
         navigation.navigate(SCREENS.LOGIN);
     };
 
     return (
         <>
-            {modal ? (
+            {modal.successModal.isVisible ? (
                 <ResetModal
-                    msg='passcode reset successfully!'
+                    msg={modal.successModal.message}
                     onSave={doneHandler}
+                />
+            ) : null}
+            {modal.errorModal.isVisible ? (
+                <ErrorModal
+                    onClose={closeErrorHandler}
+                    msg={modal.errorModal.message}
                 />
             ) : null}
             <SafeAreaView style={styles.container}>
