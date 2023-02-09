@@ -2,7 +2,7 @@ import Button from '@common/Button';
 import Checkbox from '@common/Checkbox';
 import ErrorModal from '@common/ErrorModal';
 import Header from '@common/Header';
-import { ModalData } from '@models/data/ResetPasscode/ResetData';
+import { ModalData } from '@models/data/ModalData';
 import { SCREENS } from '@models/screens';
 import { TnCScreenProps } from '@models/screens/StackScreens';
 import styles from '@styles/pages/PrivacyPolicy';

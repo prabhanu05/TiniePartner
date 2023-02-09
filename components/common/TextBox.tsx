@@ -9,6 +9,7 @@ const TextBox = (props: {
     onChangeText: (text: string) => void;
     maxLength?: number;
     numeric?: boolean;
+    notEditable?: boolean;
 }) => {
     return (
         <TextInput
@@ -19,6 +20,7 @@ const TextBox = (props: {
             onChangeText={props.onChangeText}
             maxLength={!!props.maxLength ? props.maxLength : undefined}
             keyboardType={!!props.numeric ? 'number-pad' : 'default'}
+            editable={!!props.notEditable ? false : true}
         />
     );
 };
