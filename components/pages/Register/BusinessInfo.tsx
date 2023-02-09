@@ -1,14 +1,33 @@
+import { CategoryList } from '@api/CategoryList';
 import FullButton from '@common/FullButton';
 import LabelTextbox from '@common/LabelTextbox';
+import Loader from '@common/Loader';
 import PickerButton from '@common/PickerButton';
+import Select from '@common/Select';
+import { Keys } from '@constants/Keys';
 import styles from '@styles/pages/Register';
+import * as DocumentPicker from 'expo-document-picker';
+import { DocumentResult } from 'expo-document-picker/build/types';
 import React from 'react';
 import { Text, View } from 'react-native';
+import { useQuery } from 'react-query';
 
 const BusinessInfo = (props: {
     nextHandler: () => void;
     backHandler: () => void;
 }) => {
+    const { data, isLoading } = useQuery(Keys.GET_CATEGORIES, CategoryList);
+
+    const gstinHandler = () => {
+        DocumentPicker.getDocumentAsync({
+            type: ['image/jpeg', 'image/png', 'application/pdf'],
+        }).then((res: DocumentResult) => console.log(res));
+    };
+
+    if (isLoading) {
+        return <Loader />;
+    }
+
     return (
         <>
             <Text style={styles.heading}>Business Information</Text>
@@ -17,6 +36,16 @@ const BusinessInfo = (props: {
                 placeholder='Name of Your Business*'
                 value=''
             />
+
+            <Select
+                data={data!}
+                value=''
+                changeHandler={() => {}}
+                title='Type of Business'
+                id='s'
+                label='Choose the Type of Business*'
+            />
+
             <LabelTextbox
                 label='Year of Establishment'
                 placeholder='Year of Establishment (YYYY)*'
@@ -30,35 +59,13 @@ const BusinessInfo = (props: {
                 value=''
                 notEditable
             />
-            <PickerButton onPress={() => {}} />
+            <PickerButton onPress={gstinHandler} />
             <LabelTextbox
                 label='Business PAN'
-                placeholder='Business PAN*'
+                placeholder='Enter Business PAN*'
                 value=''
-                notEditable
+                maxLength={10}
             />
-            <PickerButton onPress={() => {}} />
-            <LabelTextbox
-                label='Business License'
-                placeholder='Business License*'
-                value=''
-                notEditable
-            />
-            <PickerButton onPress={() => {}} />
-            <LabelTextbox
-                label='Incorporation Certificate'
-                placeholder='Incorporation Certificate*'
-                value=''
-                notEditable
-            />
-            <PickerButton onPress={() => {}} />
-            <LabelTextbox
-                label='MCC of Business'
-                placeholder='MCC of Business*'
-                value=''
-                notEditable
-            />
-            <PickerButton onPress={() => {}} />
 
             <View style={styles.row}>
                 <View style={styles.col}>

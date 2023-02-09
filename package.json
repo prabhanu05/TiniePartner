@@ -26,7 +26,8 @@
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.9",
     "react-query": "^3.39.3",
-    "zustand": "^4.3.2"
+    "zustand": "^4.3.2",
+    "expo-document-picker": "~11.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
