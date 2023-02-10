@@ -22,7 +22,9 @@ const LabelTextbox = (props: {
                 placeholderTextColor={COLORS.placeholder}
                 placeholder={props.placeholder}
                 value={props.value}
-                onChangeText={props.onChangeText}
+                onChangeText={
+                    !!props.notEditable ? undefined : props.onChangeText
+                }
                 maxLength={!!props.maxLength ? props.maxLength : undefined}
                 keyboardType={!!props.numeric ? 'number-pad' : 'default'}
                 editable={!!props.notEditable ? false : true}

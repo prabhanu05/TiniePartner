@@ -1,11 +1,13 @@
 import { FONTS } from '@constants/Fonts';
 import { NavigationContainer } from '@react-navigation/native';
 import Routes from '@routes/Routes';
+import store from '@store/store';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Provider } from 'react-redux';
 
 const queryClient = new QueryClient();
 
@@ -33,13 +35,15 @@ export default function App() {
     return (
         <>
             {loaded ? (
-                <QueryClientProvider client={queryClient}>
-                    <SafeAreaProvider>
-                        <NavigationContainer>
-                            <Routes />
-                        </NavigationContainer>
-                    </SafeAreaProvider>
-                </QueryClientProvider>
+                <Provider store={store}>
+                    <QueryClientProvider client={queryClient}>
+                        <SafeAreaProvider>
+                            <NavigationContainer>
+                                <Routes />
+                            </NavigationContainer>
+                        </SafeAreaProvider>
+                    </QueryClientProvider>
+                </Provider>
             ) : null}
         </>
     );
