@@ -90,6 +90,10 @@ const BusinessInfo = (props: {
                 key: 'Business GSTIN',
                 value: registerData.gstinId.name,
             },
+            {
+                key: 'Business Subcategory',
+                value: registerData.subCategory.id,
+            },
         ]);
 
         if (!!msg) {

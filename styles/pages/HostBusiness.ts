@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     button: {
-        paddingVertical: 20,
         alignSelf: 'center',
     },
     modalContainer: {
@@ -49,6 +48,9 @@ const styles = StyleSheet.create({
         fontFamily: 'regular',
         width: '70%',
         textAlign: 'center',
+    },
+    pv20: {
+        paddingVertical: 20,
     },
 });
 

@@ -83,19 +83,19 @@ const BusinessAddress = (props: {
         const address = data[0];
         if (!!address) {
             let formattedAddress = '';
-            if (!!address.name) {
+            if (!!address.name && address.name !== 'Unnamed Road') {
                 formattedAddress += address.name + ', ';
             }
 
-            if (!!address.street) {
+            if (!!address.street && address.street !== 'Unnamed Road') {
                 formattedAddress += address.street + ', ';
             }
 
-            if (!!address.district) {
+            if (!!address.district && address.district !== 'Unnamed Road') {
                 formattedAddress += address.district + ', ';
             }
 
-            if (!!address.subregion) {
+            if (!!address.subregion && address.subregion !== 'Unnamed Road') {
                 formattedAddress += address.subregion + ', ';
             }
 

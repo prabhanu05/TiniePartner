@@ -1,7 +1,15 @@
+import { RegisterMerchant } from '@api/RegisterMerchant';
+import { SendOTP } from '@api/SendOTP';
 import Button from '@common/Button';
+import ErrorModal from '@common/ErrorModal';
 import Header from '@common/Header';
 import LabelTextbox from '@common/LabelTextbox';
 import SuccessModal from '@components/HostBusiness/SuccessModal';
+import { isNumeric } from '@constants/Helpers';
+import { Keys } from '@constants/Keys';
+import useTimer from '@hooks/useTimer';
+import { HostBusinessModel } from '@models/data/HostBusinessModel';
+import { SuccessErrorModel } from '@models/data/ModalData';
 import { SCREENS } from '@models/screens';
 import { HostBusinessScreenProps } from '@models/screens/StackScreens';
 import { RegisterSliceStringModel } from '@models/store/RegisterSliceModel';
@@ -11,10 +19,47 @@ import styles from '@styles/pages/HostBusiness';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useMutation } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
-    const [modal, setModal] = useState(false);
+    const { mutateAsync: sendOtp, isLoading: sendOtpLoading } = useMutation(
+        Keys.SEND_OTP,
+        SendOTP
+    );
+
+    const {
+        mutateAsync: registerMerchantApi,
+        isLoading: registerMerchantLoading,
+    } = useMutation(Keys.REGISTER_MERCHANT, RegisterMerchant);
+
+    const { timeLeft: mobileTimeLeft, handleStart: mobileResendStart } =
+        useTimer(20);
+    const { timeLeft: emailTimeLeft, handleStart: emailResendStart } =
+        useTimer(20);
+
+    const [modal, setModal] = useState<SuccessErrorModel>({
+        error: {
+            isVisible: false,
+            message: '',
+        },
+        success: {
+            isVisible: false,
+            message: '',
+        },
+    });
+
+    const [visible, setVisible] = useState<HostBusinessModel>({
+        isEmailOtpVisible: false,
+        isPhoneOtpVisible: false,
+    });
+
+    const visibleHandler = (uid: keyof HostBusinessModel) => {
+        setVisible((oldState) => ({
+            ...oldState,
+            [uid]: true,
+        }));
+    };
 
     const registerData = useSelector(
         (state: StoreModel) => state.registerReducer
@@ -26,22 +71,216 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
         dispatch(registerActions.textHandler({ uid, text }));
     };
 
-    const toggleHandler = () => {
-        setModal((oldState) => !oldState);
+    const closeErrorModal = () => {
+        setModal((oldState) => ({
+            ...oldState,
+            error: {
+                isVisible: false,
+                message: '',
+            },
+        }));
     };
 
-    const completeHandler = () => {
-        toggleHandler();
+    const mobileOtpHandler = async () => {
+        if (
+            registerData.businessPhoneNumber.length !== 10 ||
+            isNumeric(registerData.businessPhoneNumber) === false
+        ) {
+            setModal((oldState) => ({
+                ...oldState,
+                error: {
+                    isVisible: true,
+                    message: 'Please enter a valid mobile number',
+                },
+            }));
+            return;
+        }
+
+        const response = await sendOtp(registerData.businessPhoneNumber);
+        if (response !== true) {
+            setModal((oldState) => ({
+                ...oldState,
+                error: {
+                    isVisible: true,
+                    message:
+                        'Unable to send OTP on mobile this time. Please try again later!',
+                },
+            }));
+            return;
+        }
+        mobileResendStart();
+        visibleHandler('isPhoneOtpVisible');
+    };
+
+    const emailOtpHandler = async () => {
+        if (
+            !!registerData.email.trim() === false ||
+            !registerData.email.includes('@')
+        ) {
+            setModal((oldState) => ({
+                ...oldState,
+                error: {
+                    isVisible: true,
+                    message: 'Please enter a valid email ID',
+                },
+            }));
+            return;
+        }
+
+        const response = await sendOtp(registerData.email);
+        if (response !== true) {
+            setModal((oldState) => ({
+                ...oldState,
+                error: {
+                    isVisible: true,
+                    message:
+                        'Unable to send OTP on email this time. Please try again later!',
+                },
+            }));
+            return;
+        }
+        emailResendStart();
+        visibleHandler('isEmailOtpVisible');
+    };
+
+    const completeHandler = async () => {
+        if (
+            registerData.emailOtp.length !== 6 ||
+            isNumeric(registerData.emailOtp) === false
+        ) {
+            setModal((oldState) => ({
+                ...oldState,
+                error: {
+                    isVisible: true,
+                    message: 'Invalid Email OTP!',
+                },
+            }));
+            return;
+        }
+        if (
+            registerData.phoneOtp.length !== 6 ||
+            isNumeric(registerData.phoneOtp) === false
+        ) {
+            setModal((oldState) => ({
+                ...oldState,
+                error: {
+                    isVisible: true,
+                    message: 'Invalid Mobile OTP!',
+                },
+            }));
+            return;
+        }
+
+        const formData = new FormData();
+
+        if (registerData.bms) {
+            formData.append(
+                'additionalServices',
+                'Booking Management Services'
+            );
+        }
+
+        if (registerData.offAndOn) {
+            formData.append(
+                'additionalServices',
+                'Offline and Online Billing Integration'
+            );
+        }
+
+        if (registerData.sms) {
+            formData.append('additionalServices', 'Staff Management Services');
+        }
+
+        if (registerData.ims) {
+            formData.append(
+                'additionalServices',
+                'Inventory Management Services'
+            );
+        }
+
+        if (registerData.sfc) {
+            formData.append('additionalServices', 'Sales Focused Campaigns');
+        }
+
+        if (registerData.bri) {
+            formData.append(
+                'additionalServices',
+                'Business reports and Insights'
+            );
+        }
+
+        if (registerData.pos) {
+            formData.append(
+                'additionalServices',
+                'Point of Sales (POS) System'
+            );
+        }
+
+        if (registerData.tax) {
+            formData.append('additionalServices', 'Tax Services');
+        }
+
+        if (!!registerData.anyOtherAssistance.trim()) {
+            formData.append(
+                'additionalServices',
+                registerData.anyOtherAssistance
+            );
+        }
+
+        formData.append(
+            'address',
+            `${registerData.addressLine1}, ${registerData.addressLine2}, ${registerData.addressLine1}, ${registerData.city}, ${registerData.state}, ${registerData.pin}`
+        );
+
+        formData.append('businessName', registerData.businessName);
+        formData.append(
+            'businessPhoneNumber',
+            registerData.businessPhoneNumber
+        );
+        formData.append('email', registerData.email);
+        formData.append('emailOtp', registerData.emailOtp);
+        formData.append('latitude', registerData.latitude!.toString());
+        formData.append('longitude', registerData.longitude!.toString());
+        formData.append('name', registerData.name);
+        formData.append('pan', registerData.pan);
+        formData.append('passcode', registerData.passcode);
+        formData.append('phoneNumber', registerData.phoneNumber);
+        formData.append('phoneOtp', registerData.phoneOtp);
+        formData.append('subCategoryId', registerData.subCategory.id);
+        formData.append('yearEstablished', registerData.yearEstablished);
+        formData.append('files', registerData.merchantId as any);
+        formData.append('files', registerData.gstinId as any);
+
+        const response = await registerMerchantApi(formData);
+
+        console.log(response);
     };
 
     const confirmHandler = () => {
-        toggleHandler();
+        setModal({
+            error: {
+                isVisible: false,
+                message: '',
+            },
+            success: {
+                isVisible: false,
+                message: '',
+            },
+        });
         navigation.navigate(SCREENS.WELCOME);
     };
 
     return (
         <>
-            {modal ? <SuccessModal onPress={confirmHandler} /> : null}
+            {modal.success.isVisible ? (
+                <SuccessModal onPress={confirmHandler} />
+            ) : null}
+            {modal.error.isVisible ? (
+                <ErrorModal
+                    msg={modal.error.message}
+                    onClose={closeErrorModal}
+                />
+            ) : null}
             <SafeAreaView style={styles.container}>
                 <Header text='Host your business' />
                 <ScrollView contentContainerStyle={styles.list}>
@@ -62,21 +301,58 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
                         maxLength={10}
                         numeric
                     />
-                    <LabelTextbox
-                        label='OTP'
-                        placeholder='OTP sent to Phone number'
-                        value={registerData.phoneOtp}
-                        onChangeText={textHandler.bind(this, 'phoneOtp')}
-                        maxLength={6}
-                        numeric
-                    />
+                    {visible.isPhoneOtpVisible ? (
+                        <>
+                            <LabelTextbox
+                                label='OTP'
+                                placeholder='OTP sent to Phone number'
+                                value={registerData.phoneOtp}
+                                onChangeText={textHandler.bind(
+                                    this,
+                                    'phoneOtp'
+                                )}
+                                maxLength={6}
+                                numeric
+                            />
 
-                    <Pressable style={styles.mv10}>
-                        <Text style={[styles.txt, styles.rightAligned]}>
-                            <Text style={styles.borderText}>Resend OTP</Text>
-                            <Text>, If not received</Text>
-                        </Text>
-                    </Pressable>
+                            {mobileTimeLeft === 0 ? (
+                                <Pressable
+                                    style={styles.mv10}
+                                    onPress={mobileOtpHandler}
+                                >
+                                    <Text
+                                        style={[
+                                            styles.txt,
+                                            styles.rightAligned,
+                                        ]}
+                                    >
+                                        <Text style={styles.borderText}>
+                                            Resend OTP
+                                        </Text>
+                                        <Text>, If not received</Text>
+                                    </Text>
+                                </Pressable>
+                            ) : (
+                                <Text
+                                    style={[
+                                        styles.txt,
+                                        styles.mv10,
+                                        styles.rightAligned,
+                                    ]}
+                                >
+                                    Please wait {mobileTimeLeft} second(s)
+                                </Text>
+                            )}
+                        </>
+                    ) : (
+                        <View style={styles.button}>
+                            <Button
+                                text='Send OTP'
+                                onPress={mobileOtpHandler}
+                                isLoading={sendOtpLoading}
+                            />
+                        </View>
+                    )}
 
                     <LabelTextbox
                         label='Email ID'
@@ -84,34 +360,59 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
                         value={registerData.email}
                         onChangeText={textHandler.bind(this, 'email')}
                     />
-                    <LabelTextbox
-                        label='OTP'
-                        placeholder='Enter OTP Sent to Your Email*'
-                        value={registerData.emailOtp}
-                        onChangeText={textHandler.bind(this, 'emailOtp')}
-                    />
+                    {visible.isEmailOtpVisible ? (
+                        <LabelTextbox
+                            label='OTP'
+                            placeholder='Enter OTP Sent to Your Email*'
+                            value={registerData.emailOtp}
+                            onChangeText={textHandler.bind(this, 'emailOtp')}
+                            numeric
+                            maxLength={6}
+                        />
+                    ) : null}
 
                     <View style={styles.row}>
                         <Text style={styles.txt} onPress={navigation.goBack}>
                             CANCEL
                         </Text>
 
-                        <Pressable>
-                            <Text style={styles.txt}>
-                                <Text style={styles.borderText}>
-                                    Resend OTP
+                        {visible.isEmailOtpVisible ? (
+                            emailTimeLeft === 0 ? (
+                                <Pressable onPress={emailOtpHandler}>
+                                    <Text style={styles.txt}>
+                                        <Text style={styles.borderText}>
+                                            Resend OTP
+                                        </Text>
+                                        <Text>, If not received</Text>
+                                    </Text>
+                                </Pressable>
+                            ) : (
+                                <Text style={styles.txt}>
+                                    Please wait {emailTimeLeft} second(s)
                                 </Text>
-                                <Text>, If not received</Text>
-                            </Text>
-                        </Pressable>
+                            )
+                        ) : null}
                     </View>
 
-                    <View style={styles.button}>
-                        <Button
-                            text='Complete Registration'
-                            onPress={completeHandler}
-                        />
-                    </View>
+                    {!visible.isEmailOtpVisible ? (
+                        <View style={styles.button}>
+                            <Button
+                                text='Send OTP'
+                                onPress={emailOtpHandler}
+                                isLoading={sendOtpLoading}
+                            />
+                        </View>
+                    ) : null}
+
+                    {visible.isEmailOtpVisible && visible.isPhoneOtpVisible ? (
+                        <View style={[styles.button, styles.pv20]}>
+                            <Button
+                                text='Complete Registration'
+                                onPress={completeHandler}
+                                isLoading={registerMerchantLoading}
+                            />
+                        </View>
+                    ) : null}
                 </ScrollView>
             </SafeAreaView>
         </>
