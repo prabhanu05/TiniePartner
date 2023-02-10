@@ -72,13 +72,11 @@ const BasicInfo = (props: {
             },
             {
                 key: 'Outlet Manager Mobile Number',
-                value: registerData.outletManagePhone,
+                value: registerData.phoneNumber,
             },
             {
                 key: 'Proof of Identification',
-                value: !!registerData.files?.[0]?.name
-                    ? registerData.files?.[0]?.name
-                    : '',
+                value: registerData.merchantId.name,
             },
         ]);
 
@@ -108,15 +106,11 @@ const BasicInfo = (props: {
             <LabelTextbox
                 label='ID Proof'
                 placeholder='Upload Proof of Identification*'
-                value={
-                    !!registerData.files?.[0]?.name
-                        ? registerData.files?.[0]?.name
-                        : ''
-                }
+                value={registerData.merchantId.name}
                 notEditable
                 onChangeText={() => {}}
             />
-            <PickerButton onPress={proofHandler.bind(this, 'files')} />
+            <PickerButton onPress={proofHandler.bind(this, 'merchantId')} />
             <Text style={[styles.subHeading, styles.extraMargin]}>
                 Outlet Manager Details
             </Text>
@@ -135,8 +129,8 @@ const BasicInfo = (props: {
             <LabelTextbox
                 label='Mobile Number'
                 placeholder='Mobile Number*'
-                value={registerData.outletManagePhone}
-                onChangeText={textHandler.bind(this, 'outletManagePhone')}
+                value={registerData.phoneNumber}
+                onChangeText={textHandler.bind(this, 'phoneNumber')}
                 numeric
                 maxLength={10}
             />

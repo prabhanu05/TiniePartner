@@ -10,10 +10,12 @@ import {
 } from '@models/data/ResetPasscode/ResetData';
 import { SCREENS } from '@models/screens';
 import { SetPasscodeScreenProps } from '@models/screens/StackScreens';
+import { registerActions } from '@store/actions';
 import styles from '@styles/pages/ResetPasscode';
 import React, { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 
 const SetPasscode = ({ navigation }: SetPasscodeScreenProps) => {
     const [modal, setModal] = useState<ResetModalData>({
@@ -31,6 +33,8 @@ const SetPasscode = ({ navigation }: SetPasscodeScreenProps) => {
         passcode: '',
         resetPasscode: '',
     });
+
+    const dispatch = useDispatch();
 
     const changeHandler = (uid: keyof ResetData, text: string) => {
         setData((oldState) => ({
@@ -72,6 +76,8 @@ const SetPasscode = ({ navigation }: SetPasscodeScreenProps) => {
             }));
             return;
         }
+
+        dispatch(registerActions.setPasscode(data.passcode));
 
         setModal((oldState) => ({
             ...oldState,

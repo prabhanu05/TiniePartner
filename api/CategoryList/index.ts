@@ -16,7 +16,7 @@ export const CategoryList = async () => {
     if (Array.isArray(apiData)) {
         for (let item of apiData) {
             transformedData.push({
-                id: item?.id,
+                id: item?.id?.toString(),
                 name: item?.name,
             });
         }

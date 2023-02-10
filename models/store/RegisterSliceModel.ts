@@ -1,7 +1,13 @@
+import { CategoryModel } from '@models/api/CategoryListModel';
 import { FileModel } from '@models/data/FileModel';
 
 export interface RegisterSliceStringModel {
-    address: string;
+    addressLine1: string;
+    addressLine2: string;
+    addressLine3: string;
+    pin: string;
+    city: string;
+    state: string;
     businessName: string;
     businessPhoneNumber: string;
     email: string;
@@ -10,12 +16,15 @@ export interface RegisterSliceStringModel {
     passcode: string;
     phoneNumber: string;
     phoneOtp: string;
-    subCategoryId: string;
     yearEstablished: string;
     name: string;
     outletManagerName: string;
     outletManagerEmail: string;
-    outletManagePhone: string;
+    anyOtherAssistance: string;
+}
+
+export interface RegisterSliceSelectModel {
+    subCategory: CategoryModel;
 }
 
 export interface RegisterSliceNumberModel {
@@ -24,15 +33,24 @@ export interface RegisterSliceNumberModel {
 }
 
 export interface RegisterSliceFileModel {
-    files: FileModel[];
+    merchantId: FileModel;
+    gstinId: FileModel;
 }
 
-export interface RegisterSliceStringArrayModel {
-    additionalServices: string[];
+export interface RegisterSliceToggleModel {
+    bms: boolean;
+    offAndOn: boolean;
+    sms: boolean;
+    ims: boolean;
+    sfc: boolean;
+    bri: boolean;
+    pos: boolean;
+    tax: boolean;
 }
 
 export interface RegisterSliceState
     extends RegisterSliceStringModel,
         RegisterSliceNumberModel,
         RegisterSliceFileModel,
-        RegisterSliceStringArrayModel {}
+        RegisterSliceToggleModel,
+        RegisterSliceSelectModel {}

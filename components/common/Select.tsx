@@ -2,17 +2,21 @@ import Option from '@common/Option';
 import { COLORS } from '@constants/Colors';
 import { AntDesign } from '@expo/vector-icons';
 import { CategoryModel } from '@models/api/CategoryListModel';
+import { RegisterSliceSelectModel } from '@models/store/RegisterSliceModel';
 import styles from '@styles/common/Select';
 import React, { useState } from 'react';
 import { FlatList, Modal, Pressable, Text, View } from 'react-native';
 
 const Select = (props: {
-    id: any;
+    id: keyof RegisterSliceSelectModel;
     value: string;
     title: string;
     label: string;
     data: CategoryModel[];
-    changeHandler: (uid: any, text: string | Date | CategoryModel) => void;
+    changeHandler: (
+        uid: keyof RegisterSliceSelectModel,
+        text: CategoryModel
+    ) => void;
 }) => {
     const [visible, setVisible] = useState<boolean>(false);
 
@@ -31,8 +35,10 @@ const Select = (props: {
                 <Pressable style={styles.dateHolder} onPress={toggleHandler}>
                     {!!props.value ? (
                         <Text style={styles.label}>{props.title} </Text>
-                    ) : null}
-                    <Text style={styles.txt}>{props.label}</Text>
+                    ) : (
+                        <Text style={styles.txt}>{props.label}</Text>
+                    )}
+
                     <View style={styles.input}>
                         <Text style={styles.dateTxt}>{props.value}</Text>
                         <AntDesign

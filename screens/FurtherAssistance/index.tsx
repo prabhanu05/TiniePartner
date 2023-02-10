@@ -3,15 +3,36 @@ import FullButton from '@common/FullButton';
 import Header from '@common/Header';
 import { SCREENS } from '@models/screens';
 import { FurtherAssistanceScreenProps } from '@models/screens/StackScreens';
+import {
+    RegisterSliceStringModel,
+    RegisterSliceToggleModel,
+} from '@models/store/RegisterSliceModel';
+import { registerActions } from '@store/actions';
+import { StoreModel } from '@store/store';
 import styles from '@styles/pages/FurtherAssistance';
 import Info from '@svg/Info';
 import React from 'react';
-import { ScrollView, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
 
 const FurtherAssistance = ({ navigation }: FurtherAssistanceScreenProps) => {
+    const registerData = useSelector(
+        (state: StoreModel) => state.registerReducer
+    );
+
+    const dispatch = useDispatch();
+
     const submitHandler = () => {
         navigation.navigate(SCREENS.SET_PASSCODE);
+    };
+
+    const toggleHandler = (uid: keyof RegisterSliceToggleModel) => {
+        dispatch(registerActions.toggleHandler({ uid }));
+    };
+
+    const textHandler = (uid: keyof RegisterSliceStringModel, text: string) => {
+        dispatch(registerActions.textHandler({ uid, text }));
     };
 
     return (
@@ -28,27 +49,42 @@ const FurtherAssistance = ({ navigation }: FurtherAssistanceScreenProps) => {
                 <Text style={styles.subheading}>
                     (You can make multiple Selection)
                 </Text>
-                <View style={styles.row}>
+                <Pressable
+                    onPress={toggleHandler.bind(this, 'bms')}
+                    style={styles.row}
+                >
                     <Text style={styles.txt}>Booking Management Services</Text>
-                    <Checkbox isSelected={false} />
-                </View>
-                <View style={styles.row}>
+                    <Checkbox isSelected={registerData.bms} />
+                </Pressable>
+                <Pressable
+                    onPress={toggleHandler.bind(this, 'offAndOn')}
+                    style={styles.row}
+                >
                     <Text style={styles.txt}>
                         Offline and Online Billing Integration
                     </Text>
-                    <Checkbox isSelected={true} />
-                </View>
-                <View style={styles.row}>
+                    <Checkbox isSelected={registerData.offAndOn} />
+                </Pressable>
+                <Pressable
+                    style={styles.row}
+                    onPress={toggleHandler.bind(this, 'sms')}
+                >
                     <Text style={styles.txt}>Staff Management Services</Text>
-                    <Checkbox isSelected={false} />
-                </View>
-                <View style={styles.row}>
+                    <Checkbox isSelected={registerData.sms} />
+                </Pressable>
+                <Pressable
+                    style={styles.row}
+                    onPress={toggleHandler.bind(this, 'ims')}
+                >
                     <Text style={styles.txt}>
                         Inventory Management Services
                     </Text>
-                    <Checkbox isSelected={false} />
-                </View>
-                <View style={styles.row}>
+                    <Checkbox isSelected={registerData.ims} />
+                </Pressable>
+                <Pressable
+                    style={styles.row}
+                    onPress={toggleHandler.bind(this, 'sfc')}
+                >
                     <View style={styles.holder}>
                         <Text style={styles.txt}>Sales Focused Campaigns</Text>
                         <Text style={styles.subtxt}>
@@ -56,30 +92,47 @@ const FurtherAssistance = ({ navigation }: FurtherAssistanceScreenProps) => {
                             offer discounts)
                         </Text>
                     </View>
-                    <Checkbox isSelected={false} />
-                </View>
+                    <Checkbox isSelected={registerData.sfc} />
+                </Pressable>
 
-                <View style={styles.row}>
+                <Pressable
+                    style={styles.row}
+                    onPress={toggleHandler.bind(this, 'bri')}
+                >
                     <Text style={styles.txt}>
                         Business reports and Insights
                     </Text>
-                    <Checkbox isSelected={false} />
-                </View>
+                    <Checkbox isSelected={registerData.bri} />
+                </Pressable>
 
-                <View style={styles.row}>
+                <Pressable
+                    style={styles.row}
+                    onPress={toggleHandler.bind(this, 'pos')}
+                >
                     <Text style={styles.txt}>Point of Sales (POS) System</Text>
-                    <Checkbox isSelected={false} />
-                </View>
+                    <Checkbox isSelected={registerData.pos} />
+                </Pressable>
 
-                <View style={styles.row}>
+                <Pressable
+                    style={styles.row}
+                    onPress={toggleHandler.bind(this, 'tax')}
+                >
                     <Text style={styles.txt}>Tax services</Text>
-                    <Checkbox isSelected={false} />
-                </View>
+                    <Checkbox isSelected={registerData.tax} />
+                </Pressable>
                 <View style={styles.col}>
                     <Text style={styles.txt}>
                         If any other, Please Specify:
                     </Text>
-                    <TextInput style={styles.textArea} numberOfLines={4} />
+                    <TextInput
+                        style={styles.textArea}
+                        textAlignVertical='top'
+                        numberOfLines={4}
+                        onChangeText={textHandler.bind(
+                            this,
+                            'anyOtherAssistance'
+                        )}
+                    />
                 </View>
                 <View style={styles.btnRow}>
                     <View style={styles.btnCol}>

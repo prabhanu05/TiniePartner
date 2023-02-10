@@ -1,21 +1,36 @@
+import { CategoryModel } from '@models/api/CategoryListModel';
 import { FileModel } from '@models/data/FileModel';
 import {
     RegisterSliceFileModel,
-    RegisterSliceNumberModel,
+    RegisterSliceSelectModel,
     RegisterSliceState,
-    RegisterSliceStringArrayModel,
     RegisterSliceStringModel,
+    RegisterSliceToggleModel,
 } from '@models/store/RegisterSliceModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
     additionalServices: [],
-    address: '',
+    addressLine1: '',
+    addressLine2: '',
+    addressLine3: '',
+    pin: '',
+    city: '',
+    state: '',
     businessName: '',
     businessPhoneNumber: '',
     email: '',
     emailOtp: '',
-    files: [],
+    merchantId: {
+        name: '',
+        type: '',
+        uri: '',
+    },
+    gstinId: {
+        name: '',
+        type: '',
+        uri: '',
+    },
     latitude: null,
     longitude: null,
     name: '',
@@ -23,11 +38,22 @@ const initialState = {
     passcode: '',
     phoneNumber: '',
     phoneOtp: '',
-    subCategoryId: '',
+    subCategory: {
+        id: '',
+        name: '',
+    },
     yearEstablished: '',
     outletManagerName: '',
     outletManagerEmail: '',
-    outletManagePhone: '',
+    bms: false,
+    bri: false,
+    ims: false,
+    offAndOn: false,
+    pos: false,
+    sfc: false,
+    sms: false,
+    tax: false,
+    anyOtherAssistance: '',
 } as RegisterSliceState;
 
 export const RegisterSlice = createSlice({
@@ -43,15 +69,6 @@ export const RegisterSlice = createSlice({
         ) {
             state[action.payload.uid] = action.payload.text;
         },
-        numberHandler(
-            state: typeof initialState,
-            action: PayloadAction<{
-                uid: keyof RegisterSliceNumberModel;
-                text: number;
-            }>
-        ) {
-            state[action.payload.uid] = action.payload.text;
-        },
         fileHandler(
             state: typeof initialState,
             action: PayloadAction<{
@@ -59,16 +76,35 @@ export const RegisterSlice = createSlice({
                 item: FileModel;
             }>
         ) {
-            state[action.payload.uid].push(action.payload.item);
+            state[action.payload.uid] = action.payload.item;
         },
-        arrayHandler(
+        selectHandler(
             state: typeof initialState,
             action: PayloadAction<{
-                uid: keyof RegisterSliceStringArrayModel;
-                item: string;
+                uid: keyof RegisterSliceSelectModel;
+                item: CategoryModel;
             }>
         ) {
-            state[action.payload.uid].push(action.payload.item);
+            state[action.payload.uid] = action.payload.item;
+        },
+        latLonHandler(
+            state: typeof initialState,
+            action: PayloadAction<{
+                latitude: number;
+                longitude: number;
+            }>
+        ) {
+            state.latitude = action.payload.latitude;
+            state.longitude = action.payload.longitude;
+        },
+        setPasscode(state: typeof initialState, action: PayloadAction<string>) {
+            state.passcode = action.payload;
+        },
+        toggleHandler(
+            state: typeof initialState,
+            action: PayloadAction<{ uid: keyof RegisterSliceToggleModel }>
+        ) {
+            state[action.payload.uid] = !state[action.payload.uid];
         },
     },
 });

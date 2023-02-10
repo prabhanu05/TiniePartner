@@ -3,7 +3,7 @@ import React from 'react';
 import { Pressable, Text } from 'react-native';
 
 const Option = (props: {
-    value: number;
+    value: string;
     name: string;
     onPress: () => void;
 }) => {

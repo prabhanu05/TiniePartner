@@ -5,7 +5,7 @@ export interface SubCategoryModel {
 }
 
 export interface CategoryModel {
-    id: number;
+    id: string;
     name: string;
 }
 

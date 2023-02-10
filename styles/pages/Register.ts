@@ -56,6 +56,44 @@ const styles = StyleSheet.create({
     mt12: {
         marginTop: 12,
     },
+    popupHolder: {
+        position: 'absolute',
+        zIndex: 2,
+        height: '100%',
+        width: '100%',
+        backgroundColor: COLORS.backdrop,
+        justifyContent: 'center',
+        paddingVertical: 16,
+    },
+    popupContainer: {
+        width: '85%',
+        alignSelf: 'center',
+        height: '100%',
+        paddingVertical: 8,
+        paddingHorizontal: 36,
+        backgroundColor: COLORS.white,
+        borderRadius: 30,
+        justifyContent: 'space-between',
+    },
+    popupTxt: {
+        fontSize: 14,
+        fontFamily: 'regular',
+        color: COLORS.black,
+        paddingTop: 16,
+        textAlign: 'center',
+    },
+    btn: {
+        width: '100%',
+        backgroundColor: COLORS.selected,
+        borderRadius: 5,
+        paddingVertical: 9,
+    },
+    btnText: {
+        fontSize: 14,
+        color: COLORS.white,
+        fontFamily: 'regular',
+        textAlign: 'center',
+    },
 });
 
 export default styles;

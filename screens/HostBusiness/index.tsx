@@ -4,13 +4,27 @@ import LabelTextbox from '@common/LabelTextbox';
 import SuccessModal from '@components/HostBusiness/SuccessModal';
 import { SCREENS } from '@models/screens';
 import { HostBusinessScreenProps } from '@models/screens/StackScreens';
+import { RegisterSliceStringModel } from '@models/store/RegisterSliceModel';
+import { registerActions } from '@store/actions';
+import { StoreModel } from '@store/store';
 import styles from '@styles/pages/HostBusiness';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
 
 const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
     const [modal, setModal] = useState(false);
+
+    const registerData = useSelector(
+        (state: StoreModel) => state.registerReducer
+    );
+
+    const dispatch = useDispatch();
+
+    const textHandler = (uid: keyof RegisterSliceStringModel, text: string) => {
+        dispatch(registerActions.textHandler({ uid, text }));
+    };
 
     const toggleHandler = () => {
         setModal((oldState) => !oldState);
@@ -34,19 +48,25 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
                     <LabelTextbox
                         label='Name'
                         placeholder='Enter Name*'
-                        value=''
+                        value={registerData.businessName}
+                        onChangeText={textHandler.bind(this, 'businessName')}
                     />
                     <LabelTextbox
                         label='Mobile Number'
                         placeholder='Mobile Number*'
-                        value=''
+                        value={registerData.businessPhoneNumber}
+                        onChangeText={textHandler.bind(
+                            this,
+                            'businessPhoneNumber'
+                        )}
                         maxLength={10}
                         numeric
                     />
                     <LabelTextbox
                         label='OTP'
                         placeholder='OTP sent to Phone number'
-                        value=''
+                        value={registerData.phoneOtp}
+                        onChangeText={textHandler.bind(this, 'phoneOtp')}
                         maxLength={6}
                         numeric
                     />
@@ -61,12 +81,14 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
                     <LabelTextbox
                         label='Email ID'
                         placeholder='Enter Email ID*'
-                        value=''
+                        value={registerData.email}
+                        onChangeText={textHandler.bind(this, 'email')}
                     />
                     <LabelTextbox
                         label='OTP'
                         placeholder='Enter OTP Sent to Your Email*'
-                        value=''
+                        value={registerData.emailOtp}
+                        onChangeText={textHandler.bind(this, 'emailOtp')}
                     />
 
                     <View style={styles.row}>
