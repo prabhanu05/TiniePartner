@@ -15,10 +15,12 @@ export const CategoryList = async () => {
     const transformedData = [] as CategoryModel[];
     if (Array.isArray(apiData)) {
         for (let item of apiData) {
-            transformedData.push({
-                id: item?.id?.toString(),
-                name: item?.name,
-            });
+            for (let data of item?.subCategories) {
+                transformedData.push({
+                    id: data?.id?.toString(),
+                    name: data?.name,
+                });
+            }
         }
         return transformedData;
     }

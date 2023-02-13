@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 const useTimer = (duration: number) => {
     const [timeLeft, setTimeLeft] = useState(duration);
     const [isRunning, setIsRunning] = useState(false);
+    const [toggle, setToggle] = useState(false);
 
     useEffect(() => {
         let intervalId: NodeJS.Timeout;
@@ -20,11 +21,12 @@ const useTimer = (duration: number) => {
         return () => {
             clearInterval(intervalId);
         };
-    }, [isRunning]);
+    }, [isRunning, toggle]);
 
     const handleStart = () => {
         setTimeLeft(duration);
         setIsRunning(true);
+        setToggle((oldState) => !oldState);
     };
 
     return { timeLeft, handleStart };

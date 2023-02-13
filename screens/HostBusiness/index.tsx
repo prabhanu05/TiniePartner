@@ -16,6 +16,7 @@ import { RegisterSliceStringModel } from '@models/store/RegisterSliceModel';
 import { registerActions } from '@store/actions';
 import { StoreModel } from '@store/store';
 import styles from '@styles/pages/HostBusiness';
+import { AxiosError } from 'axios';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -251,9 +252,35 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
         formData.append('files', registerData.merchantId as any);
         formData.append('files', registerData.gstinId as any);
 
-        const response = await registerMerchantApi(formData);
+        await registerMerchantApi(formData)
+            .then((response) => {
+                if (!!response && response === 'Registration Successful') {
+                    setModal({
+                        error: {
+                            isVisible: false,
+                            message: '',
+                        },
+                        success: {
+                            isVisible: true,
+                            message: '',
+                        },
+                    });
+                    return;
+                }
+            })
+            .catch((err) => {
+                const error = err as AxiosError;
 
-        console.log(response);
+                setModal((oldState) => ({
+                    ...oldState,
+                    error: {
+                        isVisible: true,
+                        message: !!error?.response?.status
+                            ? error?.response?.status?.toString()
+                            : 'Unable to create account right now',
+                    },
+                }));
+            });
     };
 
     const confirmHandler = () => {
