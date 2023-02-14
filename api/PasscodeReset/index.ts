@@ -6,15 +6,18 @@ import axios from 'axios';
 export const PasscodeReset = async (data: PasscodeResetModel) => {
     const apiUrl = await axios.post(
         `${Urls.VENDOR_AUTH}${Endpoints.RESET_PASSCODE}`,
-        data
+        {
+            email: data.email,
+            emailOtp: data.emailOtp,
+            newPasscode: data.newPasscode,
+            phoneOtp: data.phoneOtp,
+        }
     );
 
-    return apiUrl.data;
-    // const apiData = apiUrl.data as LoginSuccessModel;
-
-    // if (!!apiData.token) {
-    //     return apiData;
-    // }
+    const apiData = apiUrl.data as { status: string };
+    if (apiData?.status === 'Passcode reset successful') {
+        return true;
+    }
 
     throw new Error('Unable to reset passcode');
 };

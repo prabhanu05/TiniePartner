@@ -1,7 +1,8 @@
 import { SendOTP } from '@api/SendOTP';
 import Button from '@common/Button';
+import ErrorModal from '@common/ErrorModal';
 import Header from '@common/Header';
-import TextBox from '@common/TextBox';
+import LabelTextbox from '@common/LabelTextbox';
 import { isNumeric } from '@constants/Helpers';
 import { Keys } from '@constants/Keys';
 import useTimer from '@hooks/useTimer';
@@ -123,79 +124,115 @@ const ForgotPasscode = ({ navigation }: ForgotPasscodeScreenProps) => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <Header text='Forgot passcode' />
-            <ScrollView contentContainerStyle={styles.subcontainer}>
-                <TextBox
-                    value={data.phone}
-                    onChangeText={changeHandler.bind(this, 'phone')}
-                    placeholder='Mobile Number*'
-                    numeric
-                />
-                {visible.isPhoneOtpVisible ? (
-                    <>
-                        <TextBox
-                            value={data.phone}
-                            onChangeText={changeHandler.bind(this, 'phoneOtp')}
-                            placeholder='OTP sent to Phone number*'
+        <>
+            {error.isVisible ? (
+                <ErrorModal msg={error.message} onClose={closeModalHandler} />
+            ) : null}
+            <SafeAreaView style={styles.container}>
+                <Header text='Forgot passcode' />
+                <ScrollView contentContainerStyle={styles.subcontainer}>
+                    <LabelTextbox
+                        value={data.phone}
+                        onChangeText={changeHandler.bind(this, 'phone')}
+                        placeholder='Mobile Number*'
+                        numeric
+                        maxLength={10}
+                        label='Mobile Number'
+                    />
+                    {visible.isPhoneOtpVisible ? (
+                        <>
+                            <LabelTextbox
+                                value={data.phoneOtp}
+                                onChangeText={changeHandler.bind(
+                                    this,
+                                    'phoneOtp'
+                                )}
+                                placeholder='OTP sent to Phone number*'
+                                numeric
+                                maxLength={6}
+                                label='OTP'
+                            />
+
+                            {mobileTimeLeft === 0 ? (
+                                <Text
+                                    style={styles.txt}
+                                    onPress={mobileOtpHandler}
+                                >
+                                    <Text style={styles.borderText}>
+                                        Resend OTP
+                                    </Text>
+                                    <Text>, If not received</Text>
+                                </Text>
+                            ) : (
+                                <Text style={styles.txt}>
+                                    Please wait {mobileTimeLeft} second(s)
+                                </Text>
+                            )}
+                        </>
+                    ) : (
+                        <View style={styles.btn}>
+                            <Button
+                                text='Send OTP'
+                                onPress={mobileOtpHandler}
+                                isLoading={sendOtpLoading}
+                            />
+                        </View>
+                    )}
+                    <LabelTextbox
+                        value={data.email}
+                        onChangeText={changeHandler.bind(this, 'email')}
+                        placeholder='Enter Email ID*'
+                        label='Email ID'
+                    />
+                    {visible.isEmailOtpVisible ? (
+                        <LabelTextbox
+                            value={data.emailOtp}
+                            onChangeText={changeHandler.bind(this, 'emailOtp')}
+                            placeholder='Enter OTP Sent to Your Email*'
                             numeric
                             maxLength={6}
+                            label='OTP'
                         />
-                        <Text style={styles.txt}>
-                            <Text style={styles.borderText}>Resend OTP</Text>
-                            <Text>, If not received</Text>
-                        </Text>
-                    </>
-                ) : (
-                    <View style={styles.btn}>
-                        <Button
-                            text='Send OTP'
-                            onPress={mobileOtpHandler}
-                            isLoading={sendOtpLoading}
-                        />
-                    </View>
-                )}
-                <TextBox
-                    value={data.email}
-                    onChangeText={changeHandler.bind(this, 'email')}
-                    placeholder='Enter Email ID*'
-                />
-                {visible.isEmailOtpVisible ? (
-                    <TextBox
-                        value={data.emailOtp}
-                        onChangeText={changeHandler.bind(this, 'emailOtp')}
-                        placeholder='Enter OTP Sent to Your Email*'
-                        numeric
-                        maxLength={6}
-                    />
-                ) : null}
-                <View style={styles.row}>
-                    <Text style={styles.txt} onPress={cancelHandler}>
-                        CANCEL
-                    </Text>
-                    {visible.isEmailOtpVisible ? (
-                        <Text style={styles.txt}>
-                            <Text style={styles.borderText}>Resend OTP</Text>
-                            <Text>, If not received</Text>
-                        </Text>
                     ) : null}
-                </View>
-                {!visible.isEmailOtpVisible ? (
-                    <View style={styles.btn}>
-                        <Button
-                            text='Send OTP'
-                            onPress={emailOtpHandler}
-                            isLoading={sendOtpLoading}
-                        />
+                    <View style={styles.row}>
+                        <Text style={styles.txt} onPress={cancelHandler}>
+                            CANCEL
+                        </Text>
+                        {visible.isEmailOtpVisible ? (
+                            emailTimeLeft === 0 ? (
+                                <Text
+                                    style={styles.txt}
+                                    onPress={emailOtpHandler}
+                                >
+                                    <Text style={styles.borderText}>
+                                        Resend OTP
+                                    </Text>
+                                    <Text>, If not received</Text>
+                                </Text>
+                            ) : (
+                                <Text style={styles.txt}>
+                                    Please wait {emailTimeLeft} second(s)
+                                </Text>
+                            )
+                        ) : null}
                     </View>
-                ) : null}
-                {visible.isEmailOtpVisible && visible.isPhoneOtpVisible ? (
-                    <View style={[styles.btn, styles.mt40]}>
-                        <Button text='continue' onPress={continueHandler} />
-                    </View>
-                ) : null}
-            </ScrollView>
-        </SafeAreaView>
+                    {!visible.isEmailOtpVisible ? (
+                        <View style={styles.btn}>
+                            <Button
+                                text='Send OTP'
+                                onPress={emailOtpHandler}
+                                isLoading={sendOtpLoading}
+                            />
+                        </View>
+                    ) : null}
+                    {visible.isEmailOtpVisible && visible.isPhoneOtpVisible ? (
+                        <View style={[styles.btn, styles.mt40]}>
+                            <Button text='continue' onPress={continueHandler} />
+                        </View>
+                    ) : null}
+                </ScrollView>
+            </SafeAreaView>
+        </>
     );
 };
 

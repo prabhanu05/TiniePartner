@@ -1,9 +1,12 @@
+import { PasscodeReset } from '@api/PasscodeReset';
 import Button from '@common/Button';
 import ErrorModal from '@common/ErrorModal';
 import Header from '@common/Header';
 import TextBox from '@common/TextBox';
 import ResetModal from '@components/ResetPasscode/ResetModal';
 import { isNumeric } from '@constants/Helpers';
+import { Keys } from '@constants/Keys';
+import { AxiosErrorMessage } from '@models/data/AxiosErrorMessage';
 import {
     ResetData,
     ResetModalData,
@@ -14,9 +17,15 @@ import styles from '@styles/pages/ResetPasscode';
 import { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useMutation } from 'react-query';
 
 const ResetPasscode = ({ navigation, route }: ResetPasscodeScreenProps) => {
     const routeData = route.params;
+
+    const { mutateAsync, isLoading } = useMutation(
+        Keys.RESET_PASSCODE,
+        PasscodeReset
+    );
 
     const [data, setData] = useState<ResetData>({
         passcode: '',
@@ -45,7 +54,7 @@ const ResetPasscode = ({ navigation, route }: ResetPasscodeScreenProps) => {
         navigation.goBack();
     };
 
-    const saveHandler = () => {
+    const saveHandler = async () => {
         if (data.passcode !== data.resetPasscode) {
             setModal((oldState) => ({
                 ...oldState,
@@ -80,13 +89,34 @@ const ResetPasscode = ({ navigation, route }: ResetPasscodeScreenProps) => {
             return;
         }
 
-        setModal((oldState) => ({
-            ...oldState,
-            successModal: {
-                isVisible: true,
-                message: 'passcode reset successfully!',
-            },
-        }));
+        await mutateAsync({
+            email: routeData.email,
+            emailOtp: routeData.emailOtp,
+            phoneOtp: routeData.phoneOtp,
+            newPasscode: data.passcode,
+        })
+            .then((response) => {
+                if (response === true) {
+                    setModal((oldState) => ({
+                        ...oldState,
+                        successModal: {
+                            isVisible: true,
+                            message: 'passcode reset successfully!',
+                        },
+                    }));
+                }
+            })
+            .catch((error: AxiosErrorMessage) => {
+                setModal((oldState) => ({
+                    ...oldState,
+                    errorModal: {
+                        isVisible: true,
+                        message: !!error?.response?.data?.status
+                            ? error?.response?.data?.status
+                            : 'Unable to reset passcode! Please try again later.',
+                    },
+                }));
+            });
     };
 
     const closeErrorHandler = () => {
@@ -159,7 +189,11 @@ const ResetPasscode = ({ navigation, route }: ResetPasscodeScreenProps) => {
                         CANCEL
                     </Text>
                     <View style={styles.btn}>
-                        <Button text='Save' onPress={saveHandler} />
+                        <Button
+                            text='Save'
+                            isLoading={isLoading}
+                            onPress={saveHandler}
+                        />
                     </View>
                 </ScrollView>
             </SafeAreaView>
