@@ -8,6 +8,7 @@ import SuccessModal from '@components/HostBusiness/SuccessModal';
 import { isNumeric } from '@constants/Helpers';
 import { Keys } from '@constants/Keys';
 import useTimer from '@hooks/useTimer';
+import { AxiosErrorMessage } from '@models/data/AxiosErrorMessage';
 import { HostBusinessModel } from '@models/data/HostBusinessModel';
 import { SuccessErrorModel } from '@models/data/ModalData';
 import { SCREENS } from '@models/screens';
@@ -16,7 +17,6 @@ import { RegisterSliceStringModel } from '@models/store/RegisterSliceModel';
 import { registerActions } from '@store/actions';
 import { StoreModel } from '@store/store';
 import styles from '@styles/pages/HostBusiness';
-import { AxiosError } from 'axios';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -173,12 +173,14 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
         }
 
         const formData = new FormData();
+        let flag = false;
 
         if (registerData.bms) {
             formData.append(
                 'additionalServices',
                 'Booking Management Services'
             );
+            flag = true;
         }
 
         if (registerData.offAndOn) {
@@ -186,10 +188,12 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
                 'additionalServices',
                 'Offline and Online Billing Integration'
             );
+            flag = true;
         }
 
         if (registerData.sms) {
             formData.append('additionalServices', 'Staff Management Services');
+            flag = true;
         }
 
         if (registerData.ims) {
@@ -197,10 +201,12 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
                 'additionalServices',
                 'Inventory Management Services'
             );
+            flag = true;
         }
 
         if (registerData.sfc) {
             formData.append('additionalServices', 'Sales Focused Campaigns');
+            flag = true;
         }
 
         if (registerData.bri) {
@@ -208,6 +214,7 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
                 'additionalServices',
                 'Business reports and Insights'
             );
+            flag = true;
         }
 
         if (registerData.pos) {
@@ -215,10 +222,12 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
                 'additionalServices',
                 'Point of Sales (POS) System'
             );
+            flag = true;
         }
 
         if (registerData.tax) {
             formData.append('additionalServices', 'Tax Services');
+            flag = true;
         }
 
         if (!!registerData.anyOtherAssistance.trim()) {
@@ -226,6 +235,11 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
                 'additionalServices',
                 registerData.anyOtherAssistance
             );
+            flag = true;
+        }
+
+        if (!flag) {
+            formData.append('additionalServices', '');
         }
 
         formData.append(
@@ -268,15 +282,13 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
                     return;
                 }
             })
-            .catch((err) => {
-                const error = err as AxiosError;
-
+            .catch((error: AxiosErrorMessage) => {
                 setModal((oldState) => ({
                     ...oldState,
                     error: {
                         isVisible: true,
-                        message: !!error?.response?.status
-                            ? error?.response?.status?.toString()
+                        message: !!error?.response?.data?.status
+                            ? error?.response?.data?.status?.toString()
                             : 'Unable to create account right now',
                     },
                 }));

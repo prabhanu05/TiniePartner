@@ -12,6 +12,7 @@ type StackScreens = {
     [SCREENS.PRIVACY_POLICY]: undefined;
     [SCREENS.TnC]: undefined;
     [SCREENS.HOST_BUSINESS]: undefined;
+    [SCREENS.APPOINTMENTS]: undefined;
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<

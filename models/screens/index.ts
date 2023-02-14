@@ -9,6 +9,7 @@ export enum SCREENS {
     PRIVACY_POLICY = 'PrivacyPolicy',
     TnC = 'TnC',
     HOST_BUSINESS = 'HostBusiness',
+    APPOINTMENTS = 'Appointments',
 }
 
 export type NavigationProp = {

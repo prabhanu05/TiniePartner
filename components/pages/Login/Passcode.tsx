@@ -1,15 +1,34 @@
+import { LoginMerchant } from '@api/LoginMerchant';
 import GlowButton from '@common/GlowButton';
 import Modal from '@common/Modal';
 import PasscodeInput from '@components/Login/PasscodeInput';
 import { isNumeric } from '@constants/Helpers';
+import { Keys } from '@constants/Keys';
+import { AxiosErrorMessage } from '@models/data/AxiosErrorMessage';
+import { LoginModel } from '@models/data/Login/LoginScreen';
 import { NavigationProp, SCREENS } from '@models/screens';
+import { CredentialsSliceModel } from '@models/store/CredentialsSliceModel';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { credentialsActions } from '@store/actions';
 import styles from '@styles/pages/Login';
 import React, { useRef, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
+import { useMutation } from 'react-query';
+import { useDispatch } from 'react-redux';
 
-const Passcode = (props: { toggleHandler: () => void }) => {
+const Passcode = (props: {
+    toggleHandler: () => void;
+    phoneData: LoginModel;
+    errorModalOpenHandler: (msg: string) => void;
+}) => {
     const [data, setData] = useState(['', '', '', '']);
+    const dispatch = useDispatch();
+
+    const { isLoading, mutateAsync } = useMutation(
+        Keys.LOGIN_MERCHANT,
+        LoginMerchant
+    );
 
     const { navigate } = useNavigation<NavigationProp>();
 
@@ -56,6 +75,39 @@ const Passcode = (props: { toggleHandler: () => void }) => {
         navigate(SCREENS.FORGOT_PASSCODE);
     };
 
+    const loginHandler = async () => {
+        await mutateAsync({
+            phone: props.phoneData.mobile,
+            phoneOtp: props.phoneData.otp,
+            passcode: `${data[0]}${data[1]}${data[2]}${data[3]}`,
+        })
+            .then(async (response) => {
+                const details = {
+                    phonenumber: response.phonenumber,
+                    token: response.token,
+                } as CredentialsSliceModel;
+
+                await AsyncStorage.setItem('details', JSON.stringify(details));
+
+                dispatch(
+                    credentialsActions.setCredentials({
+                        token: response.token,
+                        phonenumber: response.phonenumber,
+                    })
+                );
+                props.toggleHandler();
+            })
+            .catch((error: AxiosErrorMessage) => {
+                if (error.response) {
+                    props.errorModalOpenHandler(error?.response?.data?.status);
+                    return;
+                }
+                props.errorModalOpenHandler(
+                    'Unable to login right now. Please try again later.'
+                );
+            });
+    };
+
     return (
         <Modal>
             <View style={styles.passcodeHolder}>
@@ -78,7 +130,11 @@ const Passcode = (props: { toggleHandler: () => void }) => {
                         <Text style={styles.cancel}>Cancel</Text>
                     </Pressable>
                     <View style={styles.col}>
-                        <GlowButton text='Enter' onPress={() => null} />
+                        <GlowButton
+                            text='Enter'
+                            isLoading={isLoading}
+                            onPress={loginHandler}
+                        />
                     </View>
                 </View>
             </View>

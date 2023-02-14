@@ -61,7 +61,7 @@ export const RegisterSlice = createSlice({
     initialState,
     reducers: {
         textHandler(
-            state: typeof initialState,
+            state,
             action: PayloadAction<{
                 uid: keyof RegisterSliceStringModel;
                 text: string;
@@ -70,7 +70,7 @@ export const RegisterSlice = createSlice({
             state[action.payload.uid] = action.payload.text;
         },
         fileHandler(
-            state: typeof initialState,
+            state,
             action: PayloadAction<{
                 uid: keyof RegisterSliceFileModel;
                 item: FileModel;
@@ -79,7 +79,7 @@ export const RegisterSlice = createSlice({
             state[action.payload.uid] = action.payload.item;
         },
         selectHandler(
-            state: typeof initialState,
+            state,
             action: PayloadAction<{
                 uid: keyof RegisterSliceSelectModel;
                 item: CategoryModel;
@@ -88,7 +88,7 @@ export const RegisterSlice = createSlice({
             state[action.payload.uid] = action.payload.item;
         },
         latLonHandler(
-            state: typeof initialState,
+            state,
             action: PayloadAction<{
                 latitude: number;
                 longitude: number;
@@ -97,11 +97,11 @@ export const RegisterSlice = createSlice({
             state.latitude = action.payload.latitude;
             state.longitude = action.payload.longitude;
         },
-        setPasscode(state: typeof initialState, action: PayloadAction<string>) {
+        setPasscode(state, action: PayloadAction<string>) {
             state.passcode = action.payload;
         },
         toggleHandler(
-            state: typeof initialState,
+            state,
             action: PayloadAction<{ uid: keyof RegisterSliceToggleModel }>
         ) {
             state[action.payload.uid] = !state[action.payload.uid];

@@ -101,10 +101,27 @@ const Login = ({ navigation }: LoginScreenProps) => {
         }
     };
 
+    const errorModalOpenHandler = (msg: string) => {
+        showModal({
+            passcodeModal: {
+                isVisible: false,
+                message: '',
+            },
+            errorModal: {
+                isVisible: true,
+                message: msg,
+            },
+        });
+    };
+
     return (
         <>
             {modal.passcodeModal.isVisible ? (
-                <Passcode toggleHandler={toggleHandler} />
+                <Passcode
+                    phoneData={data}
+                    toggleHandler={toggleHandler}
+                    errorModalOpenHandler={errorModalOpenHandler}
+                />
             ) : null}
             {modal.errorModal.isVisible ? (
                 <ErrorModal
@@ -118,7 +135,7 @@ const Login = ({ navigation }: LoginScreenProps) => {
                     <View style={styles.subContainer}>
                         <TextBox
                             value={data.mobile}
-                            placeholder='Mobile Number*'
+                            placeholder='WhatsApp Mobile Number*'
                             onChangeText={changeHandler.bind(this, 'mobile')}
                             maxLength={10}
                             numeric
