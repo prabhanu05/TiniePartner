@@ -15,7 +15,9 @@ import { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const ResetPasscode = ({ navigation }: ResetPasscodeScreenProps) => {
+const ResetPasscode = ({ navigation, route }: ResetPasscodeScreenProps) => {
+    const routeData = route.params;
+
     const [data, setData] = useState<ResetData>({
         passcode: '',
         resetPasscode: '',

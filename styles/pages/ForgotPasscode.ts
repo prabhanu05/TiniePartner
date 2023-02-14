@@ -24,10 +24,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 40,
     },
     btn: {
         alignSelf: 'center',
+    },
+    mt40: {
+        marginTop: 40,
     },
 });
 

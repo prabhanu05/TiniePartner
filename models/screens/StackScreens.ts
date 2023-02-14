@@ -6,7 +6,11 @@ type StackScreens = {
     [SCREENS.LOGIN]: undefined;
     [SCREENS.REGISTER]: undefined;
     [SCREENS.FORGOT_PASSCODE]: undefined;
-    [SCREENS.RESET_PASSCODE]: undefined;
+    [SCREENS.RESET_PASSCODE]: {
+        email: string;
+        emailOtp: string;
+        phoneOtp: string;
+    };
     [SCREENS.FURTHER_ASSISTANCE]: undefined;
     [SCREENS.SET_PASSCODE]: undefined;
     [SCREENS.PRIVACY_POLICY]: undefined;

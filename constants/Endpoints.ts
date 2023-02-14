@@ -3,4 +3,5 @@ export const Endpoints = {
     LIST_CAT_SUBCAT: 'list-category-subcategory',
     REGISTER_MERCHANT: 'register-merchant',
     LOGIN_MERCHANT: 'get-merchant-token',
+    RESET_PASSCODE: 'reset-passcode',
 };
