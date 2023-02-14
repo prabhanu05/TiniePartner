@@ -6,6 +6,7 @@ import LabelTextbox from '@common/LabelTextbox';
 import { isNumeric } from '@constants/Helpers';
 import { Keys } from '@constants/Keys';
 import useTimer from '@hooks/useTimer';
+import { AxiosErrorMessage } from '@models/data/AxiosErrorMessage';
 import { ForgotData } from '@models/data/ForgotPasscode/ForgotData';
 import { HostBusinessModel } from '@models/data/HostBusinessModel';
 import { ModalData } from '@models/data/ModalData';
@@ -79,18 +80,21 @@ const ForgotPasscode = ({ navigation }: ForgotPasscodeScreenProps) => {
             return;
         }
 
-        const response = await sendOtp(data.phone);
-
-        if (response !== true) {
-            setError({
-                isVisible: true,
-                message:
-                    'Unable to send OTP on mobile this time. Please try again later!',
+        await sendOtp(data.phone)
+            .then((response) => {
+                if (response === true) {
+                    mobileResendStart();
+                    visibleHandler('isPhoneOtpVisible');
+                }
+            })
+            .catch((error: AxiosErrorMessage) => {
+                setError({
+                    isVisible: true,
+                    message: !!error?.response?.data?.status
+                        ? error?.response?.data?.status
+                        : 'Unable to send OTP on this number. Is this a WhatsApp registered number?',
+                });
             });
-            return;
-        }
-        mobileResendStart();
-        visibleHandler('isPhoneOtpVisible');
     };
 
     const emailOtpHandler = async () => {
@@ -102,17 +106,21 @@ const ForgotPasscode = ({ navigation }: ForgotPasscodeScreenProps) => {
             return;
         }
 
-        const response = await sendOtp(data.email);
-        if (response !== true) {
-            setError({
-                isVisible: true,
-                message:
-                    'Unable to send OTP on email this time. Please try again later!',
+        await sendOtp(data.email)
+            .then((response) => {
+                if (response === true) {
+                    emailResendStart();
+                    visibleHandler('isEmailOtpVisible');
+                }
+            })
+            .catch((error: AxiosErrorMessage) => {
+                setError({
+                    isVisible: true,
+                    message: !!error?.response?.data?.status
+                        ? error?.response?.data?.status
+                        : 'Unable to send on this email! Please try again later.',
+                });
             });
-            return;
-        }
-        emailResendStart();
-        visibleHandler('isEmailOtpVisible');
     };
 
     const continueHandler = () => {

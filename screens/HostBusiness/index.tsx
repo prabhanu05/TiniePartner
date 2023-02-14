@@ -97,20 +97,24 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
             return;
         }
 
-        const response = await sendOtp(registerData.businessPhoneNumber);
-        if (response !== true) {
-            setModal((oldState) => ({
-                ...oldState,
-                error: {
-                    isVisible: true,
-                    message:
-                        'Unable to send OTP on mobile this time. Please try again later!',
-                },
-            }));
-            return;
-        }
-        mobileResendStart();
-        visibleHandler('isPhoneOtpVisible');
+        await sendOtp(registerData.businessPhoneNumber)
+            .then((response) => {
+                if (response === true) {
+                    mobileResendStart();
+                    visibleHandler('isPhoneOtpVisible');
+                }
+            })
+            .catch((error: AxiosErrorMessage) => {
+                setModal((oldState) => ({
+                    ...oldState,
+                    error: {
+                        isVisible: true,
+                        message: !!error?.response?.data?.status
+                            ? error?.response?.data?.status
+                            : 'Unable to send OTP on this number. Is this a WhatsApp registered number?',
+                    },
+                }));
+            });
     };
 
     const emailOtpHandler = async () => {
@@ -128,20 +132,24 @@ const HostBusiness = ({ navigation }: HostBusinessScreenProps) => {
             return;
         }
 
-        const response = await sendOtp(registerData.email);
-        if (response !== true) {
-            setModal((oldState) => ({
-                ...oldState,
-                error: {
-                    isVisible: true,
-                    message:
-                        'Unable to send OTP on email this time. Please try again later!',
-                },
-            }));
-            return;
-        }
-        emailResendStart();
-        visibleHandler('isEmailOtpVisible');
+        await sendOtp(registerData.email)
+            .then((response) => {
+                if (response === true) {
+                    emailResendStart();
+                    visibleHandler('isEmailOtpVisible');
+                }
+            })
+            .catch((error: AxiosErrorMessage) => {
+                setModal((oldState) => ({
+                    ...oldState,
+                    error: {
+                        isVisible: true,
+                        message: !!error?.response?.data?.status
+                            ? error?.response?.data?.status
+                            : 'Unable to send OTP on email this time. Please try again later!',
+                    },
+                }));
+            });
     };
 
     const completeHandler = async () => {

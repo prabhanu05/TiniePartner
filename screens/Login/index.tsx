@@ -7,6 +7,7 @@ import Passcode from '@components/Login/Passcode';
 import { isNumeric } from '@constants/Helpers';
 import { Keys } from '@constants/Keys';
 import useTimer from '@hooks/useTimer';
+import { AxiosErrorMessage } from '@models/data/AxiosErrorMessage';
 import { LoginModalData, LoginModel } from '@models/data/Login/LoginScreen';
 import { LoginScreenProps } from '@models/screens/StackScreens';
 import styles from '@styles/pages/Login';
@@ -82,6 +83,19 @@ const Login = ({ navigation }: LoginScreenProps) => {
         }));
     };
 
+    const errorModalOpenHandler = (msg: string) => {
+        showModal({
+            passcodeModal: {
+                isVisible: false,
+                message: '',
+            },
+            errorModal: {
+                isVisible: true,
+                message: msg,
+            },
+        });
+    };
+
     const otpHandler = async () => {
         if (data.mobile.length !== 10 || !isNumeric(data.mobile)) {
             showModal((oldState) => ({
@@ -94,24 +108,19 @@ const Login = ({ navigation }: LoginScreenProps) => {
             return;
         }
         handleStart();
-        const response = await sendOtp(data.mobile);
-
-        if (response === true) {
-            setOtpSent(true);
-        }
-    };
-
-    const errorModalOpenHandler = (msg: string) => {
-        showModal({
-            passcodeModal: {
-                isVisible: false,
-                message: '',
-            },
-            errorModal: {
-                isVisible: true,
-                message: msg,
-            },
-        });
+        await sendOtp(data.mobile)
+            .then((response) => {
+                if (response === true) {
+                    setOtpSent(true);
+                }
+            })
+            .catch((error: AxiosErrorMessage) => {
+                errorModalOpenHandler(
+                    !!error?.response?.data?.status
+                        ? error?.response?.data?.status
+                        : 'Unable to send OTP on this number. Is this a WhatsApp registered number?'
+                );
+            });
     };
 
     return (
