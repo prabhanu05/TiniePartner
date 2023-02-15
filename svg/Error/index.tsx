@@ -13,4 +13,4 @@ const Error = (props: SvgProps) => (
     </Svg>
 );
 
-export default Error;
+export default React.memo(Error);

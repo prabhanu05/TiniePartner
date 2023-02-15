@@ -16,4 +16,4 @@ const RegisterSuccess = (props: SvgProps) => (
     </Svg>
 );
 
-export default RegisterSuccess;
+export default React.memo(RegisterSuccess);

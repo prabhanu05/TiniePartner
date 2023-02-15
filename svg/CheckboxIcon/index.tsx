@@ -13,4 +13,4 @@ const CheckboxIcon = (props: SvgProps) => (
     </Svg>
 );
 
-export default CheckboxIcon;
+export default React.memo(CheckboxIcon);

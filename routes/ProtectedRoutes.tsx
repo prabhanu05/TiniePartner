@@ -1,21 +1,34 @@
+import { COLORS } from '@constants/Colors';
 import { SCREENS } from '@models/screens';
-import { StackScreens } from '@models/screens/StackScreens';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import BottomScreens from '@models/screens/BottomScreens';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Appointments from '@screens/Appointments';
+import styles from '@styles/Navigators/BottomTab';
+import AppointmentsIcon from '@svg/AppointmentsIcon';
 
-const Stack = createNativeStackNavigator<StackScreens>();
+const Tab = createBottomTabNavigator<BottomScreens>();
 
 function ProtectedRoutes() {
     return (
-        <Stack.Navigator
+        <Tab.Navigator
             initialRouteName={SCREENS.APPOINTMENTS}
-            screenOptions={{ headerShown: false }}
+            screenOptions={{
+                headerShown: false,
+                tabBarStyle: styles.tabContainer,
+                tabBarActiveTintColor: COLORS.white,
+                tabBarInactiveTintColor: COLORS.white,
+                tabBarHideOnKeyboard: true,
+            }}
         >
-            <Stack.Screen
+            <Tab.Screen
                 name={SCREENS.APPOINTMENTS}
                 component={Appointments}
+                options={{
+                    tabBarIcon: () => <AppointmentsIcon />,
+                    tabBarLabelStyle: styles.tabLabel,
+                }}
             />
-        </Stack.Navigator>
+        </Tab.Navigator>
     );
 }
 
