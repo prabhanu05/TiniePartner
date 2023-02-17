@@ -1,9 +1,9 @@
 import { CredentialsSliceModel } from '@models/store/CredentialsSliceModel';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import OpenRoutes from '@routes/OpenRoutes';
 import ProtectedRoutes from '@routes/ProtectedRoutes';
 import { credentialsActions } from '@store/actions';
 import { StoreModel } from '@store/store';
+import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,7 +18,7 @@ const Routes = () => {
 
     useEffect(() => {
         async function checkToken() {
-            const details = await AsyncStorage.getItem('details');
+            const details = await SecureStore.getItemAsync('details');
             if (!!details) {
                 const parsedDetails: CredentialsSliceModel =
                     JSON.parse(details);

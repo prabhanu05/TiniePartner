@@ -8,10 +8,10 @@ import { AxiosErrorMessage } from '@models/data/AxiosErrorMessage';
 import { LoginModel } from '@models/data/Login/LoginScreen';
 import { NavigationProp, SCREENS } from '@models/screens';
 import { CredentialsSliceModel } from '@models/store/CredentialsSliceModel';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { credentialsActions } from '@store/actions';
 import styles from '@styles/pages/Login';
+import * as SecureStore from 'expo-secure-store';
 import React, { useRef, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import { useMutation } from 'react-query';
@@ -87,7 +87,10 @@ const Passcode = (props: {
                     token: response.token,
                 } as CredentialsSliceModel;
 
-                await AsyncStorage.setItem('details', JSON.stringify(details));
+                await SecureStore.setItemAsync(
+                    'details',
+                    JSON.stringify(details)
+                );
 
                 dispatch(
                     credentialsActions.setCredentials({
