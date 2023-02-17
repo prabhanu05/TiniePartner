@@ -19,4 +19,9 @@ export const COLORS = {
     reedemPrimaryGradient: '#BEFFFF',
     reedemBorder: '#00ACAC',
     reedemText: '#196200',
+    reedemNumber: '#037E01',
+    reedemBtnPrimaryGradient: '#FFF9C5',
+    reedemBtnSecondaryGradient: '#EDECDF',
+    lightBlack: '#252525',
+    input: '#D9D9D9',
 };

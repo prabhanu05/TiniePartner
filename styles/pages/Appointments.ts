@@ -154,6 +154,80 @@ const styles = StyleSheet.create({
     priceContainer: {
         alignItems: 'center',
     },
+    reedemRow: {
+        paddingVertical: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.black,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    totalOrder: {
+        color: COLORS.black,
+        fontSize: 10,
+        fontFamily: 'medium',
+        padding: 10,
+    },
+    totalOrderReedem: {
+        color: COLORS.reedemNumber,
+        fontSize: 16,
+        fontFamily: 'semibold',
+        padding: 6,
+    },
+    reedemBtn: {
+        padding: 10,
+        marginHorizontal: 4,
+    },
+    reedemBtnTxt: {
+        color: COLORS.black,
+        fontSize: 10,
+        fontFamily: 'regular',
+    },
+    reedemCodeModalContainer: {
+        borderWidth: 1,
+        borderColor: COLORS.black,
+        paddingHorizontal: 13,
+        width: '65%',
+        minHeight: 230,
+        justifyContent: 'center',
+        backgroundColor: COLORS.lightBlack,
+        borderRadius: 10,
+    },
+    label: {
+        fontSize: 12,
+        color: COLORS.white,
+        fontFamily: 'regular',
+        marginVertical: 5,
+    },
+    input: {
+        backgroundColor: COLORS.input,
+        color: COLORS.black,
+        fontFamily: 'regular',
+        fontSize: 12,
+        width: 170,
+        padding: 4,
+        borderRadius: 10,
+        marginBottom: 25,
+    },
+    inputHolder: {
+        alignSelf: 'center',
+    },
+    codeRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    btn: {
+        paddingVertical: 10.5,
+        paddingHorizontal: 21,
+        borderRadius: 6,
+        backgroundColor: COLORS.white,
+    },
+    btnTxt: {
+        color: COLORS.black,
+        fontSize: 16,
+        fontFamily: 'regular',
+    },
 });
 
 export default styles;
