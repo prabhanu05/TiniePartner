@@ -10,6 +10,7 @@ export enum SCREENS {
     TnC = 'TnC',
     HOST_BUSINESS = 'HostBusiness',
     APPOINTMENTS = 'Appointments',
+    BARCODE = 'Barcode',
 }
 
 export type NavigationProp = {

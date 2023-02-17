@@ -3,6 +3,7 @@ import { SCREENS } from '@models/screens';
 import BottomScreens from '@models/screens/BottomScreens';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Appointments from '@screens/Appointments';
+import Barcode from '@screens/Barcode';
 import styles from '@styles/Navigators/BottomTab';
 import AppointmentsIcon from '@svg/AppointmentsIcon';
 
@@ -26,6 +27,14 @@ function ProtectedRoutes() {
                 options={{
                     tabBarIcon: () => <AppointmentsIcon />,
                     tabBarLabelStyle: styles.tabLabel,
+                }}
+            />
+
+            <Tab.Screen
+                name={SCREENS.BARCODE}
+                component={Barcode}
+                options={{
+                    tabBarButton: () => null,
                 }}
             />
         </Tab.Navigator>

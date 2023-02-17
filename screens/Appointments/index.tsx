@@ -5,6 +5,8 @@ import ReedemButton from '@components/Appointments/ReedemButton';
 import ReedemCard from '@components/Appointments/ReedemCard';
 import ReedemCodeModal from '@components/Appointments/ReedemCodeModal';
 import { AppointmentsHeaderModel } from '@models/data/AppointmentsModel';
+import { SCREENS } from '@models/screens';
+import { AppointmentsScreenProps } from '@models/screens/BottomScreens';
 import styles from '@styles/pages/Appointments';
 import React, { useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
@@ -63,7 +65,7 @@ const reedemData = {
     ],
 };
 
-const Appointments = () => {
+const Appointments = ({ navigation }: AppointmentsScreenProps) => {
     const [data, setData] = useState<AppointmentsHeaderModel>({
         appointments: true,
         reedem: false,
@@ -81,6 +83,10 @@ const Appointments = () => {
 
     const codeModalHandler = () => {
         setModal((oldState) => !oldState);
+    };
+
+    const scanCodeHandler = () => {
+        navigation.navigate(SCREENS.BARCODE);
     };
 
     return (
@@ -139,7 +145,7 @@ const Appointments = () => {
                                 />
                                 <ReedemButton
                                     text='Scan Code'
-                                    onPress={() => {}}
+                                    onPress={scanCodeHandler}
                                 />
                             </View>
                         </View>
