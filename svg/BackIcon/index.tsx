@@ -13,4 +13,4 @@ const BackIcon = (props: SvgProps) => (
     </Svg>
 );
 
-export default BackIcon;
+export default React.memo(BackIcon);

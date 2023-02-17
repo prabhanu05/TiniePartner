@@ -16,4 +16,7 @@ export const COLORS = {
     secondaryGradient: '#00C3C3',
     appointmentPrimaryGradient: '#F4FFDD',
     appointmentBorder: '#ADD900',
+    reedemPrimaryGradient: '#BEFFFF',
+    reedemBorder: '#00ACAC',
+    reedemText: '#196200',
 };

@@ -18,11 +18,25 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: COLORS.appointmentBorder,
     },
+    reedemGradientContainer: {
+        paddingHorizontal: 10,
+        paddingTop: 5,
+        paddingBottom: 10,
+        borderWidth: 0.5,
+        borderRadius: 10,
+        borderColor: COLORS.reedemBorder,
+    },
     justifiedRow: {
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 30,
+    },
+    justifiedReedemRow: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 14,
     },
     name: {
         color: COLORS.black,
@@ -75,6 +89,7 @@ const styles = StyleSheet.create({
     bottomRow: {
         justifyContent: 'space-between',
         flexDirection: 'row',
+        width: '100%',
     },
     phoneCall: {
         paddingVertical: 10,
@@ -87,6 +102,57 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: '60%',
         alignSelf: 'center',
+    },
+    idHolder: {
+        flex: 0.35,
+    },
+    smallRow: {
+        justifyContent: 'space-between',
+        flex: 1,
+        alignItems: 'center',
+        flexDirection: 'row',
+        paddingVertical: 4,
+    },
+    subHeading: {
+        color: COLORS.black,
+        fontSize: 8,
+        fontFamily: 'regular',
+    },
+    heading: {
+        color: COLORS.black,
+        fontSize: 10,
+        fontFamily: 'medium',
+    },
+    reedemHolder: {
+        flex: 0.55,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    qty: {
+        color: COLORS.black,
+        fontFamily: 'regular',
+        fontSize: 10,
+    },
+    reedemTxt: {
+        color: COLORS.reedemText,
+        fontFamily: 'semibold',
+        fontSize: 10,
+        paddingRight: 11,
+    },
+    price: {
+        color: COLORS.black,
+        fontFamily: 'medium',
+        fontSize: 10,
+    },
+    priceNum: {
+        padding: 6.5,
+        color: COLORS.black,
+        fontFamily: 'semibold',
+        fontSize: 10,
+    },
+    priceContainer: {
+        alignItems: 'center',
     },
 });
 

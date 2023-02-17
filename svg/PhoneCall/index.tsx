@@ -13,4 +13,4 @@ const PhoneCall = (props: SvgProps) => (
     </Svg>
 );
 
-export default PhoneCall;
+export default React.memo(PhoneCall);
