@@ -11,4 +11,9 @@ export const COLORS = {
     secondaryButton: '#857070',
     selected: '#065987',
     lightGrey: '#D4D4D4',
+    lightHeadBtn: '#E7E7E7',
+    primaryGradient: '#00FFFF',
+    secondaryGradient: '#00C3C3',
+    appointmentPrimaryGradient: '#F4FFDD',
+    appointmentBorder: '#ADD900',
 };
