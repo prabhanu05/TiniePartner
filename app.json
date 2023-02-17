@@ -1,49 +1,56 @@
 {
-    "expo": {
-        "name": "tiniePartner",
-        "slug": "tinie-partner",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "userInterfaceStyle": "light",
-        "splash": {
-            "image": "./assets/icons/splash.png",
-            "resizeMode": "cover",
-            "backgroundColor": "#FFFFFF"
-        },
-        "updates": {
-            "fallbackToCacheTimeout": 0
-        },
-        "assetBundlePatterns": ["**/*"],
-        "ios": {
-            "supportsTablet": true,
-            "config": {
-                "usesNonExemptEncryption": false,
-                "googleMapsApiKey": "AIzaSyBFjbrNwlSzldVLsKRGT8hfBlovcsiSLxU"
-            }
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#FFFFFF"
-            },
-            "config": {
-                "googleMaps": {
-                    "apiKey": "AIzaSyBFjbrNwlSzldVLsKRGT8hfBlovcsiSLxU"
-                }
-            },
-            "package": "com.tinie.partner"
-        },
-        "web": {
-            "favicon": "./assets/favicon.png"
-        },
-        "plugins": [
-            [
-                "expo-document-picker",
-                {
-                    "iCloudContainerEnvironment": "Development"
-                }
-            ]
-        ]
+  "expo": {
+    "name": "tiniePartner",
+    "slug": "tinie-partner",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/icons/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#FFFFFF"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "config": {
+        "usesNonExemptEncryption": false,
+        "googleMapsApiKey": "AIzaSyBFjbrNwlSzldVLsKRGT8hfBlovcsiSLxU"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBFjbrNwlSzldVLsKRGT8hfBlovcsiSLxU"
+        }
+      },
+      "package": "com.tinie.partner"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Development"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "59568099-d192-4471-989f-76241afc126b"
+      }
     }
+  }
 }
