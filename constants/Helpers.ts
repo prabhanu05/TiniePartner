@@ -5,6 +5,11 @@ export const isNumeric = (val: string) => {
     return regex.test(val);
 };
 
+export const isAlphaNumeric = (val: string) => {
+    const regex = /^[A-Z0-9]+$/gi;
+    return regex.test(val);
+};
+
 export const checkEmpty = (data: KeyValueModel[]) => {
     let msg = '';
     let flag = false;

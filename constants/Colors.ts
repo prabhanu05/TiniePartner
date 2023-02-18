@@ -24,4 +24,5 @@ export const COLORS = {
     reedemBtnSecondaryGradient: '#EDECDF',
     lightBlack: '#252525',
     input: '#D9D9D9',
+    red: '#A10202',
 };

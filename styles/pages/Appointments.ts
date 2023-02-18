@@ -62,9 +62,9 @@ const styles = StyleSheet.create({
         marginHorizontal: 3,
     },
     slotTxt: {
-        color: COLORS.black,
-        fontSize: 8,
-        fontFamily: 'regular',
+        color: COLORS.red,
+        fontSize: 10,
+        fontFamily: 'bold',
     },
     dateTime: {
         color: COLORS.black,
@@ -207,7 +207,6 @@ const styles = StyleSheet.create({
         width: 170,
         padding: 4,
         borderRadius: 10,
-        marginBottom: 25,
     },
     inputHolder: {
         alignSelf: 'center',
@@ -227,6 +226,15 @@ const styles = StyleSheet.create({
         color: COLORS.black,
         fontSize: 16,
         fontFamily: 'regular',
+    },
+    mt25: {
+        marginTop: 25,
+    },
+    error: {
+        color: COLORS.white,
+        fontSize: 10,
+        fontFamily: 'medium',
+        textAlign: 'center',
     },
 });
 

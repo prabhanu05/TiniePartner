@@ -4,4 +4,5 @@ export const Keys = {
     REGISTER_MERCHANT: 'register_merchant',
     LOGIN_MERCHANT: 'login_merchant',
     RESET_PASSCODE: 'reset_passcode',
+    GET_APPOINTMENTS: 'get_appointments',
 };

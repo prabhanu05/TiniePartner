@@ -4,4 +4,5 @@ export const Endpoints = {
     REGISTER_MERCHANT: 'register-merchant',
     LOGIN_MERCHANT: 'get-merchant-token',
     RESET_PASSCODE: 'reset-passcode',
+    GET_APPOINTMENTS: 'getAllAppointments',
 };
