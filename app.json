@@ -21,7 +21,8 @@
                 "usesNonExemptEncryption": false,
                 "googleMapsApiKey": "AIzaSyBFjbrNwlSzldVLsKRGT8hfBlovcsiSLxU"
             },
-            "bundleIdentifier": "com.tinie.partner"
+            "bundleIdentifier": "com.tinie.partner",
+            "buildNumber": "2"
         },
         "android": {
             "adaptiveIcon": {
