@@ -22,7 +22,7 @@
                 "googleMapsApiKey": "AIzaSyBFjbrNwlSzldVLsKRGT8hfBlovcsiSLxU"
             },
             "bundleIdentifier": "com.tinie.partner",
-            "buildNumber": "2"
+            "buildNumber": "1.0.3"
         },
         "android": {
             "adaptiveIcon": {
