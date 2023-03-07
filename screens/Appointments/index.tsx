@@ -80,6 +80,7 @@ const Appointments = ({ navigation }: AppointmentsScreenProps) => {
                         {data.appointments ? (
                             <FlatList
                                 data={appointmentsData}
+                                showsVerticalScrollIndicator={false}
                                 keyExtractor={(item) =>
                                     `appointmentCard_${item?.id}`
                                 }
@@ -124,6 +125,7 @@ const Appointments = ({ navigation }: AppointmentsScreenProps) => {
                                     </View>
                                 </View>
                                 <FlatList
+                                    showsVerticalScrollIndicator={false}
                                     data={reedemData?.reedemResponse}
                                     keyExtractor={(item) =>
                                         `reedemCard_${item?.reedemId}`
