@@ -11,7 +11,7 @@ const AppointmentCard = (props: {
     appointmentTime: string;
     slotDate: string;
     slotTime: string;
-    services: string[];
+    services: string;
     phoneNumber: string;
 }) => {
     const callHandler = () => {
@@ -56,14 +56,17 @@ const AppointmentCard = (props: {
                 </View>
                 <View style={styles.bottomRow}>
                     <View style={styles.tagHolder}>
-                        {props?.services?.map((item, index) => (
-                            <Text
-                                key={`appointment_${index}`}
-                                style={styles.tag}
-                            >
-                                {item}
-                            </Text>
-                        ))}
+                        {Array.from(
+                            props?.services?.split(','),
+                            (item, index) => (
+                                <Text
+                                    key={`appointment_${index}`}
+                                    style={styles.tag}
+                                >
+                                    {item}
+                                </Text>
+                            )
+                        )}
                     </View>
                     <Pressable style={styles.phoneCall} onPress={callHandler}>
                         <PhoneCall />

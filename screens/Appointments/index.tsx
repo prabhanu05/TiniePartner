@@ -1,4 +1,5 @@
 import { AppointmentList } from '@api/AppointmentList';
+import { ReedemList } from '@api/ReedemList';
 import Head from '@common/Head';
 import HeadButton from '@common/HeadButton';
 import Loader from '@common/Loader';
@@ -18,59 +19,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 
-const appointmentsData = [
-    {
-        id: '1',
-        name: 'Bhanu Prakash',
-        appointmentDate: '23-01-2023',
-        appointmentTime: '10:25 AM',
-        slotDate: 'Jan 23',
-        slotTime: '10:30 AM',
-        phoneNumber: '8288808836',
-        services: ['haircut', 'hair spa', 'hair straightening'],
-    },
-    {
-        id: '2',
-        name: 'Bhanu Prakash',
-        appointmentDate: '23-01-2023',
-        appointmentTime: '10:25 AM',
-        slotDate: 'Jan 23',
-        slotTime: '10:30 AM',
-        phoneNumber: '8288808836',
-        services: ['haircut', 'hair spa', 'hair straightening'],
-    },
-];
-
-const reedemData = {
-    totalOrdersReedemed: 5,
-    data: [
-        {
-            id: '1',
-            name: 'Hair cut (Sr Stylist)',
-            appointmentDate: '23-01-2023',
-            appointmentTime: '10:25 AM',
-            slotDate: 'Jan 23',
-            slotTime: '10:30 AM',
-            orderId: '123456789',
-            reedemId: 'AXK556984',
-            quantity: 2,
-            price: 600,
-        },
-        {
-            id: '2',
-            name: 'Hair cut (Sr Stylist)',
-            appointmentDate: '23-01-2023',
-            appointmentTime: '10:25 AM',
-            slotDate: 'Jan 23',
-            slotTime: '10:30 AM',
-            orderId: '123456789',
-            reedemId: 'AXK556984',
-            quantity: 2,
-            price: 600,
-        },
-    ],
-};
-
 const Appointments = ({ navigation }: AppointmentsScreenProps) => {
     const [data, setData] = useState<AppointmentsHeaderModel>({
         appointments: true,
@@ -84,6 +32,11 @@ const Appointments = ({ navigation }: AppointmentsScreenProps) => {
     const { data: appointmentsData, isLoading: appointmentsLoading } = useQuery(
         Keys.GET_APPOINTMENTS,
         AppointmentList.bind(this, credentials)
+    );
+
+    const { data: reedemData, isLoading: reedemLoading } = useQuery(
+        Keys.GET_ALL_REEDEMS,
+        ReedemList.bind(this, credentials)
     );
 
     const [modal, setModal] = useState(false);
@@ -120,7 +73,7 @@ const Appointments = ({ navigation }: AppointmentsScreenProps) => {
                         onPress={activeHandler.bind(this, 'reedem')}
                     />
                 </Head>
-                {appointmentsLoading ? (
+                {appointmentsLoading || reedemLoading ? (
                     <Loader />
                 ) : (
                     <>
@@ -171,9 +124,9 @@ const Appointments = ({ navigation }: AppointmentsScreenProps) => {
                                     </View>
                                 </View>
                                 <FlatList
-                                    data={reedemData?.data}
+                                    data={reedemData?.reedemResponse}
                                     keyExtractor={(item) =>
-                                        `reedemCard_${item?.id}`
+                                        `reedemCard_${item?.reedemId}`
                                     }
                                     renderItem={({ item }) => (
                                         <ReedemCard
