@@ -14,6 +14,5 @@ export const AppointmentList = async (credentials: CredentialsSliceModel) => {
     );
 
     const apiData = apiUrl.data;
-    console.log(apiData);
     return apiData;
 };

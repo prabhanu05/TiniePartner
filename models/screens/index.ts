@@ -11,8 +11,10 @@ export enum SCREENS {
     HOST_BUSINESS = 'HostBusiness',
     APPOINTMENTS = 'Appointments',
     BARCODE = 'Barcode',
+    SERVICE_LIST = 'ServiceList',
 }
 
 export type NavigationProp = {
     navigate: (screen: SCREENS) => void;
+    goBack: () => void;
 };

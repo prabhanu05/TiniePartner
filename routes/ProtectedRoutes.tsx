@@ -4,8 +4,10 @@ import BottomScreens from '@models/screens/BottomScreens';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Appointments from '@screens/Appointments';
 import Barcode from '@screens/Barcode';
+import ServiceList from '@screens/ServiceList';
 import styles from '@styles/Navigators/BottomTab';
 import AppointmentsIcon from '@svg/AppointmentsIcon';
+import ServiceListIcon from '@svg/ServiceListIcon';
 
 const Tab = createBottomTabNavigator<BottomScreens>();
 
@@ -25,6 +27,7 @@ function ProtectedRoutes() {
                 name={SCREENS.APPOINTMENTS}
                 component={Appointments}
                 options={{
+                    tabBarLabel: 'Appointments',
                     tabBarIcon: () => <AppointmentsIcon />,
                     tabBarLabelStyle: styles.tabLabel,
                 }}
@@ -35,6 +38,16 @@ function ProtectedRoutes() {
                 component={Barcode}
                 options={{
                     tabBarButton: () => null,
+                }}
+            />
+
+            <Tab.Screen
+                name={SCREENS.SERVICE_LIST}
+                component={ServiceList}
+                options={{
+                    tabBarLabel: 'Services List',
+                    tabBarIcon: () => <ServiceListIcon />,
+                    tabBarLabelStyle: styles.tabLabel,
                 }}
             />
         </Tab.Navigator>

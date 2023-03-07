@@ -4,6 +4,7 @@ import Routes from '@routes/Routes';
 import store from '@store/store';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -45,6 +46,7 @@ export default function App() {
                     </QueryClientProvider>
                 </Provider>
             ) : null}
+            <StatusBar translucent style='auto' />
         </>
     );
 }

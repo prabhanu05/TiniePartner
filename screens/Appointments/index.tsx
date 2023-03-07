@@ -1,11 +1,9 @@
-import { AppointmentList } from '@api/AppointmentList';
 import Head from '@common/Head';
 import HeadButton from '@common/HeadButton';
 import AppointmentCard from '@components/Appointments/AppointmentCard';
 import ReedemButton from '@components/Appointments/ReedemButton';
 import ReedemCard from '@components/Appointments/ReedemCard';
 import ReedemCodeModal from '@components/Appointments/ReedemCodeModal';
-import { Keys } from '@constants/Keys';
 import { AppointmentsHeaderModel } from '@models/data/AppointmentsModel';
 import { SCREENS } from '@models/screens';
 import { AppointmentsScreenProps } from '@models/screens/BottomScreens';
@@ -14,7 +12,6 @@ import styles from '@styles/pages/Appointments';
 import React, { useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 
 const appointmentsData = [
@@ -80,14 +77,12 @@ const Appointments = ({ navigation }: AppointmentsScreenProps) => {
         (state: StoreModel) => state.credentialReducer
     );
 
-    console.log(credentials.token);
+    // const { data: apiData, isLoading } = useQuery(
+    //     Keys.GET_APPOINTMENTS,
+    //     AppointmentList.bind(this, credentials)
+    // );
 
-    const { data: apiData, isLoading } = useQuery(
-        Keys.GET_APPOINTMENTS,
-        AppointmentList.bind(this, credentials)
-    );
-
-    console.log({ apiData, isLoading });
+    console.log(credentials);
 
     const [modal, setModal] = useState(false);
 
