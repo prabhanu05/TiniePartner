@@ -14,5 +14,7 @@ export const AppointmentList = async (credentials: CredentialsSliceModel) => {
     );
 
     const apiData = apiUrl.data;
+    if (Array.isArray(apiData) && apiData.length <= 0)
+        throw new Error('No records exist');
     return apiData;
 };

@@ -25,4 +25,7 @@ export const COLORS = {
     lightBlack: '#252525',
     input: '#D9D9D9',
     red: '#A10202',
+    card: '#F5F0FF',
+    pink: '#FFD1D1',
+    radioContainerGrey: '#B7B7B7',
 };
