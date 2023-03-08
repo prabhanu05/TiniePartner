@@ -4,6 +4,7 @@ import ErrorModal from '@common/ErrorModal';
 import Header from '@common/Header';
 import TextBox from '@common/TextBox';
 import Passcode from '@components/Login/Passcode';
+import { DEMO_PHONE_NUMBER } from '@constants/DemoDetails';
 import { isNumeric } from '@constants/Helpers';
 import { Keys } from '@constants/Keys';
 import useTimer from '@hooks/useTimer';
@@ -97,7 +98,10 @@ const Login = ({ navigation }: LoginScreenProps) => {
     };
 
     const otpHandler = async () => {
-        if (data.mobile.length !== 10 || !isNumeric(data.mobile)) {
+        if (
+            data.mobile !== DEMO_PHONE_NUMBER &&
+            (data.mobile.length !== 10 || !isNumeric(data.mobile))
+        ) {
             showModal((oldState) => ({
                 ...oldState,
                 errorModal: {
@@ -107,7 +111,14 @@ const Login = ({ navigation }: LoginScreenProps) => {
             }));
             return;
         }
+
         handleStart();
+
+        if (data.mobile === DEMO_PHONE_NUMBER) {
+            setOtpSent(true);
+            return;
+        }
+
         await sendOtp(data.mobile)
             .then((response) => {
                 if (response === true) {
@@ -146,7 +157,7 @@ const Login = ({ navigation }: LoginScreenProps) => {
                             value={data.mobile}
                             placeholder='WhatsApp Mobile Number*'
                             onChangeText={changeHandler.bind(this, 'mobile')}
-                            maxLength={10}
+                            maxLength={data.mobile.startsWith('1') ? 11 : 10}
                             numeric
                             notEditable={otpSent}
                         />

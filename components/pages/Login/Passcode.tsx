@@ -2,6 +2,11 @@ import { LoginMerchant } from '@api/LoginMerchant';
 import GlowButton from '@common/GlowButton';
 import Modal from '@common/Modal';
 import PasscodeInput from '@components/Login/PasscodeInput';
+import {
+    DEMO_OTP,
+    DEMO_PASSCODE,
+    DEMO_PHONE_NUMBER,
+} from '@constants/DemoDetails';
 import { isNumeric } from '@constants/Helpers';
 import { Keys } from '@constants/Keys';
 import { AxiosErrorMessage } from '@models/data/AxiosErrorMessage';
@@ -76,6 +81,21 @@ const Passcode = (props: {
     };
 
     const loginHandler = async () => {
+        if (props.phoneData.mobile === DEMO_PHONE_NUMBER) {
+            if (props.phoneData.otp !== DEMO_OTP) {
+                props.errorModalOpenHandler(
+                    'Invalid OTP entered. Please enter correct OTP.'
+                );
+                return;
+            }
+            if (`${data[0]}${data[1]}${data[2]}${data[3]}` !== DEMO_PASSCODE) {
+                props.errorModalOpenHandler(
+                    'Invalid Passcode entered. Please enter correct Passcode.'
+                );
+                return;
+            }
+        }
+
         await mutateAsync({
             phone: props.phoneData.mobile,
             phoneOtp: props.phoneData.otp,
