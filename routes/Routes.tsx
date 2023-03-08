@@ -26,6 +26,7 @@ const Routes = () => {
                     credentialsActions.setCredentials({
                         phonenumber: parsedDetails.phonenumber!,
                         token: parsedDetails.token!,
+                        merchantId: parsedDetails.merchantId!,
                     })
                 );
             }

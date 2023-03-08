@@ -116,6 +116,7 @@ const Passcode = (props: {
                     credentialsActions.setCredentials({
                         token: response.token,
                         phonenumber: response.phonenumber,
+                        merchantId: response.id,
                     })
                 );
                 props.toggleHandler();
