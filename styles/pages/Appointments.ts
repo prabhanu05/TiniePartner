@@ -238,6 +238,26 @@ const styles = StyleSheet.create({
         fontFamily: 'medium',
         textAlign: 'center',
     },
+    reedemModalHeading: {
+        color: COLORS.white,
+        fontFamily: 'bold',
+        fontSize: 18,
+        textAlign: 'center',
+    },
+    reedemModalTxt: {
+        color: COLORS.black,
+        fontFamily: 'bold',
+        fontSize: 18,
+        textAlign: 'center',
+    },
+    reedemModalBtn: {
+        width: '70%',
+        alignSelf: 'center',
+        backgroundColor: COLORS.white,
+        borderRadius: 10,
+        paddingVertical: 10,
+        marginVertical: 28,
+    },
 });
 
 export default styles;

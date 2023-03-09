@@ -1,6 +1,9 @@
 import { Endpoints } from '@constants/Endpoints';
 import { Urls } from '@constants/Urls';
-import { ReedemCodePayload } from '@models/api/ReedemCodeModel';
+import {
+    ReedemCodePayload,
+    ReedemCodeResponse,
+} from '@models/api/ReedemCodeModel';
 import axios from 'axios';
 
 export const ReedemCode = async (data: ReedemCodePayload) => {
@@ -10,6 +13,6 @@ export const ReedemCode = async (data: ReedemCodePayload) => {
         { headers: { token: data.token } }
     );
 
-    const apiData = apiUrl.data as { status: string };
+    const apiData = apiUrl.data as ReedemCodeResponse;
     return apiData;
 };

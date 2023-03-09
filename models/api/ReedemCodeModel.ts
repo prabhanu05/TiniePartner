@@ -3,3 +3,7 @@ export interface ReedemCodePayload {
     token: string;
     reedemCode: string;
 }
+
+export interface ReedemCodeResponse {
+    message: string;
+}

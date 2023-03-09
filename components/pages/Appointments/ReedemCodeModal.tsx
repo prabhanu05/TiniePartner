@@ -61,13 +61,13 @@ const ReedemCodeModal = (props: { onToggle: () => void }) => {
         } as ReedemCodePayload)
             .then((data) => {
                 console.log(data);
-                if (data?.status === 'success') {
-                    props.onToggle();
-                    dispatch(appointmentsActions.clearReedemCode());
-                    queryClient.resetQueries({
+                if (data?.message === 'success') {
+                    queryClient.refetchQueries({
                         queryKey: Keys.GET_ALL_REEDEMS,
                         exact: true,
                     });
+                    props.onToggle();
+                    dispatch(appointmentsActions.clearReedemCode());
                     return;
                 }
             })

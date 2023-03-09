@@ -1,4 +1,12 @@
+import { ReedemCode } from '@api/ReedemCode';
 import Button from '@common/Button';
+import Loader from '@common/Loader';
+import Modal from '@common/Modal';
+import { Keys } from '@constants/Keys';
+import { ReedemCodePayload } from '@models/api/ReedemCodeModel';
+import { ModalData } from '@models/data/ModalData';
+import { StoreModel } from '@store/store';
+import { default as modalStyles } from '@styles/pages/Appointments';
 import styles from '@styles/pages/Barcode';
 import {
     BarCodeScanner,
@@ -6,19 +14,69 @@ import {
     PermissionStatus,
 } from 'expo-barcode-scanner';
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useMutation, useQueryClient } from 'react-query';
+import { useSelector } from 'react-redux';
 
 const Barcode = () => {
+    const queryClient = useQueryClient();
+
+    const [modal, setModal] = useState<ModalData>({
+        isVisible: false,
+        message: '',
+    });
+
+    const { isLoading, mutateAsync } = useMutation(
+        Keys.REEDEM_CODE,
+        ReedemCode
+    );
+
+    const credentials = useSelector(
+        (state: StoreModel) => state.credentialReducer
+    );
+
     const [scanned, setScanned] = useState(false);
 
     const [permissionResponse, requestPermission] =
         BarCodeScanner.usePermissions();
 
-    const handleBarCodeScanned = (data: BarCodeScannerResult) => {
+    const closeModalHandler = () => {
+        setModal({
+            isVisible: false,
+            message: '',
+        });
+    };
+
+    const handleBarCodeScanned = async (data: BarCodeScannerResult) => {
         setScanned(true);
 
-        alert(`Barcode Scanned, value = ${data.data}`);
+        const reedemCode = data.data;
+
+        await mutateAsync({
+            merchantId: credentials.merchantId,
+            token: credentials.token,
+            reedemCode,
+        } as ReedemCodePayload)
+            .then((data) => {
+                if (data?.message === 'success') {
+                    setModal({
+                        isVisible: true,
+                        message: 'Redeemed Successfully',
+                    });
+                    queryClient.refetchQueries({
+                        queryKey: Keys.GET_ALL_REEDEMS,
+                        exact: true,
+                    });
+                    return;
+                }
+            })
+            .catch(() =>
+                setModal({
+                    isVisible: true,
+                    message: 'Invalid Reedem Code',
+                })
+            );
     };
 
     const rescanHandler = () => {
@@ -35,6 +93,22 @@ const Barcode = () => {
 
     return (
         <SafeAreaView style={styles.container}>
+            {isLoading ? <Loader /> : null}
+            {modal.isVisible ? (
+                <Modal>
+                    <View style={modalStyles.reedemCodeModalContainer}>
+                        <Text style={modalStyles.reedemModalHeading}>
+                            {modal.message}
+                        </Text>
+                        <Pressable
+                            style={modalStyles.reedemModalBtn}
+                            onPress={closeModalHandler}
+                        >
+                            <Text style={modalStyles.reedemModalTxt}>DONE</Text>
+                        </Pressable>
+                    </View>
+                </Modal>
+            ) : null}
             {permissionResponse?.status === PermissionStatus.GRANTED ? (
                 <>
                     <BarCodeScanner
