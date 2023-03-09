@@ -19,7 +19,7 @@
     "expo-barcode-scanner": "~12.3.2",
     "expo-document-picker": "~11.2.1",
     "expo-font": "~11.1.1",
-    "expo-linear-gradient": "~12.1.1",
+    "expo-linear-gradient": "~12.1.2",
     "expo-location": "~15.1.1",
     "expo-secure-store": "~12.1.1",
     "expo-splash-screen": "~0.18.1",
@@ -40,7 +40,6 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@types/react": "~18.0.14",
-    "@types/react-native": "~0.70.6",
     "typescript": "^4.6.3"
   },
   "private": true
