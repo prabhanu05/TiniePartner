@@ -34,10 +34,11 @@ const Appointments = ({ navigation }: AppointmentsScreenProps) => {
         AppointmentList.bind(this, credentials)
     );
 
-    const { data: reedemData, isLoading: reedemLoading } = useQuery(
-        Keys.GET_ALL_REEDEMS,
-        ReedemList.bind(this, credentials)
-    );
+    const {
+        data: reedemData,
+        isLoading: reedemLoading,
+        isFetching: reedemFetching,
+    } = useQuery(Keys.GET_ALL_REEDEMS, ReedemList.bind(this, credentials));
 
     const [modal, setModal] = useState(false);
 
@@ -73,7 +74,7 @@ const Appointments = ({ navigation }: AppointmentsScreenProps) => {
                         onPress={activeHandler.bind(this, 'reedem')}
                     />
                 </Head>
-                {appointmentsLoading || reedemLoading ? (
+                {appointmentsLoading || reedemLoading || reedemFetching ? (
                     <Loader />
                 ) : (
                     <>
