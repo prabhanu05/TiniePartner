@@ -13,6 +13,7 @@ export const CategoryList = async () => {
 
     const apiData = apiUrl.data as CategoryListModel[];
     const transformedData = [] as CategoryModel[];
+
     if (Array.isArray(apiData)) {
         for (let item of apiData) {
             for (let data of item?.subCategories) {

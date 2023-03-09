@@ -5,6 +5,7 @@ type BottomScreens = {
     [SCREENS.APPOINTMENTS]: undefined;
     [SCREENS.BARCODE]: undefined;
     [SCREENS.SERVICE_LIST]: undefined;
+    [SCREENS.ADD_SERVICE]: undefined;
 };
 
 export type AppointmentsScreenProps = NativeStackScreenProps<
@@ -12,9 +13,9 @@ export type AppointmentsScreenProps = NativeStackScreenProps<
     SCREENS.APPOINTMENTS
 >;
 
-export type ServiceListScreenProps = NativeStackScreenProps<
+export type AddServiceScreenProps = NativeStackScreenProps<
     BottomScreens,
-    SCREENS.SERVICE_LIST
+    SCREENS.ADD_SERVICE
 >;
 
 export default BottomScreens;

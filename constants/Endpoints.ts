@@ -6,4 +6,5 @@ export const Endpoints = {
     RESET_PASSCODE: 'reset-passcode',
     GET_APPOINTMENTS: 'getAllAppointments',
     GET_ALL_REEDEMS: 'get-all-reedem',
+    REEDEM_CODE: 'updateReedemed',
 };

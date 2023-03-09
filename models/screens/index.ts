@@ -12,6 +12,7 @@ export enum SCREENS {
     APPOINTMENTS = 'Appointments',
     BARCODE = 'Barcode',
     SERVICE_LIST = 'ServiceList',
+    ADD_SERVICE = 'AddService',
 }
 
 export type NavigationProp = {

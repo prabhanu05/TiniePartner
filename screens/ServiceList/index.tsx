@@ -2,7 +2,6 @@ import Radio from '@common/Radio';
 import ServiceHeaderButton from '@components/ServiceList/ServiceHeaderButton';
 import ServiceListHeader from '@components/ServiceList/ServiceListHeader';
 import { FilterListModel } from '@models/api/FilterListModel';
-import { ServiceListScreenProps } from '@models/screens/BottomScreens';
 import styles from '@styles/pages/ServiceList';
 import React, { useState } from 'react';
 import { FlatList, Image, Text, TextInput, View } from 'react-native';
@@ -27,7 +26,7 @@ const servicesData = [
     },
 ] as FilterListModel[];
 
-const ServiceList = ({ navigation }: ServiceListScreenProps) => {
+const ServiceList = () => {
     const [filter, setFilter] = useState<number | null>(null);
 
     const [active, setActive] = useState(false);

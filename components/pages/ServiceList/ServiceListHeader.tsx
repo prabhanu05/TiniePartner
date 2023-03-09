@@ -1,4 +1,4 @@
-import { NavigationProp } from '@models/screens';
+import { NavigationProp, SCREENS } from '@models/screens';
 import { useNavigation } from '@react-navigation/native';
 import styles from '@styles/pages/ServiceList';
 import BackIcon from '@svg/BackIcon';
@@ -8,12 +8,16 @@ import { Pressable, Text, View } from 'react-native';
 const ServiceListHeader = () => {
     const navigation = useNavigation<NavigationProp>();
 
+    const navigateHandler = () => {
+        navigation.navigate(SCREENS.ADD_SERVICE);
+    };
+
     return (
         <View style={styles.topRow}>
             <Pressable onPress={navigation.goBack}>
                 <BackIcon />
             </Pressable>
-            <Pressable>
+            <Pressable onPress={navigateHandler}>
                 <Text style={styles.addServiceBtn}>add new service</Text>
             </Pressable>
         </View>

@@ -2,6 +2,7 @@ import { COLORS } from '@constants/Colors';
 import { SCREENS } from '@models/screens';
 import BottomScreens from '@models/screens/BottomScreens';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import AddService from '@screens/AddService';
 import Appointments from '@screens/Appointments';
 import Barcode from '@screens/Barcode';
 import ServiceList from '@screens/ServiceList';
@@ -48,6 +49,14 @@ function ProtectedRoutes() {
                     tabBarLabel: 'Services List',
                     tabBarIcon: () => <ServiceListIcon />,
                     tabBarLabelStyle: styles.tabLabel,
+                }}
+            />
+
+            <Tab.Screen
+                name={SCREENS.ADD_SERVICE}
+                component={AddService}
+                options={{
+                    tabBarButton: () => null,
                 }}
             />
         </Tab.Navigator>

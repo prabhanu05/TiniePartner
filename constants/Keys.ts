@@ -6,4 +6,6 @@ export const Keys = {
     RESET_PASSCODE: 'reset_passcode',
     GET_APPOINTMENTS: 'get_appointments',
     GET_ALL_REEDEMS: 'get-all-reedems',
+    GET_CATEGORY_SUBCATEGORY: 'get-category-subcategory',
+    REEDEM_CODE: 'reedem-code',
 };

@@ -1,13 +1,21 @@
+import { ReedemCode } from '@api/ReedemCode';
 import Modal from '@common/Modal';
 import { isAlphaNumeric } from '@constants/Helpers';
+import { Keys } from '@constants/Keys';
 import { appointmentsActions } from '@store/actions';
 import { StoreModel } from '@store/store';
 import styles from '@styles/pages/Appointments';
 import React, { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
+import { useMutation } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ReedemCodeModal = (props: { onToggle: () => void }) => {
+    const { isLoading, mutateAsync } = useMutation(
+        Keys.REEDEM_CODE,
+        ReedemCode
+    );
+
     const dispatch = useDispatch();
     const [error, setError] = useState(false);
 
