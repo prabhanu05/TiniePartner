@@ -10,6 +10,6 @@ export const ReedemCode = async (data: ReedemCodePayload) => {
         { headers: { token: data.token } }
     );
 
-    const apiData = apiUrl.data;
+    const apiData = apiUrl.data as { status: string };
     return apiData;
 };

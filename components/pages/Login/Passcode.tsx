@@ -105,6 +105,7 @@ const Passcode = (props: {
                 const details = {
                     phonenumber: response.phonenumber,
                     token: response.token,
+                    merchantId: response.id,
                 } as CredentialsSliceModel;
 
                 await SecureStore.setItemAsync(

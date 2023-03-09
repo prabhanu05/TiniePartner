@@ -1,13 +1,21 @@
 import { ReedemCode } from '@api/ReedemCode';
 import Modal from '@common/Modal';
+import { COLORS } from '@constants/Colors';
 import { isAlphaNumeric } from '@constants/Helpers';
 import { Keys } from '@constants/Keys';
+import { ReedemCodePayload } from '@models/api/ReedemCodeModel';
 import { appointmentsActions } from '@store/actions';
 import { StoreModel } from '@store/store';
 import styles from '@styles/pages/Appointments';
 import React, { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
-import { useMutation } from 'react-query';
+import {
+    ActivityIndicator,
+    Pressable,
+    Text,
+    TextInput,
+    View,
+} from 'react-native';
+import { useMutation, useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ReedemCodeModal = (props: { onToggle: () => void }) => {
@@ -17,10 +25,16 @@ const ReedemCodeModal = (props: { onToggle: () => void }) => {
     );
 
     const dispatch = useDispatch();
+    const queryClient = useQueryClient();
+
     const [error, setError] = useState(false);
 
     const reedemCode = useSelector(
         (state: StoreModel) => state.appointmentReducer.reedemCode
+    );
+
+    const credentials = useSelector(
+        (state: StoreModel) => state.credentialReducer
     );
 
     const changeHandler = (text: string) => {
@@ -30,14 +44,34 @@ const ReedemCodeModal = (props: { onToggle: () => void }) => {
         dispatch(appointmentsActions.setReedemCode({ reedemCode: text }));
     };
 
-    const confirmHandler = () => {
+    const confirmHandler = async () => {
         if (reedemCode.length < 8 || isAlphaNumeric(reedemCode) === false) {
             setError(true);
             return;
         }
-        // Handle success
-        props.onToggle();
-        dispatch(appointmentsActions.clearReedemCode());
+
+        if (error) {
+            setError(false);
+        }
+
+        await mutateAsync({
+            merchantId: credentials.merchantId,
+            token: credentials.token,
+            reedemCode,
+        } as ReedemCodePayload)
+            .then((data) => {
+                console.log(data);
+                if (data?.status === 'success') {
+                    props.onToggle();
+                    dispatch(appointmentsActions.clearReedemCode());
+                    queryClient.resetQueries({
+                        queryKey: Keys.GET_ALL_REEDEMS,
+                        exact: true,
+                    });
+                    return;
+                }
+            })
+            .catch(() => setError(true));
     };
 
     return (
@@ -57,11 +91,21 @@ const ReedemCodeModal = (props: { onToggle: () => void }) => {
                 </View>
 
                 <View style={[styles.codeRow, styles.mt25]}>
-                    <Pressable style={styles.btn} onPress={props.onToggle}>
+                    <Pressable
+                        style={styles.btn}
+                        onPress={isLoading ? null : props.onToggle}
+                    >
                         <Text style={styles.btnTxt}>CANCEL</Text>
                     </Pressable>
-                    <Pressable style={styles.btn} onPress={confirmHandler}>
-                        <Text style={styles.btnTxt}>CONFIRM</Text>
+                    <Pressable
+                        style={styles.btn}
+                        onPress={isLoading ? null : confirmHandler}
+                    >
+                        {isLoading ? (
+                            <ActivityIndicator color={COLORS.black} />
+                        ) : (
+                            <Text style={styles.btnTxt}>CONFIRM</Text>
+                        )}
                     </Pressable>
                 </View>
             </View>

@@ -215,12 +215,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        gap: 10,
     },
     btn: {
         paddingVertical: 10.5,
-        paddingHorizontal: 21,
         borderRadius: 6,
         backgroundColor: COLORS.white,
+        flex: 1,
+        alignItems: 'center',
     },
     btnTxt: {
         color: COLORS.black,
