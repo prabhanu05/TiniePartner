@@ -258,6 +258,23 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         marginVertical: 28,
     },
+    reedemCodeRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 11,
+        justifyContent: 'center',
+        marginVertical: 14,
+    },
+    reedemCodeTxt: {
+        fontFamily: 'regular',
+        color: COLORS.white,
+        fontSize: 14,
+    },
+    reedemCode: {
+        fontFamily: 'medium',
+        color: COLORS.white,
+        fontSize: 14,
+    },
 });
 
 export default styles;

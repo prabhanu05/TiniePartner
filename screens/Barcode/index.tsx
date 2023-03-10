@@ -3,8 +3,10 @@ import Button from '@common/Button';
 import Loader from '@common/Loader';
 import Modal from '@common/Modal';
 import { Keys } from '@constants/Keys';
-import { ReedemCodePayload } from '@models/api/ReedemCodeModel';
-import { ModalData } from '@models/data/ModalData';
+import {
+    ReedemCodeModal,
+    ReedemCodePayload,
+} from '@models/api/ReedemCodeModel';
 import { StoreModel } from '@store/store';
 import { default as modalStyles } from '@styles/pages/Appointments';
 import styles from '@styles/pages/Barcode';
@@ -22,9 +24,10 @@ import { useSelector } from 'react-redux';
 const Barcode = () => {
     const queryClient = useQueryClient();
 
-    const [modal, setModal] = useState<ModalData>({
+    const [modal, setModal] = useState<ReedemCodeModal>({
         isVisible: false,
         message: '',
+        reedemCode: '',
     });
 
     const { isLoading, mutateAsync } = useMutation(
@@ -45,6 +48,7 @@ const Barcode = () => {
         setModal({
             isVisible: false,
             message: '',
+            reedemCode: '',
         });
     };
 
@@ -63,6 +67,7 @@ const Barcode = () => {
                     setModal({
                         isVisible: true,
                         message: 'Redeemed Successfully',
+                        reedemCode,
                     });
                     queryClient.refetchQueries({
                         queryKey: Keys.GET_ALL_REEDEMS,
@@ -75,6 +80,7 @@ const Barcode = () => {
                 setModal({
                     isVisible: true,
                     message: 'Invalid Reedem Code',
+                    reedemCode: '',
                 })
             );
     };
@@ -97,6 +103,16 @@ const Barcode = () => {
             {modal.isVisible ? (
                 <Modal>
                     <View style={modalStyles.reedemCodeModalContainer}>
+                        {!!modal.reedemCode ? (
+                            <View style={modalStyles.reedemCodeRow}>
+                                <Text style={modalStyles.reedemCodeTxt}>
+                                    Reedem Code
+                                </Text>
+                                <Text style={modalStyles.reedemCode}>
+                                    {modal.reedemCode}
+                                </Text>
+                            </View>
+                        ) : null}
                         <Text style={modalStyles.reedemModalHeading}>
                             {modal.message}
                         </Text>
