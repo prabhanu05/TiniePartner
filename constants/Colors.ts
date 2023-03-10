@@ -28,4 +28,10 @@ export const COLORS = {
     card: '#F5F0FF',
     pink: '#FFD1D1',
     radioContainerGrey: '#B7B7B7',
+    example: '#999999',
+    textboxLabel: '#14004E',
+    addGrey: '#333333',
+    appPriceBox: '#E9E9E9',
+    appPrice: '#FF0000',
+    purple: '#A798FF',
 };

@@ -1,6 +1,6 @@
 import { CredentialsSliceModel } from '@models/store/CredentialsSliceModel';
 import OpenRoutes from '@routes/OpenRoutes';
-import ProtectedRoutes from '@routes/ProtectedRoutes';
+import ProtectedStackRoutes from '@routes/ProtectedStackRoutes';
 import { credentialsActions } from '@store/actions';
 import { StoreModel } from '@store/store';
 import * as SecureStore from 'expo-secure-store';
@@ -36,7 +36,13 @@ const Routes = () => {
     }, [token]);
 
     return (
-        <>{loading ? null : !!token ? <ProtectedRoutes /> : <OpenRoutes />}</>
+        <>
+            {loading ? null : !!token ? (
+                <ProtectedStackRoutes />
+            ) : (
+                <OpenRoutes />
+            )}
+        </>
     );
 };
 

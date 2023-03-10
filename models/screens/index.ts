@@ -13,6 +13,7 @@ export enum SCREENS {
     BARCODE = 'Barcode',
     SERVICE_LIST = 'ServiceList',
     ADD_SERVICE = 'AddService',
+    BOTTOM_TAB_PROTECTED_ROUTES = 'BottomTabProtectedRoutes',
 }
 
 export type NavigationProp = {

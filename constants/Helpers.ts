@@ -10,6 +10,12 @@ export const isAlphaNumeric = (val: string) => {
     return regex.test(val);
 };
 
+// Also returns success for numeric numbers
+export const isDecimal = (val: string) => {
+    const regex = /^\d*\.?\d+$/g;
+    return regex.test(val);
+};
+
 export const checkEmpty = (data: KeyValueModel[]) => {
     let msg = '';
     let flag = false;

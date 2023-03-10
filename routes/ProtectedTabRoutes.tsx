@@ -2,7 +2,6 @@ import { COLORS } from '@constants/Colors';
 import { SCREENS } from '@models/screens';
 import BottomScreens from '@models/screens/BottomScreens';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import AddService from '@screens/AddService';
 import Appointments from '@screens/Appointments';
 import Barcode from '@screens/Barcode';
 import ServiceList from '@screens/ServiceList';
@@ -12,7 +11,7 @@ import ServiceListIcon from '@svg/ServiceListIcon';
 
 const Tab = createBottomTabNavigator<BottomScreens>();
 
-function ProtectedRoutes() {
+function ProtectedTabRoutes() {
     return (
         <Tab.Navigator
             initialRouteName={SCREENS.APPOINTMENTS}
@@ -51,16 +50,8 @@ function ProtectedRoutes() {
                     tabBarLabelStyle: styles.tabLabel,
                 }}
             />
-
-            <Tab.Screen
-                name={SCREENS.ADD_SERVICE}
-                component={AddService}
-                options={{
-                    tabBarButton: () => null,
-                }}
-            />
         </Tab.Navigator>
     );
 }
 
-export default ProtectedRoutes;
+export default ProtectedTabRoutes;
