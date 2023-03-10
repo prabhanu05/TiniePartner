@@ -60,7 +60,6 @@ const ReedemCodeModal = (props: { onToggle: () => void }) => {
             reedemCode,
         } as ReedemCodePayload)
             .then((data) => {
-                console.log(data);
                 if (data?.message === 'success') {
                     queryClient.refetchQueries({
                         queryKey: Keys.GET_ALL_REEDEMS,

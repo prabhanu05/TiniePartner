@@ -21,7 +21,7 @@ export const checkEmpty = (data: KeyValueModel[]) => {
     let flag = false;
 
     for (let item of data) {
-        if (item.value.trim() === '') {
+        if (item.value.toString().trim() === '') {
             flag = true;
             msg += `${item.key}, `;
         }

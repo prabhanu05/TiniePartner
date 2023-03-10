@@ -94,6 +94,46 @@ const styles = StyleSheet.create({
     list: {
         paddingBottom: 30,
     },
+    popupHeading: {
+        fontSize: 16,
+        color: COLORS.white,
+        fontFamily: 'semibold',
+    },
+    popupTextfield: {
+        borderRadius: 10,
+        padding: 16,
+        color: COLORS.black,
+        backgroundColor: COLORS.input,
+    },
+    cancelBtn: {
+        paddingVertical: 9,
+        borderRadius: 5,
+        backgroundColor: COLORS.placeholder,
+        flex: 1,
+    },
+    createBtn: {
+        paddingVertical: 9,
+        borderRadius: 5,
+        backgroundColor: COLORS.primary,
+        flex: 1,
+    },
+    cancelTxt: {
+        textAlign: 'center',
+        color: COLORS.white,
+        fontSize: 12,
+        fontFamily: 'regular',
+    },
+    createTxt: {
+        textAlign: 'center',
+        color: COLORS.black,
+        fontSize: 12,
+        fontFamily: 'regular',
+    },
+    btnRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        columnGap: 44,
+    },
 });
 
 export default styles;

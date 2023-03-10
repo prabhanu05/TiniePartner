@@ -1,13 +1,18 @@
 import { CategorySubcategoryList } from '@api/CategorySubcategoryList';
 import BlueLabelTextbox from '@common/BlueLabelTextbox';
+import ErrorModal from '@common/ErrorModal';
 import LabelSelect from '@common/LabelSelect';
 import Loader from '@common/Loader';
+import AddCategoryModal from '@components/AddService/AddCategoryModal';
 import CustomColorBtn from '@components/AddService/CustomColorBtn';
 import { COLORS } from '@constants/Colors';
-import { isDecimal } from '@constants/Helpers';
+import { checkEmpty, isDecimal, isNumeric } from '@constants/Helpers';
 import { Keys } from '@constants/Keys';
 import { CategoryModel } from '@models/api/CategoryListModel';
-import { AddServiceModel } from '@models/data/AddServiceModel';
+import {
+    AddServiceModalData,
+    AddServiceModel,
+} from '@models/data/AddServiceModel';
 import { AddServiceScreenProps } from '@models/screens/ProtectedStackScreens';
 import styles from '@styles/pages/AddService';
 import BackIcon from '@svg/BackIcon';
@@ -40,6 +45,21 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
         duration: '',
         cost: '',
         discountPrice: '',
+    });
+
+    const [modal, setModal] = useState<AddServiceModalData>({
+        error: {
+            isVisible: false,
+            message: '',
+        },
+        addCategory: {
+            isVisible: false,
+            message: '',
+        },
+        addSubcategory: {
+            isVisible: false,
+            message: '',
+        },
     });
 
     const subcategoryData = useMemo(
@@ -80,6 +100,128 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
         }));
     };
 
+    const closeModalHandler = (uid: keyof AddServiceModalData) => {
+        setModal((oldState) => ({
+            ...oldState,
+            [uid]: {
+                isVisible: false,
+                message: '',
+            },
+        }));
+    };
+
+    const openModalHandler = (uid: keyof AddServiceModalData) => {
+        setModal((oldState) => ({
+            ...oldState,
+            [uid]: {
+                isVisible: true,
+                message: '',
+            },
+        }));
+    };
+
+    const doneHandler = async () => {
+        const message = checkEmpty([
+            { key: 'Category', value: state.serviceCategory.id },
+            {
+                key: 'Sub-Category',
+                value: state.serviceSubCategory.id,
+            },
+            {
+                key: 'Title',
+                value: state.name,
+            },
+            {
+                key: 'Description',
+                value: state.description,
+            },
+            {
+                key: 'Products Used/Other details',
+                value: `${state.product1}${state.product2}${state.product3}${state.product4}`,
+            },
+            {
+                key: 'Duration',
+                value: state.duration,
+            },
+            {
+                key: 'Price',
+                value: state.cost,
+            },
+            {
+                key: 'Discount Amount',
+                value: state.discountPrice,
+            },
+        ]);
+
+        if (!!message) {
+            setModal((oldState) => ({
+                ...oldState,
+                error: {
+                    isVisible: false,
+                    message,
+                },
+            }));
+            return;
+        }
+
+        if (
+            !isNumeric(state.duration) ||
+            !isDecimal(state.cost) ||
+            !isDecimal(state.discountPrice)
+        ) {
+            setModal((oldState) => ({
+                ...oldState,
+                error: {
+                    isVisible: false,
+                    message: 'Please enter valid numeric values',
+                },
+            }));
+            return;
+        }
+
+        if (+state.discountPrice > +state.cost) {
+            setModal((oldState) => ({
+                ...oldState,
+                error: {
+                    isVisible: false,
+                    message:
+                        'Discount price cannot be greater than Service Price',
+                },
+            }));
+            return;
+        }
+
+        const itemsUsed = [];
+
+        if (state.product1.trim() !== '') {
+            itemsUsed.push(state.product1);
+        }
+
+        if (state.product2.trim() !== '') {
+            itemsUsed.push(state.product2);
+        }
+
+        if (state.product3.trim() !== '') {
+            itemsUsed.push(state.product3);
+        }
+
+        if (state.product4.trim() !== '') {
+            itemsUsed.push(state.product4);
+        }
+
+        const payloadData = {
+            businessId: '',
+            cost: state.cost,
+            description: state.description,
+            discountPrice: state.discountPrice,
+            duration: state.duration,
+            itemsUsed,
+            name: state.name,
+            serviceCategoryId: state.serviceCategory.id,
+            serviceSubCategoryId: state.serviceSubCategory.id,
+        };
+    };
+
     const appPrice = useMemo(
         () =>
             isDecimal(state.cost) && isDecimal(state.discountPrice)
@@ -89,145 +231,170 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
     );
 
     return (
-        <SafeAreaView style={styles.container}>
-            {isLoading ? <Loader /> : null}
+        <>
+            {modal.error.isVisible ? (
+                <ErrorModal
+                    msg={modal.error.message}
+                    onClose={closeModalHandler.bind(this, 'error')}
+                />
+            ) : null}
+            {modal.addCategory.isVisible ? (
+                <AddCategoryModal
+                    onClose={closeModalHandler.bind(this, 'addCategory')}
+                />
+            ) : null}
+            <SafeAreaView style={styles.container}>
+                {isLoading ? <Loader /> : null}
 
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.list}
-            >
-                <View style={styles.headerRow}>
-                    <Pressable
-                        style={styles.backBtn}
-                        onPress={navigation.goBack}
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.list}
+                >
+                    <View style={styles.headerRow}>
+                        <Pressable
+                            style={styles.backBtn}
+                            onPress={navigation.goBack}
+                        >
+                            <BackIcon />
+                        </Pressable>
+                        <Text style={styles.screenName}>
+                            Enter Service Details
+                        </Text>
+                    </View>
+                    <LabelSelect
+                        placeholder='Create Service Category'
+                        example='Hair Care'
+                        value={state.serviceCategory.name}
+                        label='Service Category'
+                        data={data!}
+                        selectHandler={categoryHandler.bind(
+                            this,
+                            'serviceCategory'
+                        )}
+                    />
+
+                    <Text
+                        style={styles.addToList}
+                        onPress={openModalHandler.bind(this, 'addCategory')}
                     >
-                        <BackIcon />
-                    </Pressable>
-                    <Text style={styles.screenName}>Enter Service Details</Text>
-                </View>
-                <LabelSelect
-                    placeholder='Create Service Category'
-                    example='Hair Care'
-                    value={state.serviceCategory.name}
-                    label='Service Category'
-                    data={data!}
-                    selectHandler={categoryHandler.bind(
-                        this,
-                        'serviceCategory'
-                    )}
-                />
+                        or Add to existing list
+                    </Text>
 
-                <Text style={styles.addToList}>or Add to existing list</Text>
+                    <LabelSelect
+                        placeholder='Create Service Sub-Category'
+                        example='Hair Cut'
+                        value={state.serviceSubCategory.name}
+                        label='Service Sub-Category'
+                        data={subcategoryData!}
+                        selectHandler={selectHandler.bind(
+                            this,
+                            'serviceSubCategory'
+                        )}
+                        disablePress={!!!state.serviceCategory.id}
+                    />
+                    <Text
+                        style={styles.addToList}
+                        onPress={openModalHandler.bind(this, 'addSubcategory')}
+                    >
+                        or Add to existing list
+                    </Text>
 
-                <LabelSelect
-                    placeholder='Create Service Sub-Category'
-                    example='Hair Cut'
-                    value={state.serviceSubCategory.name}
-                    label='Service Sub-Category'
-                    data={subcategoryData!}
-                    selectHandler={selectHandler.bind(
-                        this,
-                        'serviceSubCategory'
-                    )}
-                    disablePress={!!!state.serviceCategory.id}
-                />
-                <Text style={styles.addToList}>or Add to existing list</Text>
-
-                <BlueLabelTextbox
-                    label='Service Title'
-                    placeholder='Enter Service Title'
-                    value={state.name}
-                    onChange={textHandler.bind(this, 'name')}
-                />
-
-                <BlueLabelTextbox
-                    label='Service Description'
-                    placeholder='Enter Service Description'
-                    value={state.description}
-                    onChange={textHandler.bind(this, 'description')}
-                    maxLength={170}
-                    isTextArea
-                />
-
-                <View style={styles.productRow}>
                     <BlueLabelTextbox
-                        label='Products Used/Other details'
-                        placeholder='Products Used/Other details'
-                        value={state.product1}
-                        onChange={textHandler.bind(this, 'product1')}
+                        label='Service Title'
+                        placeholder='Enter Service Title'
+                        value={state.name}
+                        onChange={textHandler.bind(this, 'name')}
                     />
+
                     <BlueLabelTextbox
-                        label='Products Used/Other details'
-                        placeholder='Products Used/Other details'
-                        value={state.product2}
-                        onChange={textHandler.bind(this, 'product2')}
+                        label='Service Description'
+                        placeholder='Enter Service Description'
+                        value={state.description}
+                        onChange={textHandler.bind(this, 'description')}
+                        maxLength={170}
+                        isTextArea
                     />
-                </View>
 
-                <View style={styles.productRow}>
+                    <View style={styles.productRow}>
+                        <BlueLabelTextbox
+                            label='Products Used/Other details'
+                            placeholder='Products Used/Other details'
+                            value={state.product1}
+                            onChange={textHandler.bind(this, 'product1')}
+                        />
+                        <BlueLabelTextbox
+                            label='Products Used/Other details'
+                            placeholder='Products Used/Other details'
+                            value={state.product2}
+                            onChange={textHandler.bind(this, 'product2')}
+                        />
+                    </View>
+
+                    <View style={styles.productRow}>
+                        <BlueLabelTextbox
+                            label='Products Used/Other details'
+                            placeholder='Products Used/Other details'
+                            value={state.product3}
+                            onChange={textHandler.bind(this, 'product3')}
+                        />
+                        <BlueLabelTextbox
+                            label='Products Used/Other details'
+                            placeholder='Products Used/Other details'
+                            value={state.product4}
+                            onChange={textHandler.bind(this, 'product4')}
+                        />
+                    </View>
+
                     <BlueLabelTextbox
-                        label='Products Used/Other details'
-                        placeholder='Products Used/Other details'
-                        value={state.product3}
-                        onChange={textHandler.bind(this, 'product3')}
+                        label='Service duration (mins)'
+                        placeholder='Enter Service duration in minutes'
+                        value={state.duration}
+                        onChange={textHandler.bind(this, 'duration')}
+                        isNumeric
                     />
+
+                    <Text style={styles.imageText}>select image</Text>
+
                     <BlueLabelTextbox
-                        label='Products Used/Other details'
-                        placeholder='Products Used/Other details'
-                        value={state.product4}
-                        onChange={textHandler.bind(this, 'product4')}
+                        label='Service Price INR (Menu Price)'
+                        placeholder='Enter Service Price INR (Menu Price)'
+                        value={state.cost}
+                        onChange={textHandler.bind(this, 'cost')}
+                        maxLength={8}
+                        highlightText
+                        isNumeric
                     />
-                </View>
 
-                <BlueLabelTextbox
-                    label='Service duration (mins)'
-                    placeholder='Enter Service duration in minutes'
-                    value={state.duration}
-                    onChange={textHandler.bind(this, 'duration')}
-                    isNumeric
-                />
-
-                <Text style={styles.imageText}>select image</Text>
-
-                <BlueLabelTextbox
-                    label='Service Price INR (Menu Price)'
-                    placeholder='Enter Service Price INR (Menu Price)'
-                    value={state.cost}
-                    onChange={textHandler.bind(this, 'cost')}
-                    maxLength={8}
-                    highlightText
-                    isNumeric
-                />
-
-                <BlueLabelTextbox
-                    label='Discount amount INR'
-                    placeholder='Discount amount INR (if any)'
-                    value={state.discountPrice}
-                    onChange={textHandler.bind(this, 'discountPrice')}
-                    maxLength={8}
-                    highlightText
-                    isNumeric
-                />
-
-                <View style={styles.appPrice}>
-                    <Text style={styles.appPriceTxt}>App Price INR</Text>
-                    <Text style={styles.appPriceNum}>{appPrice}</Text>
-                </View>
-
-                <View style={styles.bottomRow}>
-                    <CustomColorBtn
-                        backgroundColor={COLORS.white}
-                        text='CANCEL'
-                        onPress={navigation.goBack}
+                    <BlueLabelTextbox
+                        label='Discount amount INR'
+                        placeholder='Discount amount INR (if any)'
+                        value={state.discountPrice}
+                        onChange={textHandler.bind(this, 'discountPrice')}
+                        maxLength={8}
+                        highlightText
+                        isNumeric
                     />
-                    <CustomColorBtn
-                        backgroundColor={COLORS.purple}
-                        text='CREATE SERVICE'
-                        onPress={() => {}}
-                    />
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+
+                    <View style={styles.appPrice}>
+                        <Text style={styles.appPriceTxt}>App Price INR</Text>
+                        <Text style={styles.appPriceNum}>{appPrice}</Text>
+                    </View>
+
+                    <View style={styles.bottomRow}>
+                        <CustomColorBtn
+                            backgroundColor={COLORS.white}
+                            text='CANCEL'
+                            onPress={navigation.goBack}
+                        />
+                        <CustomColorBtn
+                            backgroundColor={COLORS.purple}
+                            text='CREATE SERVICE'
+                            onPress={doneHandler}
+                        />
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+        </>
     );
 };
 

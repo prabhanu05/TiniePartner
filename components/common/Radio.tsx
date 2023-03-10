@@ -16,7 +16,7 @@ const Radio = (props: { isActive: boolean; toggleHandler: () => void }) => {
         if (props.isActive) {
             Animated.timing(leftValue, {
                 toValue: 0,
-                duration: 400,
+                duration: 300,
                 useNativeDriver: true,
             }).start(props.toggleHandler);
 
@@ -24,7 +24,7 @@ const Radio = (props: { isActive: boolean; toggleHandler: () => void }) => {
         }
         Animated.timing(leftValue, {
             toValue: 100,
-            duration: 400,
+            duration: 300,
             useNativeDriver: true,
         }).start(props.toggleHandler);
     };

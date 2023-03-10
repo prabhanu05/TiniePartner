@@ -118,6 +118,9 @@ const Passcode = (props: {
                         token: response.token,
                         phonenumber: response.phonenumber,
                         merchantId: response.id,
+                        businessId: response.businessId,
+                        businessName: response.businessName,
+                        rating: response.rating,
                     })
                 );
                 props.toggleHandler();

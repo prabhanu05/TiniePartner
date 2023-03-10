@@ -34,4 +34,5 @@ export const COLORS = {
     appPriceBox: '#E9E9E9',
     appPrice: '#FF0000',
     purple: '#A798FF',
+    popupPlaceholder: '#666666',
 };

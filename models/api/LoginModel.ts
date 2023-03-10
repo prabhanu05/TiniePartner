@@ -11,4 +11,7 @@ export interface LoginSuccessModel {
     sessionexpiry: number;
     token: string;
     username: string;
+    businessId: number;
+    businessName: string;
+    rating: number;
 }

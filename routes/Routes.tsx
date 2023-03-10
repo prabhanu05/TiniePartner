@@ -27,6 +27,9 @@ const Routes = () => {
                         phonenumber: parsedDetails.phonenumber!,
                         token: parsedDetails.token!,
                         merchantId: parsedDetails.merchantId!,
+                        businessId: parsedDetails.businessId!,
+                        businessName: parsedDetails.businessName!,
+                        rating: parsedDetails.rating!,
                     })
                 );
             }
