@@ -1,6 +1,6 @@
 export const Endpoints = {
     GET_MERCHANT_OTP: 'get-merchant-otp',
-    LIST_CAT_SUBCAT: 'list-category-subcategory',
+    LIST_CAT_SUBCAT: 'list-servicecategory-servicesubcategory',
     REGISTER_MERCHANT: 'register-merchant',
     LOGIN_MERCHANT: 'get-merchant-token',
     RESET_PASSCODE: 'reset-passcode',

@@ -14,17 +14,23 @@ import {
     AddServiceModel,
 } from '@models/data/AddServiceModel';
 import { AddServiceScreenProps } from '@models/screens/ProtectedStackScreens';
+import { StoreModel } from '@store/store';
 import styles from '@styles/pages/AddService';
 import BackIcon from '@svg/BackIcon';
 import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useQuery } from 'react-query';
+import { useSelector } from 'react-redux';
 
 const AddService = ({ navigation }: AddServiceScreenProps) => {
+    const token = useSelector(
+        (state: StoreModel) => state.credentialReducer.token
+    );
+
     const { data, isLoading } = useQuery(
         Keys.GET_CATEGORY_SUBCATEGORY,
-        CategorySubcategoryList
+        CategorySubcategoryList.bind(this, token)
     );
 
     const [state, setState] = useState<AddServiceModel>({
