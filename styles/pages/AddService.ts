@@ -98,12 +98,16 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: COLORS.white,
         fontFamily: 'semibold',
+        alignSelf: 'flex-start',
     },
     popupTextfield: {
         borderRadius: 10,
         padding: 16,
         color: COLORS.black,
         backgroundColor: COLORS.input,
+        fontFamily: 'regular',
+        fontSize: 14,
+        width: '100%',
     },
     cancelBtn: {
         paddingVertical: 9,
@@ -133,6 +137,35 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         columnGap: 44,
+    },
+    emptyContainer: {
+        padding: 16,
+        backgroundColor: COLORS.black,
+        justifyContent: 'space-between',
+        minHeight: 120,
+    },
+    emptyText: {
+        color: COLORS.white,
+        fontSize: 16,
+        fontFamily: 'semibold',
+        textAlign: 'center',
+    },
+    emptyBtn: {
+        alignSelf: 'center',
+    },
+    error: {
+        color: COLORS.white,
+        fontSize: 12,
+        fontFamily: 'regular',
+        alignSelf: 'flex-start',
+        paddingVertical: 2,
+    },
+    serviceCreatedTxt: {
+        fontSize: 16,
+        color: COLORS.white,
+        fontFamily: 'semibold',
+        paddingTop: 20,
+        paddingBottom: 50,
     },
 });
 

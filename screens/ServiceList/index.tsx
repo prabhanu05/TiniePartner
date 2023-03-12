@@ -1,33 +1,46 @@
+import { CategorySubcategoryList } from '@api/CategorySubcategoryList';
+import Loader from '@common/Loader';
 import Radio from '@common/Radio';
 import ServiceHeaderButton from '@components/ServiceList/ServiceHeaderButton';
 import ServiceListHeader from '@components/ServiceList/ServiceListHeader';
-import { FilterListModel } from '@models/api/FilterListModel';
+import { Keys } from '@constants/Keys';
+import { CategoryListModel } from '@models/api/CategoryListModel';
+import { StoreModel } from '@store/store';
 import styles from '@styles/pages/ServiceList';
 import React, { useState } from 'react';
 import { FlatList, Image, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-const servicesData = [
-    {
-        id: 1,
-        label: 'All Services',
-    },
-    {
-        id: 2,
-        label: 'Hair Care',
-    },
-    {
-        id: 3,
-        label: 'Face Care',
-    },
-    {
-        id: 4,
-        label: 'Category 3',
-    },
-] as FilterListModel[];
+import { useQuery } from 'react-query';
+import { useSelector } from 'react-redux';
 
 const ServiceList = () => {
-    const [filter, setFilter] = useState<number | null>(null);
+    const credentials = useSelector(
+        (state: StoreModel) => state.credentialReducer
+    );
+
+    const {
+        data: categoryData,
+        isLoading: catSubcatLoading,
+        isFetching,
+    } = useQuery(
+        Keys.GET_CATEGORY_SUBCATEGORY,
+        CategorySubcategoryList.bind(this, credentials.token!),
+        {
+            select(data) {
+                const newData = [
+                    {
+                        id: 'allServices',
+                        name: 'All Services',
+                        subCategories: [],
+                    } as CategoryListModel,
+                    ...data,
+                ];
+                return newData;
+            },
+        }
+    );
+
+    const [filter, setFilter] = useState<string>('allServices');
 
     const [active, setActive] = useState(false);
 
@@ -35,22 +48,23 @@ const ServiceList = () => {
         setActive((oldState) => !oldState);
     };
 
-    const filterHandler = (data: FilterListModel) => {
+    const filterHandler = (data: CategoryListModel) => {
         setFilter(data.id);
     };
 
     return (
         <SafeAreaView style={styles.container}>
+            {catSubcatLoading ? <Loader /> : null}
             <View>
                 <ServiceListHeader />
                 <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    data={servicesData}
+                    data={categoryData}
                     keyExtractor={(item) => `service_${item.id}`}
                     renderItem={({ item }) => (
                         <ServiceHeaderButton
-                            text={item?.label}
+                            text={item?.name}
                             isActive={item.id === filter}
                             onPress={filterHandler.bind(this, item)}
                         />

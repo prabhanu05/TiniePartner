@@ -1,4 +1,4 @@
-import { CreateCategory } from '@api/CreateCategory';
+import { CreateSubcategory } from '@api/CreateSubcategory';
 import ConfirmModal from '@common/ConfirmModal';
 import Popup from '@common/Popup';
 import { COLORS } from '@constants/Colors';
@@ -16,7 +16,10 @@ import {
 import { useMutation, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 
-const AddCategoryModal = (props: { onClose: () => void }) => {
+const AddSubcategoryModal = (props: {
+    onClose: () => void;
+    categoryId: string;
+}) => {
     const queryClient = useQueryClient();
 
     const credentials = useSelector(
@@ -24,17 +27,17 @@ const AddCategoryModal = (props: { onClose: () => void }) => {
     );
 
     const { isLoading, mutateAsync } = useMutation(
-        Keys.ADD_SERVICE_CATEGORY,
-        CreateCategory
+        Keys.ADD_SERVICE_SUBCATEGORY,
+        CreateSubcategory
     );
 
     const [text, setText] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
 
-    const addCategoryHandler = async () => {
+    const addSubcategoryHandler = async () => {
         if (text.trim().length < 2) {
-            setError('Please enter valid category name');
+            setError('Please enter valid subcategory name');
             return;
         }
 
@@ -43,7 +46,7 @@ const AddCategoryModal = (props: { onClose: () => void }) => {
         }
 
         await mutateAsync({
-            id: credentials.businessId!,
+            id: +props.categoryId,
             name: text,
             token: credentials.token!,
         })
@@ -55,7 +58,7 @@ const AddCategoryModal = (props: { onClose: () => void }) => {
             })
             .catch(() => {
                 setError(
-                    'Unable to create category this time. Please try again later!'
+                    'Unable to create subcategory this time. Please try again later!'
                 );
             });
     };
@@ -64,16 +67,16 @@ const AddCategoryModal = (props: { onClose: () => void }) => {
         <Popup>
             {success ? (
                 <ConfirmModal
-                    message={
-                        'Services Created\n(It might take a moment to show)'
-                    }
+                    message='Services Created'
                     onConfirm={props.onClose}
                 />
             ) : (
                 <>
-                    <Text style={styles.popupHeading}>Enter Category name</Text>
+                    <Text style={styles.popupHeading}>
+                        Enter Sub-Category name
+                    </Text>
                     <TextInput
-                        placeholder='example : Hair Care'
+                        placeholder='example : Hair Cut'
                         value={text}
                         onChangeText={setText}
                         style={styles.popupTextfield}
@@ -91,7 +94,7 @@ const AddCategoryModal = (props: { onClose: () => void }) => {
 
                         <Pressable
                             style={styles.createBtn}
-                            onPress={isLoading ? null : addCategoryHandler}
+                            onPress={isLoading ? null : addSubcategoryHandler}
                         >
                             {isLoading ? (
                                 <ActivityIndicator color={COLORS.white} />
@@ -106,4 +109,4 @@ const AddCategoryModal = (props: { onClose: () => void }) => {
     );
 };
 
-export default AddCategoryModal;
+export default AddSubcategoryModal;

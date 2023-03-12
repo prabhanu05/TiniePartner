@@ -1,9 +1,11 @@
 import { CategorySubcategoryList } from '@api/CategorySubcategoryList';
+import { CreateService } from '@api/CreateService';
 import BlueLabelTextbox from '@common/BlueLabelTextbox';
 import ErrorModal from '@common/ErrorModal';
 import LabelSelect from '@common/LabelSelect';
 import Loader from '@common/Loader';
 import AddCategoryModal from '@components/AddService/AddCategoryModal';
+import AddSubcategoryModal from '@components/AddService/AddSubcategoryModal';
 import CustomColorBtn from '@components/AddService/CustomColorBtn';
 import { COLORS } from '@constants/Colors';
 import { checkEmpty, isDecimal, isNumeric } from '@constants/Helpers';
@@ -12,6 +14,7 @@ import { CategoryModel } from '@models/api/CategoryListModel';
 import {
     AddServiceModalData,
     AddServiceModel,
+    AddServicePayloadModel,
 } from '@models/data/AddServiceModel';
 import { AddServiceScreenProps } from '@models/screens/ProtectedStackScreens';
 import { StoreModel } from '@store/store';
@@ -20,17 +23,22 @@ import BackIcon from '@svg/BackIcon';
 import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 
 const AddService = ({ navigation }: AddServiceScreenProps) => {
-    const token = useSelector(
-        (state: StoreModel) => state.credentialReducer.token
+    const credentials = useSelector(
+        (state: StoreModel) => state.credentialReducer
     );
 
-    const { data, isLoading } = useQuery(
+    const { data, isLoading: catSubcatLoading } = useQuery(
         Keys.GET_CATEGORY_SUBCATEGORY,
-        CategorySubcategoryList.bind(this, token)
+        CategorySubcategoryList.bind(this, credentials.token!)
+    );
+
+    const { isLoading: serviceLoading, mutateAsync } = useMutation(
+        Keys.ADD_SERVICE,
+        CreateService
     );
 
     const [state, setState] = useState<AddServiceModel>({
@@ -70,12 +78,12 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
 
     const subcategoryData = useMemo(
         () =>
-            !isLoading && Array.isArray(data)
+            !catSubcatLoading && Array.isArray(data)
                 ? data.filter(
                       (item) => item.id === state.serviceCategory.id
                   )?.[0]?.subCategories
                 : [],
-        [isLoading, data, state.serviceCategory.id]
+        [catSubcatLoading, data, state.serviceCategory.id]
     );
 
     const textHandler = (uid: keyof AddServiceModel, text: string) => {
@@ -163,7 +171,7 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
             setModal((oldState) => ({
                 ...oldState,
                 error: {
-                    isVisible: false,
+                    isVisible: true,
                     message,
                 },
             }));
@@ -178,7 +186,7 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
             setModal((oldState) => ({
                 ...oldState,
                 error: {
-                    isVisible: false,
+                    isVisible: true,
                     message: 'Please enter valid numeric values',
                 },
             }));
@@ -189,7 +197,7 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
             setModal((oldState) => ({
                 ...oldState,
                 error: {
-                    isVisible: false,
+                    isVisible: true,
                     message:
                         'Discount price cannot be greater than Service Price',
                 },
@@ -215,8 +223,8 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
             itemsUsed.push(state.product4);
         }
 
-        const payloadData = {
-            businessId: '',
+        const payloadData: AddServicePayloadModel = {
+            businessId: credentials.businessId!,
             cost: state.cost,
             description: state.description,
             discountPrice: state.discountPrice,
@@ -225,7 +233,12 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
             name: state.name,
             serviceCategoryId: state.serviceCategory.id,
             serviceSubCategoryId: state.serviceSubCategory.id,
+            token: credentials.token!,
         };
+
+        await mutateAsync(payloadData)
+            .then((resp) => console.log(resp))
+            .catch((err) => console.log(err));
     };
 
     const appPrice = useMemo(
@@ -249,8 +262,14 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
                     onClose={closeModalHandler.bind(this, 'addCategory')}
                 />
             ) : null}
+            {modal.addSubcategory.isVisible ? (
+                <AddSubcategoryModal
+                    onClose={closeModalHandler.bind(this, 'addSubcategory')}
+                    categoryId={state.serviceCategory.id}
+                />
+            ) : null}
             <SafeAreaView style={styles.container}>
-                {isLoading ? <Loader /> : null}
+                {catSubcatLoading || serviceLoading ? <Loader /> : null}
 
                 <ScrollView
                     showsVerticalScrollIndicator={false}
@@ -277,6 +296,9 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
                             this,
                             'serviceCategory'
                         )}
+                        emptyDataMessage={
+                            'No Service Categories Found.\nPlease add a new service category.'
+                        }
                     />
 
                     <Text
@@ -297,6 +319,9 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
                             'serviceSubCategory'
                         )}
                         disablePress={!!!state.serviceCategory.id}
+                        emptyDataMessage={
+                            'No Service Subcategories Found.\nPlease add a new service subcategory.'
+                        }
                     />
                     <Text
                         style={styles.addToList}

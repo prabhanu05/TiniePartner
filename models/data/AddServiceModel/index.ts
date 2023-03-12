@@ -1,4 +1,5 @@
 import { CategoryModel } from '@models/api/CategoryListModel';
+import { FileModel } from '@models/data/FileModel';
 import { ModalData } from '@models/data/ModalData';
 
 export interface AddServiceModel {
@@ -19,4 +20,18 @@ export interface AddServiceModalData {
     error: ModalData;
     addCategory: ModalData;
     addSubcategory: ModalData;
+}
+
+export interface AddServicePayloadModel {
+    businessId: number;
+    cost: string;
+    description: string;
+    discountPrice: string;
+    duration: string;
+    itemsUsed: string[];
+    name: string;
+    serviceCategoryId: string;
+    serviceSubCategoryId: string;
+    serviceImage?: FileModel;
+    token: string;
 }

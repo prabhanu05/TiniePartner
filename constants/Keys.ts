@@ -8,4 +8,7 @@ export const Keys = {
     GET_ALL_REEDEMS: 'get-all-reedems',
     GET_CATEGORY_SUBCATEGORY: 'get-category-subcategory',
     REEDEM_CODE: 'reedem-code',
+    ADD_SERVICE_CATEGORY: 'add-service-category',
+    ADD_SERVICE_SUBCATEGORY: 'add-service-subcategory',
+    ADD_SERVICE: 'add-service',
 };

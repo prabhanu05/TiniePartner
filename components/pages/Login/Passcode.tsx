@@ -106,6 +106,9 @@ const Passcode = (props: {
                     phonenumber: response.phonenumber,
                     token: response.token,
                     merchantId: response.id,
+                    businessId: response.businessId,
+                    businessName: response.businessName,
+                    rating: response.rating,
                 } as CredentialsSliceModel;
 
                 await SecureStore.setItemAsync(

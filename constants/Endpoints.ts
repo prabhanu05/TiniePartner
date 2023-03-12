@@ -7,4 +7,7 @@ export const Endpoints = {
     GET_APPOINTMENTS: 'getAllAppointments',
     GET_ALL_REEDEMS: 'get-all-reedem',
     REEDEM_CODE: 'updateReedemed',
+    ADD_SERVICE_CATEGORY: 'add-service-category',
+    ADD_SERVICE_SUBCATEGORY: 'add-service-subCategory',
+    ADD_SERVICE: 'add-service',
 };
