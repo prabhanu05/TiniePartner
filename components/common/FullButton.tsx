@@ -3,24 +3,39 @@ import React from 'react';
 import { Pressable, Text } from 'react-native';
 
 const FullButton = (props: {
-    variant: 'primary' | 'secondary';
+    variant: 'primary' | 'secondary' | 'tertiary';
     text: string;
     onPress: () => void;
 }) => {
+    const pressedButtonStyles =
+        props.variant === 'primary'
+            ? [styles.container, styles.primary, styles.active]
+            : props.variant === 'secondary'
+            ? [styles.container, styles.secondary, styles.active]
+            : [styles.container, styles.tertiary, styles.active];
+    const buttonStyles =
+        props.variant === 'primary'
+            ? [styles.container, styles.primary]
+            : props.variant === 'secondary'
+            ? [styles.container, styles.secondary]
+            : [styles.container, styles.tertiary];
+
     return (
         <Pressable
             style={({ pressed }) =>
-                props.variant === 'primary'
-                    ? pressed
-                        ? [styles.container, styles.primary, styles.active]
-                        : [styles.container, styles.primary]
-                    : pressed
-                    ? [styles.container, styles.secondary, styles.active]
-                    : [styles.container, styles.secondary]
+                pressed ? pressedButtonStyles : buttonStyles
             }
             onPress={props.onPress}
         >
-            <Text style={styles.txt}>{props.text}</Text>
+            <Text
+                style={
+                    props.variant === 'tertiary'
+                        ? [styles.txt, styles.tertiaryTxt]
+                        : styles.txt
+                }
+            >
+                {props.text}
+            </Text>
         </Pressable>
     );
 };

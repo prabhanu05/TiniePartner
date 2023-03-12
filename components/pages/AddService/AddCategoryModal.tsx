@@ -49,7 +49,7 @@ const AddCategoryModal = (props: { onClose: () => void }) => {
         })
             .then((data) => {
                 if (data === true) {
-                    queryClient.refetchQueries(Keys.GET_CATEGORY_SUBCATEGORY);
+                    queryClient.refetchQueries(Keys.SERVICE_CAT_SUBCAT);
                     setSuccess(true);
                 }
             })

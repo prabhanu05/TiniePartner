@@ -18,7 +18,6 @@ export default function App() {
     useEffect(() => {
         async function loadAssets() {
             SplashScreen.preventAutoHideAsync();
-
             await Font.loadAsync({
                 light: FONTS.LIGHT,
                 regular: FONTS.REGULAR,

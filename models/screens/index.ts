@@ -14,6 +14,9 @@ export enum SCREENS {
     SERVICE_LIST = 'ServiceList',
     ADD_SERVICE = 'AddService',
     BOTTOM_TAB_PROTECTED_ROUTES = 'BottomTabProtectedRoutes',
+    DRAWER_PROTECTED_ROUTES = 'DrawerProtectedRoutes',
+    SALES_AND_EARNINGS = 'SalesAndEarnings',
+    ACCOUNT_DETAILS = 'AccountDetails',
 }
 
 export type NavigationProp = {

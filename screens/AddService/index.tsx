@@ -32,7 +32,7 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
     );
 
     const { data, isLoading: catSubcatLoading } = useQuery(
-        Keys.GET_CATEGORY_SUBCATEGORY,
+        Keys.SERVICE_CAT_SUBCAT,
         CategorySubcategoryList.bind(this, credentials.token!)
     );
 

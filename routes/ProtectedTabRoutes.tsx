@@ -2,16 +2,23 @@ import { COLORS } from '@constants/Colors';
 import { SCREENS } from '@models/screens';
 import BottomScreens from '@models/screens/BottomScreens';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
+import ProtectedDrawerRoutes from '@routes/ProtectedDrawerRoutes';
+import AccountDetails from '@screens/AccountDetails';
 import Appointments from '@screens/Appointments';
 import Barcode from '@screens/Barcode';
 import ServiceList from '@screens/ServiceList';
 import styles from '@styles/Navigators/BottomTab';
+import AccountDetailsIcon from '@svg/AccountDetailsIcon';
 import AppointmentsIcon from '@svg/AppointmentsIcon';
 import ServiceListIcon from '@svg/ServiceListIcon';
+import ToggleIcon from '@svg/ToggleIcon';
 
 const Tab = createBottomTabNavigator<BottomScreens>();
 
 function ProtectedTabRoutes() {
+    const navigation = useNavigation();
+
     return (
         <Tab.Navigator
             initialRouteName={SCREENS.APPOINTMENTS}
@@ -23,6 +30,21 @@ function ProtectedTabRoutes() {
                 tabBarHideOnKeyboard: true,
             }}
         >
+            <Tab.Screen
+                name={SCREENS.DRAWER_PROTECTED_ROUTES}
+                component={ProtectedDrawerRoutes}
+                options={{
+                    tabBarIcon: () => <ToggleIcon />,
+                    tabBarLabelStyle: styles.hideLabel,
+                }}
+                listeners={{
+                    tabPress: (e) => {
+                        e.preventDefault();
+                        navigation.dispatch(DrawerActions.toggleDrawer());
+                    },
+                }}
+            />
+
             <Tab.Screen
                 name={SCREENS.APPOINTMENTS}
                 component={Appointments}
@@ -47,6 +69,16 @@ function ProtectedTabRoutes() {
                 options={{
                     tabBarLabel: 'Services List',
                     tabBarIcon: () => <ServiceListIcon />,
+                    tabBarLabelStyle: styles.tabLabel,
+                }}
+            />
+
+            <Tab.Screen
+                name={SCREENS.ACCOUNT_DETAILS}
+                component={AccountDetails}
+                options={{
+                    tabBarLabel: 'Account Details',
+                    tabBarIcon: () => <AccountDetailsIcon />,
                     tabBarLabelStyle: styles.tabLabel,
                 }}
             />

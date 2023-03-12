@@ -23,7 +23,7 @@ const ServiceList = () => {
         isLoading: catSubcatLoading,
         isFetching,
     } = useQuery(
-        Keys.GET_CATEGORY_SUBCATEGORY,
+        Keys.SERVICE_CAT_SUBCAT,
         CategorySubcategoryList.bind(this, credentials.token!),
         {
             select(data) {

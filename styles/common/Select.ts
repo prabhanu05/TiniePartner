@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     mainHolder: {
         position: 'relative',
         marginVertical: 16,
+        width: '100%',
     },
     optionBox: {
         backgroundColor: COLORS.primary,

@@ -1,4 +1,5 @@
 import Option from '@common/Option';
+import NoDataFound from '@components/AddService/NoDataFound';
 import { COLORS } from '@constants/Colors';
 import { AntDesign } from '@expo/vector-icons';
 import { CategoryModel } from '@models/api/CategoryListModel';
@@ -65,6 +66,14 @@ const Select = (props: {
                                     onPress={changeHandler.bind(this, item)}
                                 />
                             )}
+                            ListEmptyComponent={
+                                <NoDataFound
+                                    message={
+                                        'No categories found\nPlease try again later!'
+                                    }
+                                    onClose={toggleHandler}
+                                />
+                            }
                         />
                     </View>
                 </Pressable>

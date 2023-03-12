@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export const CategorySubcategoryList = async (token: string) => {
     const apiUrl = await axios.get(
-        `${Urls.CUSTOMER_LOCATION}${Endpoints.LIST_CAT_SUBCAT}`,
+        `${Urls.CUSTOMER_LOCATION}${Endpoints.SERVICE_CAT_SUBCAT}`,
         {
             headers: { token },
         }

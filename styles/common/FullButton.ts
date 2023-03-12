@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.19,
         shadowRadius: 5.62,
         elevation: 6,
+        flex: 1,
     },
     primary: {
         backgroundColor: COLORS.primary,
@@ -22,11 +23,17 @@ const styles = StyleSheet.create({
     secondary: {
         backgroundColor: COLORS.secondaryButton,
     },
+    tertiary: {
+        backgroundColor: COLORS.placeholder,
+    },
     txt: {
         fontFamily: 'regular',
         color: COLORS.black,
         fontSize: 18,
         textAlign: 'center',
+    },
+    tertiaryTxt: {
+        color: COLORS.white,
     },
     active: {
         opacity: 0.7,

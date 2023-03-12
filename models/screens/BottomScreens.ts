@@ -5,6 +5,8 @@ type BottomScreens = {
     [SCREENS.APPOINTMENTS]: undefined;
     [SCREENS.BARCODE]: undefined;
     [SCREENS.SERVICE_LIST]: undefined;
+    [SCREENS.ACCOUNT_DETAILS]: undefined;
+    [SCREENS.DRAWER_PROTECTED_ROUTES]: undefined;
 };
 
 export type AppointmentsScreenProps = NativeStackScreenProps<
