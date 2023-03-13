@@ -1,4 +1,5 @@
 import DrawerHeader from '@components/DrawerHeader';
+import { COLORS } from '@constants/Colors';
 import { SCREENS } from '@models/screens';
 import DrawerScreens from '@models/screens/DrawerScreens';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -15,6 +16,8 @@ function ProtectedDrawerRoutes() {
                 headerShown: false,
                 drawerLabelStyle: styles.label,
                 drawerStyle: styles.mainContainer,
+                drawerActiveBackgroundColor: COLORS.transparent,
+                drawerActiveTintColor: COLORS.transparent,
             }}
             initialRouteName={SCREENS.BOTTOM_TAB_PROTECTED_ROUTES}
             drawerContent={(props) => <DrawerHeader {...props} />}

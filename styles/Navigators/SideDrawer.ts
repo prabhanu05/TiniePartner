@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         backgroundColor: COLORS.transparent,
-        marginBottom: 50,
+        marginBottom: 53,
     },
 });
 

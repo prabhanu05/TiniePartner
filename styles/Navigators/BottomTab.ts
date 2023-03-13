@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     tabContainer: {
         backgroundColor: COLORS.selected,
-        minHeight: 53,
+        height: 53,
         paddingTop: 7,
         paddingBottom: 14,
     },
