@@ -1,9 +1,11 @@
 import { CategorySubcategoryList } from '@api/CategorySubcategoryList';
 import { CreateService } from '@api/CreateService';
 import BlueLabelTextbox from '@common/BlueLabelTextbox';
+import ConfirmModal from '@common/ConfirmModal';
 import ErrorModal from '@common/ErrorModal';
 import LabelSelect from '@common/LabelSelect';
 import Loader from '@common/Loader';
+import Popup from '@common/Popup';
 import AddCategoryModal from '@components/AddService/AddCategoryModal';
 import AddSubcategoryModal from '@components/AddService/AddSubcategoryModal';
 import CustomColorBtn from '@components/AddService/CustomColorBtn';
@@ -16,20 +18,25 @@ import {
     AddServiceModel,
     AddServicePayloadModel,
 } from '@models/data/AddServiceModel';
+import { AxiosErrorMessage } from '@models/data/AxiosErrorMessage';
+import { FileModel } from '@models/data/FileModel';
 import { AddServiceScreenProps } from '@models/screens/ProtectedStackScreens';
 import { StoreModel } from '@store/store';
 import styles from '@styles/pages/AddService';
 import BackIcon from '@svg/BackIcon';
+import * as DocumentPicker from 'expo-document-picker';
 import React, { useMemo, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 
 const AddService = ({ navigation }: AddServiceScreenProps) => {
     const credentials = useSelector(
         (state: StoreModel) => state.credentialReducer
     );
+
+    const queryClient = useQueryClient();
 
     const { data, isLoading: catSubcatLoading } = useQuery(
         Keys.SERVICE_CAT_SUBCAT,
@@ -59,6 +66,7 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
         duration: '',
         cost: '',
         discountPrice: '',
+        serviceImage: null,
     });
 
     const [modal, setModal] = useState<AddServiceModalData>({
@@ -71,6 +79,10 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
             message: '',
         },
         addSubcategory: {
+            isVisible: false,
+            message: '',
+        },
+        categoryAdded: {
             isVisible: false,
             message: '',
         },
@@ -125,12 +137,48 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
     };
 
     const openModalHandler = (uid: keyof AddServiceModalData) => {
+        if (uid === 'addSubcategory' && !!state.serviceCategory.id === false) {
+            setModal((oldState) => ({
+                ...oldState,
+                error: {
+                    isVisible: true,
+                    message: 'Please select service category first',
+                },
+            }));
+            return;
+        }
         setModal((oldState) => ({
             ...oldState,
             [uid]: {
                 isVisible: true,
                 message: '',
             },
+        }));
+    };
+
+    const imageHandler = () => {
+        DocumentPicker.getDocumentAsync({
+            type: ['image/jpeg', 'image/png'],
+        }).then((res: DocumentPicker.DocumentResult) => {
+            if (res.type === 'success') {
+                const extension = res.name.split('.');
+                const fileData: FileModel = {
+                    name: `service_image.${extension[extension.length - 1]}`,
+                    type: `${res.mimeType}`,
+                    uri: res.uri,
+                };
+                setState((oldState) => ({
+                    ...oldState,
+                    serviceImage: fileData,
+                }));
+            }
+        });
+    };
+
+    const deleteImageHandler = () => {
+        setState((oldState) => ({
+            ...oldState,
+            serviceImage: null,
         }));
     };
 
@@ -205,6 +253,17 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
             return;
         }
 
+        if (!!state.serviceImage === false) {
+            setModal((oldState) => ({
+                ...oldState,
+                error: {
+                    isVisible: true,
+                    message: 'Service Image is required',
+                },
+            }));
+            return;
+        }
+
         const itemsUsed = [];
 
         if (state.product1.trim() !== '') {
@@ -234,11 +293,36 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
             serviceCategoryId: state.serviceCategory.id,
             serviceSubCategoryId: state.serviceSubCategory.id,
             token: credentials.token!,
+            serviceImage: state.serviceImage!,
         };
 
         await mutateAsync(payloadData)
-            .then((resp) => console.log(resp))
-            .catch((err) => console.log(err));
+            .then((resp) => {
+                if (resp === true) {
+                    queryClient.refetchQueries({
+                        queryKey: Keys.GET_ALL_SERVICES,
+                        exact: true,
+                    });
+                    setModal((oldState) => ({
+                        ...oldState,
+                        categoryAdded: {
+                            isVisible: true,
+                            message: 'Services Created ',
+                        },
+                    }));
+                }
+            })
+            .catch((err: AxiosErrorMessage) =>
+                setModal((oldState) => ({
+                    ...oldState,
+                    error: {
+                        isVisible: true,
+                        message: !!err?.response?.data?.status
+                            ? err?.response?.data?.status
+                            : 'Something went wrong! Please try again later.',
+                    },
+                }))
+            );
     };
 
     const appPrice = useMemo(
@@ -267,6 +351,17 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
                     onClose={closeModalHandler.bind(this, 'addSubcategory')}
                     categoryId={state.serviceCategory.id}
                 />
+            ) : null}
+            {modal.categoryAdded.isVisible ? (
+                <Popup>
+                    <ConfirmModal
+                        message={modal.categoryAdded.message}
+                        onConfirm={closeModalHandler.bind(
+                            this,
+                            'categoryAdded'
+                        )}
+                    />
+                </Popup>
             ) : null}
             <SafeAreaView style={styles.container}>
                 {catSubcatLoading || serviceLoading ? <Loader /> : null}
@@ -384,7 +479,32 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
                         isNumeric
                     />
 
-                    <Text style={styles.imageText}>select image</Text>
+                    {!!state.serviceImage ? (
+                        <>
+                            <View style={styles.imageActions}>
+                                <Text
+                                    style={styles.imageText}
+                                    onPress={deleteImageHandler}
+                                >
+                                    delete image
+                                </Text>
+                                <Text
+                                    style={styles.imageText}
+                                    onPress={imageHandler}
+                                >
+                                    change image
+                                </Text>
+                            </View>
+                            <Image
+                                source={{ uri: state.serviceImage.uri }}
+                                style={styles.image}
+                            />
+                        </>
+                    ) : (
+                        <Text style={styles.imageText} onPress={imageHandler}>
+                            select image
+                        </Text>
+                    )}
 
                     <BlueLabelTextbox
                         label='Service Price INR (Menu Price)'

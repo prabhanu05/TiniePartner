@@ -14,12 +14,14 @@ export interface AddServiceModel {
     duration: string;
     cost: string;
     discountPrice: string;
+    serviceImage: FileModel | null;
 }
 
 export interface AddServiceModalData {
     error: ModalData;
     addCategory: ModalData;
     addSubcategory: ModalData;
+    categoryAdded: ModalData;
 }
 
 export interface AddServicePayloadModel {
@@ -32,6 +34,6 @@ export interface AddServicePayloadModel {
     name: string;
     serviceCategoryId: string;
     serviceSubCategoryId: string;
-    serviceImage?: FileModel;
+    serviceImage: FileModel;
     token: string;
 }

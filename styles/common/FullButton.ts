@@ -17,6 +17,20 @@ const styles = StyleSheet.create({
         elevation: 6,
         flex: 1,
     },
+    noFlexContainer: {
+        width: '100%',
+        borderRadius: 5,
+        paddingVertical: 8,
+        opacity: 1,
+        shadowColor: COLORS.black,
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.19,
+        shadowRadius: 5.62,
+        elevation: 6,
+    },
     primary: {
         backgroundColor: COLORS.primary,
     },

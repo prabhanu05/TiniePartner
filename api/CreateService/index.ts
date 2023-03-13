@@ -1,33 +1,38 @@
 import { Endpoints } from '@constants/Endpoints';
 import { Urls } from '@constants/Urls';
-import { CreateCatSubcatResponseModel } from '@models/api/CategorySubcategoryModel';
+import { SubcatResponseModel } from '@models/api/CategorySubcategoryModel';
 import { AddServicePayloadModel } from '@models/data/AddServiceModel';
 import axios from 'axios';
 
 export const CreateService = async (data: AddServicePayloadModel) => {
+    let msg = '';
+
+    for (let item of data.itemsUsed) {
+        msg += `&itemsUsed=${item}`;
+    }
     const formData = new FormData();
 
-    if (!!data.serviceImage) {
-        formData.append('serviceImage', data.serviceImage as any);
-    }
+    formData.append('serviceImage', data.serviceImage as any);
 
     const apiUrl = await axios.post(
-        `${Urls.CUSTOMER_LOCATION}business/${data.businessId}/${Endpoints.ADD_SERVICE}?cost=${data.cost}&description=${data.description}&discountPrice=${data.discountPrice}&duration=${data.duration}&itemsUsed=${data.itemsUsed}&name=${data.name}&serviceCategoryId=${data.serviceCategoryId}&serviceSubcategoryId=${data.serviceSubCategoryId}`,
+        `${Urls.CUSTOMER_LOCATION}business/${data.businessId}/${Endpoints.ADD_SERVICE}?cost=${data.cost}&description=${data.description}&discountPrice=${data.discountPrice}&duration=${data.duration}${msg}&name=${data.name}&serviceCategoryId=${data.serviceCategoryId}&serviceSubCategoryId=${data.serviceSubCategoryId}`,
         {
-            // formData
+            formData,
         },
         {
             headers: {
+                'Content-Type': 'multipart/form-data',
                 token: data.token,
+            },
+            transformRequest: () => {
+                return formData;
             },
         }
     );
 
-    const apiData = apiUrl.data as CreateCatSubcatResponseModel;
+    const apiData = apiUrl.data as SubcatResponseModel;
 
-    console.log(apiData);
-
-    if (apiData?.status === 'Category creation successful') {
+    if (apiData?.message === 'success') {
         return true;
     }
     throw new Error('Unable to Create Category');

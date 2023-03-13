@@ -2,7 +2,7 @@ import { Endpoints } from '@constants/Endpoints';
 import { Urls } from '@constants/Urls';
 import {
     CreateCatSubcatPayloadModel,
-    CreateCatSubcatResponseModel,
+    SubcatResponseModel,
 } from '@models/api/CategorySubcategoryModel';
 import axios from 'axios';
 
@@ -19,9 +19,9 @@ export const CreateSubcategory = async (data: CreateCatSubcatPayloadModel) => {
         }
     );
 
-    const apiData = apiUrl.data as CreateCatSubcatResponseModel;
+    const apiData = apiUrl.data as SubcatResponseModel;
 
-    if (apiData?.status === 'Subcategory creation successful') {
+    if (apiData?.message === 'success') {
         return true;
     }
     throw new Error('Unable to Create Subcategory');

@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     list: {
-        paddingBottom: 30,
+        paddingBottom: 120,
     },
     popupHeading: {
         fontSize: 16,
@@ -165,6 +165,27 @@ const styles = StyleSheet.create({
         color: COLORS.white,
         fontFamily: 'semibold',
         paddingTop: 20,
+    },
+    helperTxt: {
+        fontSize: 12,
+        color: COLORS.white,
+        fontFamily: 'medium',
+        paddingBottom: 50,
+    },
+    image: {
+        maxHeight: 90,
+        maxWidth: 90,
+        height: '100%',
+        width: '100%',
+        alignSelf: 'flex-end',
+        marginVertical: 6,
+    },
+    imageActions: {
+        flexDirection: 'row',
+        columnGap: 35,
+        alignSelf: 'flex-end',
+    },
+    pb50: {
         paddingBottom: 50,
     },
 });

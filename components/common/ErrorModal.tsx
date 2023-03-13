@@ -15,6 +15,7 @@ const ErrorModal = (props: { msg: string; onClose: () => void }) => {
                     variant='primary'
                     text='retry'
                     onPress={props.onClose}
+                    noFlex
                 />
             </View>
         </Modal>

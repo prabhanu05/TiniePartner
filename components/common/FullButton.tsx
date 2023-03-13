@@ -6,19 +6,45 @@ const FullButton = (props: {
     variant: 'primary' | 'secondary' | 'tertiary';
     text: string;
     onPress: () => void;
+    noFlex?: boolean;
 }) => {
     const pressedButtonStyles =
         props.variant === 'primary'
-            ? [styles.container, styles.primary, styles.active]
+            ? [
+                  props.noFlex
+                      ? styles.noFlexContainer
+                      : props.noFlex
+                      ? styles.noFlexContainer
+                      : styles.container,
+                  styles.primary,
+                  styles.active,
+              ]
             : props.variant === 'secondary'
-            ? [styles.container, styles.secondary, styles.active]
-            : [styles.container, styles.tertiary, styles.active];
+            ? [
+                  props.noFlex ? styles.noFlexContainer : styles.container,
+                  styles.secondary,
+                  styles.active,
+              ]
+            : [
+                  props.noFlex ? styles.noFlexContainer : styles.container,
+                  styles.tertiary,
+                  styles.active,
+              ];
     const buttonStyles =
         props.variant === 'primary'
-            ? [styles.container, styles.primary]
+            ? [
+                  props.noFlex ? styles.noFlexContainer : styles.container,
+                  styles.primary,
+              ]
             : props.variant === 'secondary'
-            ? [styles.container, styles.secondary]
-            : [styles.container, styles.tertiary];
+            ? [
+                  props.noFlex ? styles.noFlexContainer : styles.container,
+                  styles.secondary,
+              ]
+            : [
+                  props.noFlex ? styles.noFlexContainer : styles.container,
+                  styles.tertiary,
+              ];
 
     return (
         <Pressable

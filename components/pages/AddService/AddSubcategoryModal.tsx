@@ -69,6 +69,7 @@ const AddSubcategoryModal = (props: {
                 <ConfirmModal
                     message='Services Created'
                     onConfirm={props.onClose}
+                    helperText='(It might take a moment to show)'
                 />
             ) : (
                 <>

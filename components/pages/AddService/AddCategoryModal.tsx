@@ -64,9 +64,8 @@ const AddCategoryModal = (props: { onClose: () => void }) => {
         <Popup>
             {success ? (
                 <ConfirmModal
-                    message={
-                        'Services Created\n(It might take a moment to show)'
-                    }
+                    message='Services Created'
+                    helperText='(It might take a moment to show)'
                     onConfirm={props.onClose}
                 />
             ) : (
