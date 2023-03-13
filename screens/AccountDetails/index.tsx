@@ -1,4 +1,5 @@
 import { CategoryList } from '@api/CategoryList';
+import { GetAccountDetails } from '@api/GetAccountDetails';
 import Button from '@common/Button';
 import FullButton from '@common/FullButton';
 import Head from '@common/Head';
@@ -7,7 +8,10 @@ import LabelTextbox from '@common/LabelTextbox';
 import Loader from '@common/Loader';
 import Select from '@common/Select';
 import { Keys } from '@constants/Keys';
-import { AccountDetailsHeaderModel } from '@models/data/AccountDetailsModel';
+import {
+    AccountDetailsDataModel,
+    AccountDetailsHeaderModel,
+} from '@models/data/AccountDetailsModel';
 import { StoreModel } from '@store/store';
 import styles from '@styles/pages/BusinessDetails';
 import React, { useState } from 'react';
@@ -21,14 +25,44 @@ const AccountDetails = () => {
         (state: StoreModel) => state.credentialReducer.token
     );
 
-    const { data: categoryData, isLoading } = useQuery(
+    const { data: categoryData, isLoading: categoryLoading } = useQuery(
         Keys.GET_CATEGORIES,
         CategoryList
+    );
+
+    const { data: accountData, isLoading: accountLoading } = useQuery(
+        Keys.ACCOUNT_DETAILS,
+        GetAccountDetails.bind(this, token!)
     );
 
     const [data, setData] = useState<AccountDetailsHeaderModel>({
         viewDetails: true,
         editDetails: false,
+    });
+
+    const [state, setState] = useState<AccountDetailsDataModel>({
+        name: !!accountData?.name ? accountData?.name : '',
+        email: !!accountData?.email ? accountData?.email : '',
+        mobile: !!accountData?.phoneNumber
+            ? accountData?.phoneNumber.toString()
+            : '',
+        businessName: !!accountData?.businessDetailsResponse?.[0]?.name
+            ? accountData?.businessDetailsResponse?.[0]?.name
+            : '',
+        typeOfBusiness: {
+            id: !!accountData?.businessDetailsResponse?.[0]?.subCategoryId
+                ? accountData?.businessDetailsResponse?.[0]?.subCategoryId?.toString()
+                : '',
+            name: '',
+        },
+        businessGstin: {
+            name: '',
+            type: '',
+            uri: '',
+        },
+        businessPan: !!accountData?.businessDetailsResponse?.[0]?.pan
+            ? accountData?.businessDetailsResponse?.[0]?.pan
+            : '',
     });
 
     const activeHandler = (uid: keyof AccountDetailsHeaderModel) => {
@@ -55,7 +89,7 @@ const AccountDetails = () => {
                     />
                 </Head>
             </View>
-            {isLoading ? <Loader /> : null}
+            {categoryLoading || accountLoading ? <Loader /> : null}
             <ScrollView contentContainerStyle={styles.list}>
                 {data.viewDetails ? (
                     <>
@@ -68,7 +102,7 @@ const AccountDetails = () => {
                                     Name:
                                 </Text>
                                 <Text style={[styles.colRight, styles.txt]}>
-                                    Ria Singad
+                                    {accountData?.name}
                                 </Text>
                             </View>
                             <View style={styles.row}>
@@ -76,7 +110,7 @@ const AccountDetails = () => {
                                     Email ID:
                                 </Text>
                                 <Text style={[styles.colRight, styles.txt]}>
-                                    parrysaloonandspa@gmail.com
+                                    {accountData?.email}
                                 </Text>
                             </View>
                             <View style={styles.row}>
@@ -84,7 +118,7 @@ const AccountDetails = () => {
                                     Personal Mobile:
                                 </Text>
                                 <Text style={[styles.colRight, styles.txt]}>
-                                    +91 9865752598
+                                    {accountData?.phoneNumber}
                                 </Text>
                             </View>
                         </View>
@@ -97,7 +131,10 @@ const AccountDetails = () => {
                                     Business Name:
                                 </Text>
                                 <Text style={[styles.colRight, styles.txt]}>
-                                    Parry Beauty Saloon
+                                    {
+                                        accountData
+                                            ?.businessDetailsResponse?.[0]?.name
+                                    }
                                 </Text>
                             </View>
                             <View style={styles.row}>
@@ -105,7 +142,11 @@ const AccountDetails = () => {
                                     Business Type:
                                 </Text>
                                 <Text style={[styles.colRight, styles.txt]}>
-                                    Saloon and SPA
+                                    {
+                                        accountData
+                                            ?.businessDetailsResponse?.[0]
+                                            ?.subCategoryId
+                                    }
                                 </Text>
                             </View>
                             <View style={styles.row}>
@@ -113,7 +154,7 @@ const AccountDetails = () => {
                                     Business GSTIN:
                                 </Text>
                                 <Text style={[styles.colRight, styles.txt]}>
-                                    54swrhnkus25863
+                                    --- TO BE FILLED ---
                                 </Text>
                             </View>
                             <View style={styles.row}>
@@ -121,7 +162,10 @@ const AccountDetails = () => {
                                     Business PAN:
                                 </Text>
                                 <Text style={[styles.colRight, styles.txt]}>
-                                    69thke28h8
+                                    {
+                                        accountData
+                                            ?.businessDetailsResponse?.[0]?.pan
+                                    }
                                 </Text>
                             </View>
                         </View>
@@ -147,21 +191,21 @@ const AccountDetails = () => {
                                 <LabelTextbox
                                     label='Name'
                                     placeholder='Enter Name*'
-                                    value=''
+                                    value={state.name}
                                 />
                             </View>
                             <View style={styles.row}>
                                 <LabelTextbox
                                     label='Email ID'
                                     placeholder='Enter Email ID*'
-                                    value=''
+                                    value={state.email}
                                 />
                             </View>
                             <View style={styles.row}>
                                 <LabelTextbox
                                     label='Mobile Number'
                                     placeholder='Mobile Number*'
-                                    value=''
+                                    value={state.mobile}
                                 />
                             </View>
                         </View>
@@ -173,12 +217,12 @@ const AccountDetails = () => {
                                 <LabelTextbox
                                     label='Name of Your Business'
                                     placeholder='Name of Your Business*'
-                                    value=''
+                                    value={state.businessName}
                                 />
                             </View>
                             <Select
                                 data={categoryData || []}
-                                value={''}
+                                value={state.typeOfBusiness.name}
                                 changeHandler={() => {}}
                                 title='Type of Business'
                                 id='subCategory'
@@ -188,14 +232,14 @@ const AccountDetails = () => {
                                 <LabelTextbox
                                     label='Business GSTIN'
                                     placeholder='Business GSTIN*'
-                                    value=''
+                                    value={state.businessGstin.name}
                                 />
                             </View>
                             <View style={styles.row}>
                                 <LabelTextbox
                                     label='Business PAN'
                                     placeholder='Business PAN*'
-                                    value=''
+                                    value={state.businessPan}
                                 />
                             </View>
                         </View>

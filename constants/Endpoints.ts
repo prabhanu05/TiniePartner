@@ -11,4 +11,6 @@ export const Endpoints = {
     ADD_SERVICE_SUBCATEGORY: 'add-service-subCategory',
     ADD_SERVICE: 'add-service',
     SERVICE_CAT_SUBCAT: 'list-servicecategory-servicesubcategory',
+    ACCOUNT_DETAILS: 'merchant/get-own-businesses',
+    GET_ALL_SERVICES: 'get-services?includeOfflineServices=true',
 };
