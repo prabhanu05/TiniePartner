@@ -17,6 +17,7 @@ export enum SCREENS {
     DRAWER_PROTECTED_ROUTES = 'DrawerProtectedRoutes',
     SALES_AND_EARNINGS = 'SalesAndEarnings',
     ACCOUNT_DETAILS = 'AccountDetails',
+    PHOTO_GALLERY = 'PhotoGallery',
 }
 
 export type NavigationProp = {

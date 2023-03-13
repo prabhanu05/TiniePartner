@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
         color: COLORS.white,
         fontSize: 16,
         fontFamily: 'medium',
+        paddingLeft: 35,
     },
     topBar: {
         height: 73,
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         backgroundColor: COLORS.transparent,
         marginBottom: 53,
+        width: 300,
     },
 });
 

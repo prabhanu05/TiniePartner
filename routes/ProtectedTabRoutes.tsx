@@ -7,6 +7,7 @@ import { DrawerActions, useNavigation } from '@react-navigation/native';
 import AccountDetails from '@screens/AccountDetails';
 import Appointments from '@screens/Appointments';
 import Barcode from '@screens/Barcode';
+import PhotoGallery from '@screens/PhotoGallery';
 import ServiceList from '@screens/ServiceList';
 import styles from '@styles/Navigators/BottomTab';
 import AccountDetailsIcon from '@svg/AccountDetailsIcon';
@@ -80,6 +81,14 @@ function ProtectedTabRoutes() {
                     tabBarLabel: 'Account Details',
                     tabBarIcon: () => <AccountDetailsIcon />,
                     tabBarLabelStyle: styles.tabLabel,
+                }}
+            />
+
+            <Tab.Screen
+                name={SCREENS.PHOTO_GALLERY}
+                component={PhotoGallery}
+                options={{
+                    tabBarButton: () => null,
                 }}
             />
         </Tab.Navigator>
