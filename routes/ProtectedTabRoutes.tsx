@@ -1,9 +1,9 @@
+import EmptyComponent from '@common/EmptyComponent';
 import { COLORS } from '@constants/Colors';
 import { SCREENS } from '@models/screens';
 import BottomScreens from '@models/screens/BottomScreens';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
-import ProtectedDrawerRoutes from '@routes/ProtectedDrawerRoutes';
 import AccountDetails from '@screens/AccountDetails';
 import Appointments from '@screens/Appointments';
 import Barcode from '@screens/Barcode';
@@ -32,7 +32,7 @@ function ProtectedTabRoutes() {
         >
             <Tab.Screen
                 name={SCREENS.DRAWER_PROTECTED_ROUTES}
-                component={ProtectedDrawerRoutes}
+                component={EmptyComponent}
                 options={{
                     tabBarIcon: () => <ToggleIcon />,
                     tabBarLabelStyle: styles.hideLabel,

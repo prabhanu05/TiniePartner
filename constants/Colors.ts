@@ -36,4 +36,7 @@ export const COLORS = {
     purple: '#A798FF',
     popupPlaceholder: '#666666',
     detailsBox: '#EEE8E8',
+    opaqueBlack: 'rgba(0, 0, 0, 0.95)',
+    drawerHeader: 'rgba(38, 74, 94, 0.75)',
+    transparent: 'transparent',
 };
