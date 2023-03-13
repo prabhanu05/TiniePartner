@@ -39,4 +39,5 @@ export const COLORS = {
     opaqueBlack: 'rgba(0, 0, 0, 0.95)',
     drawerHeader: 'rgba(38, 74, 94, 0.75)',
     transparent: 'transparent',
+    smallBtnBg: '#E3E3E3',
 };
