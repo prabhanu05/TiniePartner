@@ -14,9 +14,7 @@ const ServiceListHeader = () => {
 
     return (
         <View style={styles.topRow}>
-            <Pressable
-                onPress={navigateHandler.bind(this, SCREENS.APPOINTMENTS)}
-            >
+            <Pressable onPress={navigation.goBack}>
                 <BackIcon />
             </Pressable>
             <Pressable

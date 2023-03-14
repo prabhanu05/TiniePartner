@@ -1,4 +1,3 @@
-import EmptyComponent from '@common/EmptyComponent';
 import { COLORS } from '@constants/Colors';
 import { SCREENS } from '@models/screens';
 import BottomScreens from '@models/screens/BottomScreens';
@@ -32,8 +31,9 @@ function ProtectedTabRoutes() {
             }}
         >
             <Tab.Screen
+                // @ts-ignore
                 name={SCREENS.DRAWER_PROTECTED_ROUTES}
-                component={EmptyComponent}
+                component={Appointments}
                 options={{
                     tabBarIcon: () => <ToggleIcon />,
                     tabBarLabelStyle: styles.hideLabel,

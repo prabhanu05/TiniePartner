@@ -19,7 +19,6 @@ import {
 } from '@models/data/AccountDetailsModel';
 import { AxiosErrorMessage } from '@models/data/AxiosErrorMessage';
 import { ModalData } from '@models/data/ModalData';
-import { SCREENS } from '@models/screens';
 import { StoreModel } from '@store/store';
 import styles from '@styles/pages/BusinessDetails';
 import React, { useState } from 'react';
@@ -212,10 +211,7 @@ const AccountDetails = () => {
             ) : null}
             <SafeAreaView style={styles.container}>
                 <View style={styles.p16}>
-                    <Head
-                        enableBack
-                        customBack={{ screen: SCREENS.APPOINTMENTS }}
-                    >
+                    <Head enableBack>
                         <HeadButton
                             text='Account Details'
                             isActive={data.viewDetails}
