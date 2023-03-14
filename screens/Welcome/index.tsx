@@ -8,8 +8,12 @@ import { Image, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Welcome = ({ navigation }: WelcomeScreenProps) => {
-    const navigateHandler = (screen: SCREENS) => {
-        navigation.navigate(screen);
+    const registerHandler = () => {
+        navigation.navigate(SCREENS.REGISTER);
+    };
+
+    const loginHandler = () => {
+        navigation.navigate(SCREENS.LOGIN);
     };
 
     return (
@@ -20,12 +24,9 @@ const Welcome = ({ navigation }: WelcomeScreenProps) => {
                     <Text style={styles.txt}>WELCOME!</Text>
                     <Button
                         text='Register business'
-                        onPress={navigateHandler.bind(this, SCREENS.REGISTER)}
+                        onPress={registerHandler}
                     />
-                    <Button
-                        text='login'
-                        onPress={navigateHandler.bind(this, SCREENS.LOGIN)}
-                    />
+                    <Button text='login' onPress={loginHandler} />
                 </View>
             </View>
         </SafeAreaView>

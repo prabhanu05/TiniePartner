@@ -40,4 +40,7 @@ export const COLORS = {
     drawerHeader: 'rgba(38, 74, 94, 0.75)',
     transparent: 'transparent',
     smallBtnBg: '#E3E3E3',
+    lime: '#D1FF4C',
+    filterBtnBackground: '#EAEAEA',
+    navyBlue: '#000854',
 };

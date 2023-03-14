@@ -27,7 +27,6 @@ export default function App() {
             });
 
             setLoaded(true);
-            SplashScreen.hideAsync();
         }
         loadAssets();
     }, []);

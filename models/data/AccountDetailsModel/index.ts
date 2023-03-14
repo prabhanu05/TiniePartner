@@ -15,7 +15,7 @@ export interface AccountDetailsDataModel {
 }
 
 export interface AccountDetailsPayloadModel {
-    businessId: string;
+    businessId: number;
     businessName: string;
     businessType: string;
     email: string;

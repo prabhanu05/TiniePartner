@@ -7,6 +7,7 @@ type BottomScreens = {
     [SCREENS.SERVICE_LIST]: undefined;
     [SCREENS.ACCOUNT_DETAILS]: undefined;
     [SCREENS.PHOTO_GALLERY]: undefined;
+    [SCREENS.SALES_AND_EARNINGS]: undefined;
     [SCREENS.DRAWER_PROTECTED_ROUTES]: undefined;
 };
 

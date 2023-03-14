@@ -87,6 +87,15 @@ const DrawerHeader = (props: DrawerContentComponentProps) => {
                 />
 
                 <DrawerItem
+                    label='Sales & Earnings'
+                    onPress={navigateHandler.bind(
+                        this,
+                        SCREENS.SALES_AND_EARNINGS
+                    )}
+                    labelStyle={styles.label}
+                />
+
+                <DrawerItem
                     label='Logout'
                     onPress={toggleHandler}
                     labelStyle={styles.label}

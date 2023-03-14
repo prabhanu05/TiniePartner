@@ -15,4 +15,5 @@ export const Keys = {
     ACCOUNT_DETAILS: 'get-account-details',
     GET_ALL_SERVICES: 'get-all-services',
     UPDATE_MERCHANT: 'update-merchant',
+    GET_SALES_DETAILS: 'get_sales_details',
 };

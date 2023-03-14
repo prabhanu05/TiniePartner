@@ -24,7 +24,7 @@ import styles from '@styles/pages/BusinessDetails';
 import React, { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { QueryClient, useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 
 const AccountDetails = () => {
@@ -48,8 +48,6 @@ const AccountDetails = () => {
     const credentials = useSelector(
         (state: StoreModel) => state.credentialReducer
     );
-
-    const queryClient = new QueryClient();
 
     const { data: categoryData, isLoading: categoryLoading } = useQuery(
         Keys.GET_CATEGORIES,
@@ -176,7 +174,7 @@ const AccountDetails = () => {
         }
 
         const payloadData: AccountDetailsPayloadModel = {
-            businessId: state.typeOfBusiness.id,
+            businessId: credentials.businessId!,
             businessType: state.typeOfBusiness.name,
             businessName: state.businessName,
             email: state.email,

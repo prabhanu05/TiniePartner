@@ -11,10 +11,16 @@ import ResetPasscode from '@screens/ResetPasscode';
 import SetPasscode from '@screens/SetPasscode';
 import TermsAndConditions from '@screens/TermsAndConditions';
 import Welcome from '@screens/Welcome';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
 
 const Stack = createNativeStackNavigator<StackScreens>();
 
 function OpenRoutes() {
+    useEffect(() => {
+        SplashScreen.hideAsync();
+    }, []);
+
     return (
         <Stack.Navigator
             initialRouteName={SCREENS.WELCOME}

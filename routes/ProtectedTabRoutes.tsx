@@ -7,17 +7,24 @@ import AccountDetails from '@screens/AccountDetails';
 import Appointments from '@screens/Appointments';
 import Barcode from '@screens/Barcode';
 import PhotoGallery from '@screens/PhotoGallery';
+import SalesAndEarnings from '@screens/SalesAndEarnings';
 import ServiceList from '@screens/ServiceList';
 import styles from '@styles/Navigators/BottomTab';
 import AccountDetailsIcon from '@svg/AccountDetailsIcon';
 import AppointmentsIcon from '@svg/AppointmentsIcon';
 import ServiceListIcon from '@svg/ServiceListIcon';
 import ToggleIcon from '@svg/ToggleIcon';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
 
 const Tab = createBottomTabNavigator<BottomScreens>();
 
 function ProtectedTabRoutes() {
     const navigation = useNavigation();
+
+    useEffect(() => {
+        SplashScreen.hideAsync();
+    }, []);
 
     return (
         <Tab.Navigator
@@ -87,6 +94,14 @@ function ProtectedTabRoutes() {
             <Tab.Screen
                 name={SCREENS.PHOTO_GALLERY}
                 component={PhotoGallery}
+                options={{
+                    tabBarButton: () => null,
+                }}
+            />
+
+            <Tab.Screen
+                name={SCREENS.SALES_AND_EARNINGS}
+                component={SalesAndEarnings}
                 options={{
                     tabBarButton: () => null,
                 }}

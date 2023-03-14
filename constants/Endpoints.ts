@@ -14,4 +14,5 @@ export const Endpoints = {
     ACCOUNT_DETAILS: 'merchant/get-own-businesses',
     GET_ALL_SERVICES: 'get-services?includeOfflineServices=true',
     UPDATE_MERCHANT: 'update-merchant',
+    GET_SALES_DETAILS: 'getAllSalesDetail',
 };
