@@ -14,4 +14,5 @@ export const Keys = {
     SERVICE_CAT_SUBCAT: 'list-servicecategory-servicesubcategory',
     ACCOUNT_DETAILS: 'get-account-details',
     GET_ALL_SERVICES: 'get-all-services',
+    UPDATE_MERCHANT: 'update-merchant',
 };

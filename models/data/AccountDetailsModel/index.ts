@@ -1,5 +1,4 @@
 import { CategoryModel } from '@models/api/CategoryListModel';
-import { FileModel } from '@models/data/FileModel';
 
 export interface AccountDetailsHeaderModel {
     viewDetails: boolean;
@@ -12,6 +11,23 @@ export interface AccountDetailsDataModel {
     mobile: string;
     businessName: string;
     typeOfBusiness: CategoryModel;
-    businessGstin: FileModel;
     businessPan: string;
+}
+
+export interface AccountDetailsPayloadModel {
+    businessId: string;
+    businessName: string;
+    businessType: string;
+    email: string;
+    merchantId: number;
+    name: string;
+    pan: string;
+    phoneNumber: string;
+    token: string;
+}
+
+export interface AccountDetailsResponseModel {
+    id: number;
+    status: string;
+    timestamp: number;
 }

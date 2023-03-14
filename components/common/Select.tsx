@@ -3,21 +3,16 @@ import NoDataFound from '@components/AddService/NoDataFound';
 import { COLORS } from '@constants/Colors';
 import { AntDesign } from '@expo/vector-icons';
 import { CategoryModel } from '@models/api/CategoryListModel';
-import { RegisterSliceSelectModel } from '@models/store/RegisterSliceModel';
 import styles from '@styles/common/Select';
 import React, { useState } from 'react';
 import { FlatList, Modal, Pressable, Text, View } from 'react-native';
 
 const Select = (props: {
-    id: keyof RegisterSliceSelectModel;
     value: string;
     title: string;
     label: string;
     data: CategoryModel[];
-    changeHandler: (
-        uid: keyof RegisterSliceSelectModel,
-        text: CategoryModel
-    ) => void;
+    changeHandler: (text: CategoryModel) => void;
 }) => {
     const [visible, setVisible] = useState<boolean>(false);
 
@@ -26,7 +21,7 @@ const Select = (props: {
     };
 
     const changeHandler = (item: CategoryModel) => {
-        props.changeHandler(props.id, item);
+        props.changeHandler(item);
         setVisible(false);
     };
 

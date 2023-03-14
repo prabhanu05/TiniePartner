@@ -1,4 +1,5 @@
 import BackBtn from '@common/BackBtn';
+import { SCREENS } from '@models/screens';
 import styles from '@styles/common/Head';
 import React from 'react';
 import { View } from 'react-native';
@@ -7,6 +8,7 @@ const Head = (props: {
     enableBack?: boolean;
     centered?: boolean;
     children: React.ReactNode;
+    customBack?: { screen: SCREENS };
 }) => {
     return (
         <View
@@ -16,7 +18,13 @@ const Head = (props: {
                     : styles.container
             }
         >
-            {!!props.enableBack ? <BackBtn /> : null}
+            {!!props.enableBack ? (
+                <BackBtn
+                    customBack={
+                        !!props.customBack ? props.customBack : undefined
+                    }
+                />
+            ) : null}
             {props.children}
         </View>
     );

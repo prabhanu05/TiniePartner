@@ -8,6 +8,7 @@ export interface BusinessDetailsResponse {
     pan: string;
     phoneNumber: number;
     subCategoryId: number;
+    type: string;
 }
 
 export interface BusinessDetailsResponseModel {

@@ -8,16 +8,20 @@ import { Pressable, Text, View } from 'react-native';
 const ServiceListHeader = () => {
     const navigation = useNavigation<NavigationProp>();
 
-    const navigateHandler = () => {
-        navigation.navigate(SCREENS.ADD_SERVICE);
+    const navigateHandler = (screen: SCREENS) => {
+        navigation.navigate(screen);
     };
 
     return (
         <View style={styles.topRow}>
-            <Pressable onPress={navigation.goBack}>
+            <Pressable
+                onPress={navigateHandler.bind(this, SCREENS.APPOINTMENTS)}
+            >
                 <BackIcon />
             </Pressable>
-            <Pressable onPress={navigateHandler}>
+            <Pressable
+                onPress={navigateHandler.bind(this, SCREENS.ADD_SERVICE)}
+            >
                 <Text style={styles.addServiceBtn}>add new service</Text>
             </Pressable>
         </View>

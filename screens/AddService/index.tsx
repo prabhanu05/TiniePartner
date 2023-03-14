@@ -325,6 +325,15 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
             );
     };
 
+    const closeConfirmHandler = () => {
+        queryClient.refetchQueries({
+            queryKey: Keys.GET_ALL_SERVICES,
+            exact: true,
+        });
+        navigation.goBack();
+        closeModalHandler('categoryAdded');
+    };
+
     const appPrice = useMemo(
         () =>
             isDecimal(state.cost) && isDecimal(state.discountPrice)
@@ -356,10 +365,7 @@ const AddService = ({ navigation }: AddServiceScreenProps) => {
                 <Popup>
                     <ConfirmModal
                         message={modal.categoryAdded.message}
-                        onConfirm={closeModalHandler.bind(
-                            this,
-                            'categoryAdded'
-                        )}
+                        onConfirm={closeConfirmHandler}
                     />
                 </Popup>
             ) : null}

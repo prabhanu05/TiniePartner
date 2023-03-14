@@ -126,9 +126,8 @@ const BusinessInfo = (props: {
             <Select
                 data={data!}
                 value={registerData.subCategory.name}
-                changeHandler={selectHandler}
+                changeHandler={selectHandler.bind(this, 'subCategory')}
                 title='Type of Business'
-                id='subCategory'
                 label='Choose the Type of Business*'
             />
 
